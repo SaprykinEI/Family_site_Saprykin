@@ -4,18 +4,18 @@ from users.models import NULLABLE
 
 
 class Person(models.Model):
-    first_name = models.CharField(max_length=50, verbose_name="First Name")
-    last_name = models.CharField(max_length=50, verbose_name="Last Name")
-    maiden_name = models.CharField(max_length=50, **NULLABLE, verbose_name="Maiden Name")
-    patronymic = models.CharField(max_length=50, **NULLABLE, verbose_name="Patronymic")
-    birth_date = models.DateField(verbose_name="Birth Date")
-    death_date = models.DateField(**NULLABLE, verbose_name="Death Date")
-    photo = models.ImageField(upload_to="photos/", **NULLABLE, verbose_name="Photo")
-    bio = models.TextField(**NULLABLE, verbose_name="Bio")
-    profession = models.CharField(max_length=150, **NULLABLE, verbose_name="Profession")
-    favorite_food = models.CharField(max_length=150, **NULLABLE)
-    playlist = models.URLField(**NULLABLE, verbose_name="music")
-    hobbies = models.CharField(max_length=500, **NULLABLE, verbose_name="Hobby")
+    first_name = models.CharField(max_length=50, verbose_name="Имя")
+    last_name = models.CharField(max_length=50, verbose_name="Фамилия")
+    maiden_name = models.CharField(max_length=50, **NULLABLE, verbose_name="Девичья фамилия")
+    patronymic = models.CharField(max_length=50, **NULLABLE, verbose_name="Отчество")
+    birth_date = models.DateField(verbose_name="Дата рождения")
+    death_date = models.DateField(**NULLABLE, verbose_name="Дата Смерти")
+    photo = models.ImageField(upload_to="photos/", **NULLABLE, verbose_name="Фотография")
+    bio = models.TextField(**NULLABLE, verbose_name="Биография")
+    profession = models.CharField(max_length=150, **NULLABLE, verbose_name="Профессия")
+    favorite_food = models.CharField(max_length=150, **NULLABLE, verbose_name="Любимая еда")
+    playlist = models.URLField(**NULLABLE, verbose_name="Любимая музыка")
+    hobbies = models.CharField(max_length=500, **NULLABLE, verbose_name="Хобби")
 
     # mother = models.ForeignKey('self', on_delete=models.SET_NULL, related_name='children_from_mother', **NULLABLE)
     # father = models.ForeignKey('self', on_delete=models.SET_NULL, related_name='children_from_father', **NULLABLE)
@@ -29,6 +29,6 @@ class Person(models.Model):
 
     class Meta:
         verbose_name = "Person"
-        verbose_name_plural = "People"
+        verbose_name_plural = "Persons"
         ordering = ['last_name', 'first_name']
 
