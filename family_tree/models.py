@@ -10,7 +10,7 @@ class Person(models.Model):
     patronymic = models.CharField(max_length=50, **NULLABLE, verbose_name="Отчество")
     birth_date = models.DateField(verbose_name="Дата рождения")
     death_date = models.DateField(**NULLABLE, verbose_name="Дата Смерти")
-    photo = models.ImageField(upload_to="photos/", **NULLABLE, verbose_name="Фотография")
+    photo = models.ImageField(upload_to="person_photos/", **NULLABLE, verbose_name="Фотография")
     bio = models.TextField(**NULLABLE, verbose_name="Биография")
     profession = models.CharField(max_length=150, **NULLABLE, verbose_name="Профессия")
     favorite_food = models.CharField(max_length=150, **NULLABLE, verbose_name="Любимая еда")
