@@ -1,3 +1,25 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 
-# Create your models here.
+NULLABLE = {'blank': True, 'null': True}
+
+
+class User(AbstractUser):
+    username = None
+    email = models.EmailField(unique=True, verbose_name="Email")
+    telegram = models.CharField(max_length=150, verbose_name="Telegram username", **NULLABLE)
+
+
+    # Communication with a Person (one-to-one)
+    # person = models.OneToOneField('family.Person', on_delete=models.SET_NULL, **NULLABLE, related_name='user')
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
+
+    def __str__(self):
+        return self.email
+
+    class Meta:
+        verbose_name = 'User'
+        verbose_name_plural = 'Users'
+        ordering = ['id']
