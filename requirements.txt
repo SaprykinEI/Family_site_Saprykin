@@ -1,2 +1,3 @@
 mssql-django
 python-dotenv
+Pillow
