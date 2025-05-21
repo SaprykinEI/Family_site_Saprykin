@@ -6,6 +6,7 @@ from users.models import NULLABLE
 class Person(models.Model):
     first_name = models.CharField(max_length=50, verbose_name="First Name")
     last_name = models.CharField(max_length=50, verbose_name="Last Name")
+    maiden_name = models.CharField(max_length=50, **NULLABLE, verbose_name="Maiden Name")
     patronymic = models.CharField(max_length=50, **NULLABLE, verbose_name="Patronymic")
     birth_date = models.DateField(verbose_name="Birth Date")
     death_date = models.DateField(**NULLABLE, verbose_name="Death Date")
