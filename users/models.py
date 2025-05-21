@@ -11,7 +11,7 @@ class User(AbstractUser):
     is_active = models.BooleanField(default=True, verbose_name="Active")
 
     # Communication with a Person (one-to-one)
-    # person = models.OneToOneField('family.Person', on_delete=models.SET_NULL, **NULLABLE, related_name='user')
+    person = models.OneToOneField('family_tree.Person', on_delete=models.SET_NULL, **NULLABLE, related_name='user')
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
