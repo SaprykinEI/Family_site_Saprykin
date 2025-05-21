@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Сайт семьи{% endblock %}</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+    <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static 'vendor/fontawesome/css/fontawesome-all.min.css' %}">
+
+    <!-- Light Gallery -->
+    <link rel="stylesheet" href="{% static 'vendor/lightgallery/css/lightgallery.min.css' %}">
+
+    <!-- Owl Carousel -->
+    <link rel="stylesheet" href="{% static 'vendor/owl-carousel/css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'vendor/owl-carousel/css/owl.theme.default.min.css' %}">
+
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="{% static 'css/helper.css' %}">
+    <link rel="stylesheet" href="{% static 'css/theme.css' %}">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body id="body" class="animsition tt-boxed">
+    <!-- =================
+    ///// Begin header /////
+    ======================
+    * Use class "header-show-hide-on-scroll" to hide header on scroll down and show on scroll up.
+    * Use class "header-fixed-top" to set header to fixed position.
+    * Use class "header-transparent" to set header to transparent.
+    * Use class "menu-align-left" to align menu to left.
+    * Use class "menu-align-right" to align menu to right.
+    * Use class "menu-align-center" to align menu to center (do not use with header classes!).
+    -->
+    <header id="header" class="header-show-hide-on-scroll menu-align-right">
+        <div class="header-inner tt-wrap">
+            <!-- Logo -->
+
+
+            <!-- Main Navigation -->
+            <nav class="tt-main-menu">
+                <!-- Mobile menu toggle button -->
+                <div id="tt-m-menu-toggle-btn">
+                    <span></span>
+                </div>
+
+                <!-- Menu tools -->
+                <div class="tt-menu-tools">
+                    <ul>
+                        <li>
+                            <a href="#" class="tt-clobal-search-trigger"><i class="fas fa-search"></i></a>
+                            <div class="tt-clobal-search">
+
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Menu items -->
+                <div class="tt-menu-collapse tt-submenu-dark">
+
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Begin body content -->
+    <div id="body-content">
+        {% block content %}
+        <!-- Main content will be inserted here -->
+        {% endblock %}
+    </div>
+
+    <!-- ===========================
+    ///// Begin footer section /////
+    ===============================
+    * Use class "footer-dark" to enable dark footer.
+    * Use class "no-margin-top" if needed.
+    -->
+    <footer id="footer" class="footer-dark no-margin-top">
+        <div class="footer-inner">
+            <div class="footer-container tt-wrap">
+                <div class="row">
+                    <div class="col-md-3">
+                        <!-- Footer logo -->
+
+                    </div>
+
+                    <div class="col-md-5">
+                        <!-- Footer text -->
+                        <div class="footer-text">
+                            <h4>- Наша семья</h4>
+                            <p>Добро пожаловать на наш семейный сайт, где мы делимся нашими историями, фотографиями и воспоминаниями.</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <!-- Social buttons -->
+                        <div class="social-buttons">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-container tt-wrap">
+                    <div class="row">
+                        <div class="col-md-6 col-md-push-6">
+                            <!-- Footer menu -->
+
+                        </div>
+
+                        <div class="col-md-6 col-md-pull-6">
+                            <!-- Footer copyright -->
+                            <div class="footer-copyright">
+                                <p>&copy; {% now "Y" %} Сайт нашей семьи / Все права защищены</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll to top button -->
+        <a href="#body" class="scrolltotop sm-scroll" title="Scroll to top"><i class="fas fa-chevron-up"></i></a>
+    </footer>
+
+    <!-- ====================
+    ///// Scripts below /////
+    ===================== -->
+
+    <!-- Core JS -->
+    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+
+    <!-- Libs and Plugins JS -->
+    <script src="{% static 'vendor/animsition/js/animsition.min.js' %}"></script>
+    <script src="{% static 'vendor/jquery.easing.min.js' %}"></script>
+    <script src="{% static 'vendor/isotope.pkgd.min.js' %}"></script>
+    <script src="{% static 'vendor/imagesloaded.pkgd.min.js' %}"></script>
+    <script src="{% static 'vendor/owl-carousel/js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'vendor/jquery.mousewheel.min.js' %}"></script>
+    <script src="{% static 'vendor/lightgallery/js/lightgallery-all.min.js' %}"></script>
+
+    <!-- Theme JS -->
+    <script src="{% static 'js/theme.js' %}"></script>
+
+    <!-- Custom JS -->
+    <script src="{% static 'js/custom.js' %}"></script>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
