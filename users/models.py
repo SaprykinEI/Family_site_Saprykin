@@ -8,7 +8,7 @@ class User(AbstractUser):
     username = None
     email = models.EmailField(unique=True, verbose_name="Email")
     telegram = models.CharField(max_length=150, verbose_name="Telegram username", **NULLABLE)
-
+    is_active = models.BooleanField(default=True, verbose_name="Active")
 
     # Communication with a Person (one-to-one)
     # person = models.OneToOneField('family.Person', on_delete=models.SET_NULL, **NULLABLE, related_name='user')
