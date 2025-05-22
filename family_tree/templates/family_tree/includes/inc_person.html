@@ -1,0 +1,14 @@
+{% load static %}
+
+<div class="person-card">
+  {% if person.photo %}
+    <img class="person-photo" src="{{ person.photo.url }}" alt="{{ person.full_name }}">
+  {% else %}
+    <img class="person-photo" src="{% static 'img/no-photo.jpg' %}" alt="No photo">
+  {% endif %}
+
+  <div class="person-name-year">
+    <div class="person-name">{{ person.last_name }} {{ person.first_name }}</div>
+    <div class="person-year">{{ person.birth_date|date:"Y - " }}</div>
+  </div>
+</div>
