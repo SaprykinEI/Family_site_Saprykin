@@ -8,9 +8,8 @@ class Person(models.Model):
         ('male', 'Мужской'),
         ('female', 'Женский'),
     ]
-
-    first_name = models.CharField(max_length=50, verbose_name="Имя")
     last_name = models.CharField(max_length=50, verbose_name="Фамилия")
+    first_name = models.CharField(max_length=50, verbose_name="Имя")
     maiden_name = models.CharField(max_length=50, **NULLABLE, verbose_name="Девичья фамилия")
     patronymic = models.CharField(max_length=50, **NULLABLE, verbose_name="Отчество")
     birth_date = models.DateField(verbose_name="Дата рождения")
@@ -23,9 +22,12 @@ class Person(models.Model):
     playlist = models.URLField(**NULLABLE, verbose_name="Любимая музыка")
     hobbies = models.CharField(max_length=500, **NULLABLE, verbose_name="Хобби")
 
-    mother = models.ForeignKey('self', on_delete=models.SET_NULL, related_name='children_from_mother', **NULLABLE)
-    father = models.ForeignKey('self', on_delete=models.SET_NULL, related_name='children_from_father', **NULLABLE)
-    spouse = models.ForeignKey('self', on_delete=models.SET_NULL, related_name='spouses', **NULLABLE)
+    mother = models.ForeignKey('self', on_delete=models.SET_NULL,
+                               related_name='children_from_mother', **NULLABLE, verbose_name="Мать")
+    father = models.ForeignKey('self', on_delete=models.SET_NULL,
+                               related_name='children_from_father', **NULLABLE, verbose_name="Отец")
+    spouse = models.ForeignKey('self', on_delete=models.SET_NULL,
+                               related_name='spouses', **NULLABLE, verbose_name="Супруг(а)")
 
 
     def __str__(self):
