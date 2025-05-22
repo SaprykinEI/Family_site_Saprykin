@@ -4,6 +4,11 @@ from users.models import NULLABLE
 
 
 class Person(models.Model):
+    GENDER_CHOICES = [
+        ('male', 'Мужской'),
+        ('female', 'Женский'),
+    ]
+
     first_name = models.CharField(max_length=50, verbose_name="Имя")
     last_name = models.CharField(max_length=50, verbose_name="Фамилия")
     maiden_name = models.CharField(max_length=50, **NULLABLE, verbose_name="Девичья фамилия")
@@ -11,24 +16,37 @@ class Person(models.Model):
     birth_date = models.DateField(verbose_name="Дата рождения")
     death_date = models.DateField(**NULLABLE, verbose_name="Дата Смерти")
     photo = models.ImageField(upload_to="person_photos/", **NULLABLE, verbose_name="Фотография")
+    gender = models.CharField(max_length=6, choices=GENDER_CHOICES)
     bio = models.TextField(**NULLABLE, verbose_name="Биография")
     profession = models.CharField(max_length=150, **NULLABLE, verbose_name="Профессия")
     favorite_food = models.CharField(max_length=150, **NULLABLE, verbose_name="Любимая еда")
     playlist = models.URLField(**NULLABLE, verbose_name="Любимая музыка")
     hobbies = models.CharField(max_length=500, **NULLABLE, verbose_name="Хобби")
 
-    # mother = models.ForeignKey('self', on_delete=models.SET_NULL, related_name='children_from_mother', **NULLABLE)
-    # father = models.ForeignKey('self', on_delete=models.SET_NULL, related_name='children_from_father', **NULLABLE)
-    # spouse = models.ForeignKey('self', on_delete=models.SET_NULL, related_name='spouses', **NULLABLE)
+    mother = models.ForeignKey('self', on_delete=models.SET_NULL, related_name='children_from_mother', **NULLABLE)
+    father = models.ForeignKey('self', on_delete=models.SET_NULL, related_name='children_from_father', **NULLABLE)
+    spouse = models.ForeignKey('self', on_delete=models.SET_NULL, related_name='spouses', **NULLABLE)
+
 
     def __str__(self):
-        parts = [self.first_name, self.last_name]
+        return self.full_name
+
+    @property
+    def full_name(self):
+        parts = [self.last_name, self.first_name]
         if self.patronymic:
             parts.append(self.patronymic)
         return " ".join(parts)
 
+    def children(self):
+        return Person.objects.filter(models.Q(father=self) | models.Q(mother=self))
+
+    def get_absolute_url(self):
+        from django.urls import reverse
+        return reverse('person_detail', kwargs={'pk': self.pk})
+
     class Meta:
-        verbose_name = "Person"
-        verbose_name_plural = "Persons"
+        verbose_name = "Человек"
+        verbose_name_plural = "Люди"
         ordering = ['last_name', 'first_name']
 
