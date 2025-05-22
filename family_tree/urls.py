@@ -11,4 +11,5 @@ urlpatterns = [
     path('persons/', persons_list_view, name='persons'),
     path('persons/create/', person_create_view, name='person_create'),
 
+
 ]
