@@ -6,8 +6,8 @@
 {% endblock %}
 
 {% block content %}
-<h1>Семейное дерево</h1>
-<div class="persons-container" style="display: flex; flex-wrap: wrap;">
+<h1 class="text-center">Семейное дерево</h1>
+<div class="polaroid-gallery">
   {% for person in persons %}
     {% include 'family_tree/includes/inc_person.html' with person=person %}
   {% empty %}

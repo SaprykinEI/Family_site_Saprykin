@@ -1,39 +1,48 @@
+.polaroid-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(334px, 1fr));
+  justify-content: center; /* Центрируем сетку */
+  gap: 24px;
+  padding: 24px;
+  max-width: 1400px; /* Максимальная ширина контейнера */
+  margin: 0 auto; /* Центрирование по горизонтали */
+}
+
 .polaroid-card {
-    width: 334px;
-    height: 406px;
-    background-color: white;
-    padding: 16px 16px 40px 16px; /* снизу больше — как у настоящей Polaroid */
-    box-shadow: 0 10px 20px rgba(0,0,0,0.25);
-    border-radius: 2px;
-    margin: 12px;
-    text-align: center;
-    font-family: 'Poppins', sans-serif;
-    display: inline-block;
-    position: relative;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 334px;
+  height: 406px;
+  background-color: white;
+  padding: 16px 16px 40px 16px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.25);
+  border-radius: 2px;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin: 0 auto; /* Чтобы карточка центрировалась в ячейке */
 }
 
 .polaroid-card:hover {
-    transform: scale(1.02);
-    box-shadow: 0 16px 32px rgba(0,0,0,0.3);
+  transform: scale(1.02);
+  box-shadow: 0 16px 32px rgba(0,0,0,0.3);
 }
 
 .polaroid-photo img {
-    width: 300px;
-    height: 300px;
-    object-fit: cover;
-    border-radius: 2px;
-    display: block;
-    margin: 0 auto;
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 2px;
+  display: block;
+  margin: 0 auto;
 }
 
 .polaroid-caption {
-    position: absolute;
-    bottom: 20px;
-    width: 100%;
-    font-size: 14px;
-    color: #333;
-    line-height: 1.4;
-    text-align: center;
-    font-family: 'Indie Flower', cursive; /* Полароидный "почерк" */
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+  font-size: 14px;
+  color: #333;
+  line-height: 1.4;
+  text-align: center;
+  font-family: 'Indie Flower', cursive;
 }
