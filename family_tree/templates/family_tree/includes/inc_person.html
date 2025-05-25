@@ -9,8 +9,8 @@
     </div>
     <div class="polaroid-caption">
         <strong>{{ person.full_name }}</strong><br>
-        {% if person.birth_date %}{{ person.birth_date|date:"Y" }}{% endif %}
-        {% if person.death_date %} — {{ person.death_date|date:"Y" }}{% endif %}
+        {% if person.birth_date %}{{ person.birth_date|date:"Y - " }}{% endif %}
+        {% if person.death_date %} — {{ person.death_date|date:"Y - " }}{% endif %}
     </div>
 </div>
 
