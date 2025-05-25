@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/person-card.css' %}">
+{% endblock %}
+
+{% block content %}
+<h1>Семейное дерево</h1>
+<div class="persons-container" style="display: flex; flex-wrap: wrap;">
+  {% for person in persons %}
+    {% include 'family_tree/includes/inc_person.html' with person=person %}
+  {% empty %}
+    <p>Нет данных о людях.</p>
+  {% endfor %}
+</div>
+{% endblock %}

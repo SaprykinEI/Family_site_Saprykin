@@ -1,14 +1,16 @@
 {% load static %}
-
-<div class="person-card">
-  {% if person.photo %}
-    <img class="person-photo" src="{{ person.photo.url }}" alt="{{ person.full_name }}">
-  {% else %}
-    <img class="person-photo" src="{% static 'img/no-photo.jpg' %}" alt="No photo">
-  {% endif %}
-
-  <div class="person-name-year">
-    <div class="person-name">{{ person.last_name }} {{ person.first_name }}</div>
-    <div class="person-year">{{ person.birth_date|date:"Y - " }}</div>
-  </div>
+<div class="polaroid-card">
+    <div class="polaroid-photo">
+        {% if person.photo %}
+            <img src="{{ person.photo.url }}" alt="{{ person.full_name }}">
+        {% else %}
+            <img src="{% static 'img/default-photo.jpg' %}" alt="{{ person.full_name }}">
+        {% endif %}
+    </div>
+    <div class="polaroid-caption">
+        <strong>{{ person.full_name }}</strong><br>
+        {% if person.birth_date %}{{ person.birth_date|date:"Y" }}{% endif %}
+        {% if person.death_date %} — {{ person.death_date|date:"Y" }}{% endif %}
+    </div>
 </div>
+

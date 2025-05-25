@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Главная страница{% endblock %}
 
@@ -14,7 +15,7 @@
                 <!-- Slide 1 -->
                 <div class="cc-item">
                     <span class="cover bg-transparent-3-dark"></span>
-                    <div class="cc-image bg-image" style="background-image: url(assets/img/intro/intro-10.jpg); background-position: 50% 50%;"></div>
+                    <div class="cc-image bg-image" style="background-image: url({% static 'img/intro/intro-10.jpg' %}); background-position: 50% 50%;"></div>
                     <div class="intro-caption caption-animate intro-caption-xxlg center-left">
                         <h1 class="intro-title">Добро пожаловать</h1>
                         <h2 class="intro-subtitle">Фотограф Иванов Иван</h2>
@@ -31,7 +32,7 @@
                 <!-- Slide 2 -->
                 <div class="cc-item">
                     <span class="cover bg-transparent-3-dark"></span>
-                    <div class="cc-image bg-image" style="background-image: url(assets/img/intro/intro-11.jpg); background-position: 50% 50%;"></div>
+                    <div class="cc-image bg-image" style="background-image: url({% static 'img/intro/intro-11.jpg' %}); background-position: 50% 50%;"></div>
                     <div class="intro-caption caption-animate intro-caption-xxlg center-left">
                         <h1 class="intro-title">Свадебная фотосъемка</h1>
                         <h2 class="intro-subtitle">Запечатлите ваш особенный день</h2>
@@ -58,12 +59,12 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="row-lg-height">
-                        <div class="col-lg-5 col-lg-height split-box-image no-padding bg-image" style="background-image: url(assets/img/misc/me-2.jpg); background-position: 50% 50%;">
+                        <div class="col-lg-5 col-lg-height split-box-image no-padding bg-image" style="background-image: url({% static 'img/misc/me-2.jpg' %}); background-position: 50% 50%;">
                             <div class="sbi-height padding-height-80"></div>
                         </div>
                         <div class="col-lg-7 col-lg-height col-lg-middle no-padding">
-                            <div class="full-cover for-light-style bg-gray-3 bg-image" style="background-image: url(assets/img/pattern/bg-pattern-1-light.png); background-position: 50% 50%;"></div>
-                            <div class="full-cover for-dark-style bg-gray-3 bg-image" style="background-image: url(assets/img/pattern/bg-pattern-1-dark.png); background-position: 50% 50%;"></div>
+                            <div class="full-cover for-light-style bg-gray-3 bg-image" style="background-image: url({% static 'img/pattern/bg-pattern-1-light.png' %}); background-position: 50% 50%;"></div>
+                            <div class="full-cover for-dark-style bg-gray-3 bg-image" style="background-image: url({% static 'img/pattern/bg-pattern-1-dark.png' %}); background-position: 50% 50%;"></div>
                             <div class="split-box-content sb-content-right">
                                 <div class="tt-heading">
                                     <div class="tt-heading-inner">
@@ -109,7 +110,7 @@
                     <div class="gallery-list-item">
                         <div class="gl-item-image-wrap">
                             <a href="/gallery/1" class="gl-item-image-inner">
-                                <div class="gl-item-image bg-image" style="background-image: url(/img/gallery/gallery-list/gallery-list-1.jpg); background-position: 50% 50%"></div>
+                                <div class="gl-item-image bg-image" style="background-image: url({% static 'img/gallery/gallery-list/gallery-list-1.jpg' %}); background-position: 50% 50%"></div>
                                 <span class="gl-item-image-zoom"></span>
                             </a>
                         </div>
@@ -127,7 +128,7 @@
                     <div class="gallery-list-item">
                         <div class="gl-item-image-wrap">
                             <a href="/gallery/2" class="gl-item-image-inner">
-                                <div class="gl-item-image bg-image" style="background-image: url(/img/gallery/gallery-list/gallery-list-2.jpg); background-position: 50% 50%"></div>
+                                <div class="gl-item-image bg-image" style="background-image: url({% static 'img/gallery/gallery-list/gallery-list-2.jpg' %}); background-position: 50% 50%"></div>
                                 <span class="gl-item-image-zoom"></span>
                             </a>
                         </div>
@@ -171,7 +172,8 @@
                 <!-- Price Box 1 -->
                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
                     <div class="price-box">
-                        <div class="pr-box price-heading bg-image" style="background-image: url(img/misc/price-box-1.jpg);">
+                        <div class="pr-box price-heading bg-image"
+                             style="background-image: url({% static 'img/misc/price-box-1.jpg' %});">
                             <div class="price-heading-inner">
                                 <i class="fas fa-umbrella"></i>
                                 <h3 class="price-title">Базовый</h3>
@@ -204,8 +206,8 @@
 ///// Begin call to action section /////
 ==================================== -->
 <section class="call-to-action-section bg-gray-3 margin-top-60">
-    <div class="full-cover for-light-style bg-image" style="background-image: url(assets/img/pattern/bg-pattern-2-light.png); background-position: 50% 50%;"></div>
-    <div class="full-cover for-dark-style bg-image" style="background-image: url(assets/img/pattern/bg-pattern-2-dark.png); background-position: 50% 50%;"></div>
+    <div class="full-cover for-light-style bg-image" style="background-image: url({% static 'img/pattern/bg-pattern-2-light.png' %}); background-position: 50% 50%;"></div>
+    <div class="full-cover for-dark-style bg-image" style="background-image: url({% static 'img/pattern/bg-pattern-2-dark.png' %}); background-position: 50% 50%;"></div>
 
     <div class="call-to-action-inner tt-wrap">
         <div class="row">

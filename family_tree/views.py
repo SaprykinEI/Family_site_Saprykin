@@ -1,6 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+
+import json
 
 from family_tree.models import Person
 from family_tree.forms import PersonForm
@@ -16,7 +18,7 @@ def index_view(request):
 
 def persons_list_view(request):
     context = {
-        'objects_list': Person.objects.all(),
+        'persons': Person.objects.all(),  # <-- фикс здесь
         'title': "Все члены семьи"
     }
     return render(request, 'family_tree/persons.html', context=context)

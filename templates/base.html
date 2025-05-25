@@ -37,17 +37,9 @@
     {% block extra_css %}{% endblock %}
 </head>
 
-<body id="body" class="animsition tt-boxed">
+<body id="body" class="tt-boxed">
     <!-- =================
-    ///// Begin header /////
-    ======================
-    * Use class "header-show-hide-on-scroll" to hide header on scroll down and show on scroll up.
-    * Use class "header-fixed-top" to set header to fixed position.
-    * Use class "header-transparent" to set header to transparent.
-    * Use class "menu-align-left" to align menu to left.
-    * Use class "menu-align-right" to align menu to right.
-    * Use class "menu-align-center" to align menu to center (do not use with header classes!).
-    -->
+    ///// Begin header ///// -->
     <header id="header" class="header-show-hide-on-scroll menu-align-right">
         <div class="header-inner tt-wrap">
             <!-- Logo -->
@@ -72,7 +64,8 @@
                         <li>
                             <a href="#" class="tt-clobal-search-trigger"><i class="fas fa-search"></i></a>
                             <div class="tt-clobal-search">
-
+                            <!-- Search content -->
+                            </div>
                         </li>
                     </ul>
                 </div>
@@ -81,15 +74,11 @@
                 <div class="tt-menu-collapse tt-submenu-dark">
                     <ul class="tt-menu-nav">
                         <li><a href="{% url 'family_tree:index' %}">Главная</a></li>
-                        <li><a href="{% url 'family_tree:index' %}">О нас</a></li>
+                        <li><a href="{% url 'family_tree:persons' %}">Семейное дерево</a></li>
                         <li><a href="{% url 'family_tree:index' %}">Галерея</a></li>
                         <li><a href="{% url 'family_tree:index' %}">Блог</a></li>
                         <li><a href="{% url 'family_tree:index' %}">Контакты</a></li>
-                        <li><a href="{% url 'family_tree:index' %}">Главная</a></li>
                         <li><a href="{% url 'family_tree:index' %}">О нас</a></li>
-                        <li><a href="{% url 'family_tree:index' %}">Галерея</a></li>
-                        <li><a href="{% url 'family_tree:index' %}">Блог</a></li>
-                        <li><a href="{% url 'family_tree:index' %}">Контакты</a></li>
                     </ul>
                 </div>
             </nav>
@@ -104,11 +93,7 @@
     </div>
 
     <!-- ===========================
-    ///// Begin footer section /////
-    ===============================
-    * Use class "footer-dark" to enable dark footer.
-    * Use class "no-margin-top" if needed.
-    -->
+    ///// Begin footer section ///// -->
     <footer id="footer" class="footer-dark no-margin-top">
         <div class="footer-inner">
             <div class="footer-container tt-wrap">
@@ -150,12 +135,7 @@
                             <!-- Footer menu -->
                             <ul class="footer-menu">
                                 <li><a href="{% url 'family_tree:index' %}">Главная</a></li>
-                                <li><a href="{% url 'family_tree:index' %}">Семейное дерево</a></li>
-                                <li><a href="{% url 'family_tree:index' %}">Галерея</a></li>
-                                <li><a href="{% url 'family_tree:index' %}">Блог</a></li>
-                                <li><a href="{% url 'family_tree:index' %}">Контакты</a></li>
-                                <li><a href="{% url 'family_tree:index' %}">ываа</a></li>
-                                <li><a href="{% url 'family_tree:index' %}">Семейное дерево</a></li>
+                                <li><a href="{% url 'family_tree:persons' %}">Семейное дерево</a></li>
                                 <li><a href="{% url 'family_tree:index' %}">Галерея</a></li>
                                 <li><a href="{% url 'family_tree:index' %}">Блог</a></li>
                                 <li><a href="{% url 'family_tree:index' %}">Контакты</a></li>
@@ -178,12 +158,15 @@
     </footer>
 
     <!-- ====================
-    ///// Scripts below /////
-    ===================== -->
+    ///// Scripts below ///// -->
 
     <!-- Core JS -->
     <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
     <script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+
+    <!-- Подключение плагина mb_YTPlayer, если используется -->
+    <script src="{% static 'vendor/ytplayer/js/jquery.mb.YTPlayer.min.js' %}"></script>
+
 
     <!-- Libs and Plugins JS -->
     <script src="{% static 'vendor/animsition/js/animsition.min.js' %}"></script>
@@ -197,8 +180,10 @@
     <!-- Theme JS -->
     <script src="{% static 'js/theme.js' %}"></script>
 
-    <!-- Custom JS -->
     <script src="{% static 'js/custom.js' %}"></script>
+
+
+
 
     {% block extra_js %}{% endblock %}
 </body>
