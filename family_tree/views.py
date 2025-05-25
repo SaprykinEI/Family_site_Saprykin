@@ -46,3 +46,19 @@ def person_detail_view(request, pk):
     return render(request, 'family_tree/person_detail.html', context=context)
 
 
+def person_update_view(request, pk):
+    person_object = get_object_or_404(Person, pk=pk)
+    if request.method == 'POST':
+        form = PersonForm(request.POST, request.FILES, instance=person_object)
+        if form.is_valid():
+            person_object = form.save()
+            person_object.save()
+            return HttpResponseRedirect(reverse('family_tree:person_detail', args={pk: pk}))
+    context = {
+        'object': person_object,
+        'title': 'Редактировать данные',
+        'form': PersonForm(instance=person_object)
+    }
+    return render(request, 'family_tree/person_update.html', context=context)
+
+
