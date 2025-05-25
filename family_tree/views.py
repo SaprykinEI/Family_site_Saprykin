@@ -35,3 +35,14 @@ def person_create_view(request):
         'form': PersonForm
     }
     return render(request, 'family_tree/person_create.html', context=context)
+
+
+def person_detail_view(request, pk):
+    person_object = Person.objects.get(pk=pk)
+    context = {
+        'person': person_object,
+        'title': person_object
+    }
+    return render(request, 'family_tree/person_detail.html', context=context)
+
+
