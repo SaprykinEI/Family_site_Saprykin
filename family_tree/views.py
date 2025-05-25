@@ -62,3 +62,15 @@ def person_update_view(request, pk):
     return render(request, 'family_tree/person_update.html', context=context)
 
 
+def person_delete_view(request, pk):
+    person_object = get_object_or_404(Person, pk=pk)
+    if request.method == 'POST':
+        person_object.delete()
+        return HttpResponseRedirect(reverse('family_tree:persons'))
+    context = {
+        'object': person_object,
+        'title': "Удалить члена семьи"
+    }
+    return render(request, 'family_tree/person_delete.html', context=context)
+
+
