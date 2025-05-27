@@ -18,7 +18,7 @@ def index_view(request):
 
 def persons_list_view(request):
     context = {
-        'persons': Person.objects.all(),  # <-- фикс здесь
+        'persons': Person.objects.all(),
         'title': "Все члены семьи"
     }
     return render(request, 'family_tree/persons.html', context=context)
