@@ -1,0 +1,87 @@
+.polaroid-gallery-wrapper {
+  position: relative;
+  max-width: calc(3 * 334px + 2 * 60px); /* ширина галереи с 3 карточками и промежутками */
+  margin: 0 auto;
+}
+
+/* Кнопка "Добавить" */
+.btn-outline-add-person {
+  position: absolute;
+  top: -50px; /* смещаем кнопку вверх, чтобы была над галереей */
+  left: 10px;
+  padding: 10px 24px;
+  border: 2px solid #333;
+  background-color: transparent;
+  color: #333;
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  border-radius: 6px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  user-select: none;
+  z-index: 10;
+}
+
+.btn-outline-add-person:hover {
+  background-color: #6e6e6e;
+  color: white;
+}
+
+.polaroid-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 60px;
+  justify-content: flex-start;
+  padding-top: 40px;
+}
+
+.polaroid-card {
+  flex: 0 0 334px;      /* Фиксированная ширина */
+  background-color: white;
+  padding: 16px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.25);
+  border-radius: 8px;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+
+
+.polaroid-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 16px 32px rgba(0,0,0,0.3);
+}
+
+.polaroid-photo img {
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 4px;
+  display: block;
+}
+
+.polaroid-caption {
+  margin-top: 12px;
+  font-size: 14px;
+  color: #333;
+  line-height: 1.5;
+  font-family: 'Indie Flower', cursive;
+}
+
+.person-name {
+  font-weight: bold;
+  font-size: 1.1em;
+  margin-bottom: 20px;
+}
+
+.person-dates {
+  font-size: 0.9em;
+  color: #555;
+}

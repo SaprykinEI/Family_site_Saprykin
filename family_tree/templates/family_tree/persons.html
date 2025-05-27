@@ -2,17 +2,23 @@
 {% load static %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/person-card.css' %}">
+<link rel="stylesheet" href="{% static 'css/persons.css' %}">
 {% endblock %}
 
 {% block content %}
-<h1 class="text-center">Члены Семьи</h1>
-<div class="polaroid-gallery">
-  {% for person in persons %}
-    {% include 'family_tree/includes/inc_person.html' with person=person %}
-  {% empty %}
-    <p>Нет данных о людях.</p>
-  {% endfor %}
+<div class="d-flex justify-content-between align-items-center mb-4 px-3">
+  <h1 class="text-center m-0">Члены Семьи</h1>
 </div>
 
+<div class="polaroid-gallery-wrapper position-relative px-3">
+  <a href="{% url 'family_tree:person_create' %}" class="btn-outline-add-person">Добавить члена семьи</a>
+
+  <div class="polaroid-gallery">
+    {% for person in persons %}
+      {% include 'family_tree/includes/inc_person.html' with person=person %}
+    {% empty %}
+      <p>Нет данных о людях.</p>
+    {% endfor %}
+  </div>
+</div>
 {% endblock %}

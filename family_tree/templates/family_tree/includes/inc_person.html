@@ -1,20 +1,19 @@
 {% load static %}
-<a href="{% url 'family_tree:person_detail' person.pk %}" class="polaroid-card-link">
-  <div class="polaroid-card">
-      <div class="polaroid-photo">
-          {% if person.photo %}
-              <img src="{{ person.photo.url }}" alt="{{ person.full_name }}">
-          {% else %}
-              <img src="{% static 'img/no-photo.jpg' %}" alt="{{ person.full_name }}">
-          {% endif %}
+<div class="polaroid-card">
+  <a href="{% url 'family_tree:person_detail' person.pk %}" class="polaroid-card-link">
+    <div class="polaroid-photo">
+      {% if person.photo %}
+        <img src="{{ person.photo.url }}" alt="{{ person.full_name }}">
+      {% else %}
+        <img src="{% static 'img/no-photo.jpg' %}" alt="{{ person.full_name }}">
+      {% endif %}
+    </div>
+    <div class="polaroid-caption">
+      <div class="person-name"><strong>{{ person.full_name }}</strong></div>
+      <div class="person-dates">
+        {% if person.birth_date %}{{ person.birth_date|date:"Y - " }}{% endif %}
+        {% if person.death_date %} — {{ person.death_date|date:"Y" }}{% endif %}
       </div>
-      <div class="polaroid-caption">
-          <div class="person-name"><strong>{{ person.full_name }}</strong></div>
-          <br>
-          <div class="person-dates">
-              {% if person.birth_date %}{{ person.birth_date|date:"Y - " }}{% endif %}
-              {% if person.death_date %} — {{ person.death_date|date:"Y" }}{% endif %}
-          </div>
-      </div>
-  </div>
-</a>
+    </div>
+  </a>
+</div>
