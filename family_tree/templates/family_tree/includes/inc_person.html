@@ -4,7 +4,7 @@
         {% if person.photo %}
             <img src="{{ person.photo.url }}" alt="{{ person.full_name }}">
         {% else %}
-            <img src="{% static 'img/default-photo.jpg' %}" alt="{{ person.full_name }}">
+            <img src="{% static 'img/no-photo.jpg' %}" alt="{{ person.full_name }}">
         {% endif %}
     </div>
     <div class="polaroid-caption">
