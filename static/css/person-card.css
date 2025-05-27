@@ -1,25 +1,16 @@
-.polaroid-gallery {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(334px, 1fr));
-  justify-content: center; /* Центрируем сетку */
-  gap: 24px;
-  padding: 24px;
-  max-width: 1400px; /* Максимальная ширина контейнера */
-  margin: 0 auto; /* Центрирование по горизонтали */
-}
-
 .polaroid-card {
   width: 334px;
-  height: 406px;
   background-color: white;
-  padding: 16px 16px 40px 16px;
+  padding: 16px;
   box-shadow: 0 10px 20px rgba(0,0,0,0.25);
-  border-radius: 2px;
+  border-radius: 8px;
   text-align: center;
   font-family: 'Poppins', sans-serif;
-  position: relative;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  margin: 0 auto; /* Чтобы карточка центрировалась в ячейке */
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .polaroid-card:hover {
@@ -31,18 +22,25 @@
   width: 300px;
   height: 300px;
   object-fit: cover;
-  border-radius: 2px;
+  border-radius: 4px;
   display: block;
-  margin: 0 auto;
 }
 
 .polaroid-caption {
-  position: absolute;
-  bottom: 20px;
-  width: 100%;
+  margin-top: 12px;
   font-size: 14px;
   color: #333;
-  line-height: 1.4;
-  text-align: center;
+  line-height: 1.5;
   font-family: 'Indie Flower', cursive;
+}
+
+.person-name {
+  font-weight: bold;
+  font-size: 1.1em;
+  margin-bottom: 20px; /* Отступ от ФИО до дат */
+}
+
+.person-dates {
+  font-size: 0.9em;
+  color: #555;
 }

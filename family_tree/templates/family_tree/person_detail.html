@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/person_detail.css' %}">
+<link rel="stylesheet" href="{% static 'vendor/lightbox2/css/lightbox.min.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<!-- ===== Шапка страницы ===== -->
+<section id="page-header">
+  <div class="page-header-image parallax-bg-3 bg-image"
+       style="background-image: url({% static 'img/header-bg.jpg' %});">
+    <div class="cover bg-transparent-5-dark"></div>
+  </div>
+  <div class="page-header-inner tt-wrap">
+    <div class="page-header-caption ph-caption-lg parallax-4 fade-out-scroll-3 position-relative">
+      <h1 class="page-header-title">{{ person.full_name }}</h1>
+      <hr class="hr-short">
+      <div class="page-header-description">
+        {{ person.profession }}
+      </div>
+      <div class="header-action-buttons">
+        <a href="{% url 'family_tree:person_update' person.id %}" class="btn btn-outline-light btn-edit">Редактировать</a>
+        <a href="{% url 'family_tree:person_delete' person.id %}" class="btn btn-outline-light btn-delete">Удалить</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Блок: Фото + Информация ===== -->
+<section id="about-me-section">
+  <div class="about-me-inner tt-wrap">
+    <div class="split-box about-me">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="row-lg-height">
+            <!-- Фото -->
+            <div class="col-lg-6 col-lg-height split-box-image no-padding bg-image"
+                 style="background-image: url(
+                    {% if person.photo %}
+                      {{ person.photo.url }}
+                    {% else %}
+                      {% static 'img/no-photo.jpg' %}
+                    {% endif %}
+                  ); background-position: 50% 50%;">
+              <div class="sbi-height padding-height-85"></div>
+            </div>
+
+            <!-- Информация -->
+            <div class="col-lg-6 col-lg-height col-lg-middle no-padding">
+              <div class="split-box-content sb-content-right">
+                <div class="tt-heading">
+                  <div class="tt-heading-inner">
+                    <h1 class="tt-heading-title">Информация</h1>
+                    <div class="tt-heading-subtitle">О человеке</div>
+                    <hr class="hr-short">
+                  </div>
+                </div>
+
+                <div class="margin-top-30">
+                  <p><strong>Имя:</strong> {{ person.full_name }}</p>
+                  <p><strong>Дата рождения:</strong> {{ person.birth_date|date:"d.m.Y" }}</p>
+                  {% if person.death_date %}
+                    <p><strong>Дата смерти:</strong> {{ person.death_date|date:"d.m.Y" }}</p>
+                  {% endif %}
+                  {% if person.father %}
+                    <p><strong>Отец:</strong> <a href="{% url 'family_tree:person_detail' person.father.id %}">{{ person.father.full_name }}</a></p>
+                  {% endif %}
+                  {% if person.mother %}
+                    <p><strong>Мать:</strong> <a href="{% url 'family_tree:person_detail' person.mother.id %}">{{ person.mother.full_name }}</a></p>
+                  {% endif %}
+                  {% if person.spouse %}
+                    <p><strong>Супруг(а):</strong> <a href="{% url 'family_tree:person_detail' person.spouse.id %}">{{ person.spouse.full_name }}</a></p>
+                  {% endif %}
+                  {% if person.children %}
+                    <p><strong>Дети:</strong>
+                      {% for child in person.children %}
+                        <a href="{% url 'family_tree:person_detail' child.id %}">{{ child.full_name }}</a>{% if not forloop.last %}, {% endif %}
+                      {% endfor %}
+                    </p>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== Блок: Биография + Фото ===== -->
+    <div class="split-box what-i-do">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="row-lg-height">
+
+            <!-- Заглушка фото -->
+            <div class="col-lg-6 col-lg-push-6 col-lg-height split-box-image no-padding bg-image"
+                 style="background-image: url({% static 'img/no-photo.jpg' %}); background-position: 50% 50%;">
+              <div class="sbi-height padding-height-85"></div>
+            </div>
+
+            <!-- Биография -->
+            <div class="col-lg-6 col-lg-pull-6 col-lg-height col-lg-middle no-padding">
+              <div class="split-box-content sb-content-left">
+                <div class="tt-heading">
+                  <div class="tt-heading-inner">
+                    <h1 class="tt-heading-title">Биография</h1>
+                    <hr class="hr-short">
+                  </div>
+                </div>
+                <div class="margin-top-30">
+                  <p>{{ person.biography|linebreaks }}</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== Галерея ===== -->
+<section id="latest-work-section" class="margin-top-40">
+  <div class="tt-heading padding-on text-center">
+    <div class="tt-heading-inner tt-wrap">
+      <h1 class="tt-heading-title">Фотографии</h1>
+      <div class="tt-heading-subtitle">Семейный альбом</div>
+      <hr class="hr-short">
+    </div>
+  </div>
+
+  <div class="latest-work-inner">
+    <div class="project-carousel owl-carousel nav-outside-top"
+         data-items="4" data-margin="0" data-dots="false" data-nav="true"
+         data-mobile-portrait="1" data-tablet-landscape="3" data-tablet-portrait="2">
+
+      {% for i in "12345" %}
+      <a href="{% static 'img/no-photo.jpg' %}" data-lightbox="person-gallery" data-title="Фото {{ forloop.counter }}">
+        <img src="{% static 'img/no-photo.jpg' %}" alt="Фото {{ forloop.counter }}" class="gallery-thumb">
+      </a>
+
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/custom.js' %}"></script>
+<script src="{% static 'vendor/lightbox2/js/lightbox.min.js' %}"></script>
+{% endblock %}
