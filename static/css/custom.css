@@ -1,0 +1,11 @@
+.lg-close {
+  display: block !important;
+  top: 15px !important;
+  right: 15px !important;
+  width: 44px;
+  height: 44px;
+  z-index: 1080;
+  cursor: pointer;
+  opacity: 1;
+  color: #fff;
+}
