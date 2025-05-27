@@ -34,7 +34,7 @@ def person_create_view(request):
         'title': 'Добавить члена семьи',
         'form': PersonForm
     }
-    return render(request, 'family_tree/person_create.html', context=context)
+    return render(request, 'family_tree/person_create_update.html', context=context)
 
 
 def person_detail_view(request, pk):
@@ -59,7 +59,7 @@ def person_update_view(request, pk):
         'title': 'Редактировать данные',
         'form': PersonForm(instance=person_object)
     }
-    return render(request, 'family_tree/person_update.html', context=context)
+    return render(request, 'family_tree/person_create_update.html', context=context)
 
 
 def person_delete_view(request, pk):

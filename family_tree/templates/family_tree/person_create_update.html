@@ -7,7 +7,11 @@
 
 {% block content %}
 <div class="formbg">
-  <h2>Добавить члена семьи</h2>
+  {% if object %}
+  <h2>Обновите данные</h2>
+  {% else %}
+  <h2>Введите данные</h2>
+  {% endif %}
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="form-grid">
@@ -22,7 +26,13 @@
       {% endfor %}
     </div>
     <div class="form-submit">
-      <button type="submit">Сохранить</button>
+      <button type="submit">
+        {% if object %}
+        Сохранить
+        {% else %}
+        Добавить
+        {% endif %}
+      </button>
     </div>
   </form>
 </div>
