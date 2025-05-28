@@ -1,0 +1,21 @@
+[
+  {
+    "model": "users.user",
+    "pk": 1,
+    "fields": {
+      "password": "pbkdf2_sha256$720000$BT2neLnOG5eyXpstB9x0hQ$gAGAZpIX5/ZBK4y+s6SPRLyfbZO9wv1IWyIz6C8Mq4U=",
+      "last_login": "2025-05-21T10:49:55.838Z",
+      "is_superuser": true,
+      "first_name": "Admin",
+      "last_name": "Family-Site",
+      "is_staff": true,
+      "date_joined": "2025-05-21T10:49:32.819Z",
+      "email": "saprykin-family@yandex.com",
+      "telegram": null,
+      "is_active": true,
+      "person": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  }
+]

@@ -1,0 +1,200 @@
+[
+  {
+    "model": "family_tree.person",
+    "pk": 2,
+    "fields": {
+      "last_name": "Сапрыкин",
+      "first_name": "Евгений",
+      "maiden_name": null,
+      "patronymic": "Игоревич",
+      "birth_date": "1992-01-25",
+      "death_date": null,
+      "photo": "person_photos/IMG_2909.JPG",
+      "gender": "male",
+      "bio": "Напишу позже",
+      "profession": null,
+      "favorite_food": "Пельмени",
+      "playlist": null,
+      "hobbies": "Футбол",
+      "mother": 5,
+      "father": 7,
+      "spouse": 4
+    }
+  },
+  {
+    "model": "family_tree.person",
+    "pk": 3,
+    "fields": {
+      "last_name": "Сапрыкина",
+      "first_name": "София",
+      "maiden_name": null,
+      "patronymic": "Евгеньевна",
+      "birth_date": "2019-07-20",
+      "death_date": null,
+      "photo": "person_photos/София_сс.jpg",
+      "gender": "female",
+      "bio": "Позже",
+      "profession": "Ученица",
+      "favorite_food": "Конфеты",
+      "playlist": null,
+      "hobbies": "Пение",
+      "mother": 4,
+      "father": 2,
+      "spouse": null
+    }
+  },
+  {
+    "model": "family_tree.person",
+    "pk": 4,
+    "fields": {
+      "last_name": "Сапрыкина",
+      "first_name": "Екатерина",
+      "maiden_name": "Бороденко",
+      "patronymic": "Владимировна",
+      "birth_date": "1993-07-29",
+      "death_date": null,
+      "photo": "person_photos/photo_2025-01-18_17-58-15.jpg",
+      "gender": "female",
+      "bio": "",
+      "profession": null,
+      "favorite_food": null,
+      "playlist": null,
+      "hobbies": null,
+      "mother": null,
+      "father": null,
+      "spouse": 2
+    }
+  },
+  {
+    "model": "family_tree.person",
+    "pk": 5,
+    "fields": {
+      "last_name": "Сапрыкина",
+      "first_name": "Анжелика",
+      "maiden_name": "Михеева",
+      "patronymic": "Владимировна",
+      "birth_date": "1971-12-30",
+      "death_date": null,
+      "photo": "person_photos/IMG_2537.JPG",
+      "gender": "female",
+      "bio": "",
+      "profession": "Парикмахер",
+      "favorite_food": null,
+      "playlist": null,
+      "hobbies": null,
+      "mother": 11,
+      "father": 10,
+      "spouse": 7
+    }
+  },
+  {
+    "model": "family_tree.person",
+    "pk": 7,
+    "fields": {
+      "last_name": "Сапрыкин",
+      "first_name": "Игорь",
+      "maiden_name": null,
+      "patronymic": "Викторович",
+      "birth_date": "1969-03-02",
+      "death_date": null,
+      "photo": "",
+      "gender": "male",
+      "bio": "",
+      "profession": null,
+      "favorite_food": null,
+      "playlist": null,
+      "hobbies": "Рыбалка",
+      "mother": null,
+      "father": null,
+      "spouse": 5
+    }
+  },
+  {
+    "model": "family_tree.person",
+    "pk": 8,
+    "fields": {
+      "last_name": "Сапрыкина",
+      "first_name": "Валерия",
+      "maiden_name": null,
+      "patronymic": "Евгеньевна",
+      "birth_date": "2021-02-20",
+      "death_date": null,
+      "photo": "person_photos/Лера1.jpg",
+      "gender": "female",
+      "bio": "",
+      "profession": "Ученица",
+      "favorite_food": "Конфеты",
+      "playlist": null,
+      "hobbies": "Пение",
+      "mother": 4,
+      "father": 2,
+      "spouse": null
+    }
+  },
+  {
+    "model": "family_tree.person",
+    "pk": 9,
+    "fields": {
+      "last_name": "Сапрыкина",
+      "first_name": "Анастасия",
+      "maiden_name": null,
+      "patronymic": "Евгеньевна",
+      "birth_date": "2021-02-20",
+      "death_date": null,
+      "photo": "person_photos/Настя_с_подарком.jpg",
+      "gender": "female",
+      "bio": "",
+      "profession": "Ученица",
+      "favorite_food": "Конфеты",
+      "playlist": null,
+      "hobbies": "Пение",
+      "mother": 4,
+      "father": 2,
+      "spouse": null
+    }
+  },
+  {
+    "model": "family_tree.person",
+    "pk": 10,
+    "fields": {
+      "last_name": "Михеев",
+      "first_name": "Владимир",
+      "maiden_name": null,
+      "patronymic": "Алексеевич",
+      "birth_date": "1946-04-24",
+      "death_date": null,
+      "photo": "",
+      "gender": "male",
+      "bio": "",
+      "profession": "Шахтёр",
+      "favorite_food": null,
+      "playlist": null,
+      "hobbies": null,
+      "mother": null,
+      "father": null,
+      "spouse": 11
+    }
+  },
+  {
+    "model": "family_tree.person",
+    "pk": 11,
+    "fields": {
+      "last_name": "Михеева",
+      "first_name": "Людмила",
+      "maiden_name": null,
+      "patronymic": "Ивановна",
+      "birth_date": "1945-01-03",
+      "death_date": null,
+      "photo": "",
+      "gender": "female",
+      "bio": "",
+      "profession": "Металлург",
+      "favorite_food": null,
+      "playlist": null,
+      "hobbies": null,
+      "mother": null,
+      "father": null,
+      "spouse": 10
+    }
+  }
+]
