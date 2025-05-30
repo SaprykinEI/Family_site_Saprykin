@@ -87,13 +87,12 @@
                         {% if user.is_authenticated %}
                             <li class="dropdown" id="user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <img src="{% if user.profile.avatar %}{{ user.profile.avatar.url }}{% else %}{% static 'img/default-avatar.jpg' %}{% endif %}"
-                                         class="avatar-circle" alt="Аватар">
+                                    <img src="{{ user.avatar|user_media }}" class="avatar-circle" alt="Аватар">
                                     <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="user-menu">
                                     <li><a href="{% url 'users:user_profile' %}"><i class="fas fa-user"></i> Профиль</a></li>
-                                    <li><a href="{% url 'users:user_register' %}"><i class="fas fa-sign-out-alt"></i> Выход</a></li>
+                                    <li><a href="{% url 'users:user_logout' %}"><i class="fas fa-sign-out-alt"></i> Выход</a></li>
                                 </ul>
                             </li>
                         {% else %}

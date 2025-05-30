@@ -2,8 +2,6 @@
 {% load static %}
 {% load my_tags %}
 
-
-
 {% block content %}
 <link rel="stylesheet" href="{% static 'css/users/profile.css' %}">
 
@@ -22,12 +20,9 @@
     {% if user.person %}
       <p><strong>Моя карточка:</strong>
         <a href="{% url 'family_tree:person_detail' user.person.id %}">Перейти к карточке</a>
-
       </p>
     {% endif %}
-
   </div>
-
   <div class="profile-buttons">
     <a href="#" class="btn-green">Обновить</a>
     <a href="#" class="btn-green">Изменить пароль</a>
