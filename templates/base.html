@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 {% load static %}
+{% load my_tags %}
+
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -90,7 +92,7 @@
                                     <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="user-menu">
-                                    <li><a href="{% url 'users:user_login' %}"><i class="fas fa-user"></i> Профиль</a></li>
+                                    <li><a href="{% url 'users:user_profile' %}"><i class="fas fa-user"></i> Профиль</a></li>
                                     <li><a href="{% url 'users:user_register' %}"><i class="fas fa-sign-out-alt"></i> Выход</a></li>
                                 </ul>
                             </li>

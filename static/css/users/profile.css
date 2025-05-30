@@ -1,0 +1,55 @@
+.profile-container {
+  display: flex;
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  gap: 30px;
+  background: #fafafa;
+}
+
+.profile-photo {
+  width: 250px;
+  height: 270px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #999;
+}
+
+.profile-info {
+  flex-grow: 1;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  color: #333;
+}
+
+.profile-info p {
+  margin: 10px 0;
+}
+
+.profile-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.btn-green {
+  background-color: #4bb466;
+  border: none;
+  color: #ffffff; /* белый текст */
+  padding: 12px 20px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  user-select: none;
+}
+
+.btn-green:hover {
+  background-color: #218838;
+  color: #ffffff; /* гарантируем белый текст при наведении */
+}

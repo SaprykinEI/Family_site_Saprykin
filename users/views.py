@@ -38,3 +38,17 @@ def user_login_view(request):
         'form': UserLoginForm
     }
     return render(request, 'users/user_login.html', context=context)
+
+
+
+
+def user_profile_view(request):
+    user_object = request.user
+    if user_object.first_name and user_object.last_name:
+        user_name = user_object.first_name + ' ' + user_object.last_name
+    else:
+        user_name = "Анонимный пользователь"
+    context = {
+        'title': f"Ваш профиль: {user_name}"
+    }
+    return render(request, 'users/user_profile.html', context=context)
