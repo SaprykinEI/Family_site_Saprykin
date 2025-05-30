@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Вход{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/users/register_form.css' %}">
+
+<div class="register-wrapper">
+  <div class="register-image">
+    <img src="{% static 'img/famreg.jpg' %}" alt="Вход">
+  </div>
+
+  <div class="register-form-container">
+    <h2 class="register-title">Войти в аккаунт</h2>
+
+    <form method="post" class="register-form">
+      {% csrf_token %}
+      {{ form.as_p }}
+
+      <button type="submit" class="btn-submit">Войти</button>
+    </form>
+
+    <p class="register-footer">
+      Нет аккаунта? <a href="{% url 'users:user_register' %}">Зарегистрироваться</a>
+    </p>
+  </div>
+</div>
+{% endblock %}

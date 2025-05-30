@@ -19,3 +19,23 @@ $(document).ready(function() {
     closable: true,
   });
 });
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  const dropdown = document.getElementById('userDropdown');
+  if (!dropdown) return;
+
+  const menu = dropdown.querySelector('.dropdown-menu');
+  let hideTimeout = null;
+
+  dropdown.addEventListener('mouseenter', () => {
+    clearTimeout(hideTimeout);
+    menu.style.display = 'block';
+  });
+
+  dropdown.addEventListener('mouseleave', () => {
+    hideTimeout = setTimeout(() => {
+      menu.style.display = 'none';
+    }, 300); // Задержка скрытия меню
+  });
+});
