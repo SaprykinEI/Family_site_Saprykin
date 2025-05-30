@@ -40,8 +40,6 @@ def user_login_view(request):
     return render(request, 'users/user_login.html', context=context)
 
 
-
-
 def user_profile_view(request):
     user_object = request.user
     if user_object.first_name and user_object.last_name:
