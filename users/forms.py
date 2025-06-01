@@ -3,6 +3,12 @@ from django import forms
 from users.models import User
 
 
+
+class UserLoginForm(forms.Form):
+    email = forms.EmailField()
+    password = forms.CharField(label='Пароль', widget=forms.PasswordInput)
+
+
 class UserRegisterForm(forms.ModelForm):
     password = forms.CharField(label='Пароль', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Повторите пароль', widget=forms.PasswordInput)
@@ -18,6 +24,7 @@ class UserRegisterForm(forms.ModelForm):
         return cleaned_data['password2']
 
 
-class UserLoginForm(forms.Form):
-    email = forms.EmailField()
-    password = forms.CharField(label='Пароль', widget=forms.PasswordInput)
+class UserUpdateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('email', 'first_name', 'last_name', 'phone', 'telegram', 'avatar')
