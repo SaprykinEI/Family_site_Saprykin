@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Редактировать профиль{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/users/reg_form.css' %}">
+
+<div class="register-wrapper">
+  <div class="register-image">
+    <img src="{% static 'img/famreg.jpg' %}" alt="Редактировать профиль">
+  </div>
+
+  <div class="register-form-container">
+    <h2 class="register-title">Редактировать профиль</h2>
+
+    <form method="post" class="register-form">
+      {% csrf_token %}
+      {{ form.as_p }}
+
+      <button type="submit" class="btn-submit">Сохранить изменения</button>
+      <button type="button" class="btn-submit btn-cancel" onclick="window.location.href='{% url 'users:user_profile' %}'">← Назад</button>
+
+
+    </form>
+  </div>
+</div>
+{% endblock %}

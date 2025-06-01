@@ -331,7 +331,7 @@ let getYTPVideoID = function (url) {
 					'src': 'https://www.youtube.com/iframe_api?v=' + jQuery.mbYTPlayer.version,
 					'id' : 'YTAPI'
 				});
-				jQuery('head').prepend(tag)
+				// jQuery('head').prepend(tag)
 			} else {
 				setTimeout(function () {
 					jQuery(document).trigger('YTAPIReady');
