@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/form_create_style.css' %}">
+<link rel="stylesheet" href="{% static 'css/form_style_create.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -28,11 +28,15 @@
     <div class="form-submit">
       <button type="submit">
         {% if object %}
-        Сохранить
+          Сохранить
         {% else %}
-        Добавить
+          Добавить
         {% endif %}
       </button>
+
+      {% if object %}
+      <a href="{% url 'users:user_profile' %}" class="btn-cancel">← Назад</a>
+      {% endif %}
     </div>
   </form>
 </div>

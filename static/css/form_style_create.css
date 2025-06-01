@@ -55,3 +55,23 @@ button[type="submit"] {
 button[type="submit"]:hover {
   background-color: #45a049;
 }
+
+.btn-cancel {
+  background-color: #888282;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 16px; /* было 18px, сделали 16px как у submit */
+  border-radius: 6px;
+  padding: 12px 24px; /* padding уменьшен с 14px до 12px сверху/снизу */
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: inline-block;
+  margin-left: 10px;
+  border: none;
+}
+
+.btn-cancel:hover {
+  background-color: #a69d9d;
+  color: #ffffff;
+}
