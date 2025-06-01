@@ -1,8 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-
-import json
+from django.contrib.auth.decorators import login_required
 
 from family_tree.models import Person
 from family_tree.forms import PersonForm
@@ -24,6 +23,7 @@ def persons_list_view(request):
     return render(request, 'family_tree/persons.html', context=context)
 
 
+@login_required
 def person_create_view(request):
     if request.method == 'POST':
         form = PersonForm(request.POST, request.FILES)
@@ -46,6 +46,7 @@ def person_detail_view(request, pk):
     return render(request, 'family_tree/person_detail.html', context=context)
 
 
+@login_required
 def person_update_view(request, pk):
     person_object = get_object_or_404(Person, pk=pk)
     if request.method == 'POST':
@@ -61,7 +62,7 @@ def person_update_view(request, pk):
     }
     return render(request, 'family_tree/person_create_update.html', context=context)
 
-
+@login_required
 def person_delete_view(request, pk):
     person_object = get_object_or_404(Person, pk=pk)
     if request.method == 'POST':
