@@ -36,7 +36,7 @@
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static 'css/custom.css' %}">
-        <link rel="stylesheet" href="{% static 'css/users/login.css' %}">
+        <link rel="stylesheet" href="{% static 'css/users/log_in.css' %}">
 
     {% block extra_css %}{% endblock %}
 </head>
@@ -86,7 +86,7 @@
 
                         {% if user.is_authenticated %}
                             <li class="dropdown" id="user-menu">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <a href="{% url 'users:user_profile' %}" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <img src="{{ user.avatar|user_media }}" class="avatar-circle" alt="Аватар">
                                     <span class="caret"></span>
                                 </a>
