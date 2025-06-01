@@ -12,7 +12,7 @@
 /* Левая колонка с картинкой */
 .register-image {
   flex: 1;
-  background-color: #007bff;
+  background-color: #4CAF50; /* зеленый вместо синего */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -65,14 +65,14 @@
 .register-form input[type="email"]:focus,
 .register-form input[type="password"]:focus {
   outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 8px rgba(0,123,255,0.3);
+  border-color: #4CAF50; /* зеленый */
+  box-shadow: 0 0 8px rgba(76,175,80,0.3); /* зеленая тень */
 }
 
 .btn-submit {
   width: 100%;
   padding: 14px 0;
-  background-color: #007bff;
+  background-color: #4CAF50; /* зеленый */
   color: white;
   font-weight: 700;
   font-size: 18px;
@@ -84,7 +84,7 @@
 }
 
 .btn-submit:hover {
-  background-color: #17e099;
+  background-color: #0c8f1d; /* темно-зеленый при наведении */
 }
 
 .register-footer {
@@ -95,7 +95,7 @@
 }
 
 .register-footer a {
-  color: #007bff;
+  color: #4CAF50; /* зеленый */
   font-weight: 600;
   text-decoration: none;
 }
@@ -119,4 +119,25 @@
   .register-form-container {
     padding: 20px 20px 40px;
   }
+}
+
+.btn-cancel {
+  width: 100%;
+  padding: 14px 0;
+  background-color: #ada6a6;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 18px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+  text-align: center;
+  display: inline-block;
+}
+
+.btn-cancel:hover {
+  background-color: #d5d5d5;
+  color: #333;
 }
