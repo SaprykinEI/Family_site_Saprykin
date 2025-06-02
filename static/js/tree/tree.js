@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-  // rootId приходит из шаблона, объявлен в <script> на странице
   fetch(`/tree/data/${rootId}/`)
     .then(response => {
       if (!response.ok) {
@@ -19,6 +18,19 @@ document.addEventListener("DOMContentLoaded", function () {
             nodeSpeed: 700,
             connectorsAnimation: "bounce",
             connectorsSpeed: 700
+          },
+          callback: {
+            onRender: function () {
+              document.querySelectorAll(".collapse-switch").forEach(el => {
+                if (!el.dataset.init) {
+                  el.textContent = "+";
+                  el.dataset.init = "true";
+                  el.addEventListener("click", function () {
+                    this.textContent = this.textContent === "+" ? "–" : "+";
+                  });
+                }
+              });
+            }
           }
         },
         nodeStructure: data

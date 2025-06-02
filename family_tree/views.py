@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
+from django.template.loader import render_to_string
 
 from family_tree.models import Person
 from family_tree.forms import PersonForm
@@ -92,13 +93,26 @@ def tree_data_view(request, person_id):
     except Person.DoesNotExist:
         return JsonResponse({"error": "Person not found"}, status=404)
 
-    def build_node(person):
+    def build_pair_node(person):
+        spouse = person.spouse
+
+        # Рендерим пару (мужчина + жена)
+        pair_html = render_to_string('family_tree/includes/inc_card_pair.html', {
+            'person': person,
+            'spouse': spouse,
+        })
+
+        # Берём детей пары (только общих)
+        children_nodes = []
+        for child in person.children():
+            children_nodes.append(build_pair_node(child))
+
         return {
-            "text": {"name": person.full_name},
-            "image": person.photo.url if person.photo else None,
-            "children": [build_node(child) for child in person.children()]
+            "innerHTML": pair_html,
+            "children": children_nodes,
         }
 
-    data = build_node(root)
+    data = build_pair_node(root)
     return JsonResponse(data)
+
 

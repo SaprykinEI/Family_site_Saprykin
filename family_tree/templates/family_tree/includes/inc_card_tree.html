@@ -1,0 +1,15 @@
+<div class="tree-card">
+  {% if person.photo %}
+    <img src="{{ person.photo.url }}" alt="{{ person.full_name }}" class="tree-card__photo" />
+  {% else %}
+    <div class="tree-card__photo tree-card__photo--placeholder">?</div>
+  {% endif %}
+  <div class="tree-card__info">
+    <div class="tree-card__name">{{ person.last_name }} {{ person.first_name }} <br> {{ person.patronymic }}</div>
+    <div class="tree-card__dates">
+      {% if person.birth_date %}{{ person.birth_date|date:"Y" }}{% endif %}
+      -
+      {% if person.death_date %}{{ person.death_date|date:"Y" }}{% else %}∞{% endif %}
+    </div>
+  </div>
+</div>

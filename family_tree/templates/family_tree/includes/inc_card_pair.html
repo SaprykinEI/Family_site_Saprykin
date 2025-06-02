@@ -1,0 +1,6 @@
+<div style="display: flex; gap: 8px; align-items: center;">
+  {% if spouse %}
+    {% include 'family_tree/includes/inc_card_tree.html' with person=spouse is_spouse=True %}
+  {% endif %}
+  {% include 'family_tree/includes/inc_card_tree.html' with person=person is_spouse=False %}
+</div>
