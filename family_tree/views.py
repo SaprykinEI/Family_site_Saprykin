@@ -80,11 +80,9 @@ def person_delete_view(request, pk):
 
 def tree_view(request, person_id=None):
     if person_id is None:
-        person_id = 12  # id деда, корня дерева по умолчанию
+        person_id = 12  # корень дерева по умолчанию
     root_person = get_object_or_404(Person, pk=person_id)
     return render(request, 'family_tree/tree.html', {'root_person': root_person})
-
-
 
 
 def tree_data_view(request, person_id):
@@ -110,9 +108,9 @@ def tree_data_view(request, person_id):
         return {
             "innerHTML": pair_html,
             "children": children_nodes,
+            "person_id": person.id,
+            "spouse_id": spouse.id if spouse else None
         }
 
     data = build_pair_node(root)
     return JsonResponse(data)
-
-

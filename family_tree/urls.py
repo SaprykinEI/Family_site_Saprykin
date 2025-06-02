@@ -3,7 +3,6 @@ from family_tree.apps import FamilyTreeConfig
 
 from family_tree.views import index_view, persons_list_view, person_create_view, person_detail_view, person_update_view, \
     person_delete_view, tree_view, tree_data_view
-
 app_name = 'family_tree'
 
 urlpatterns = [
