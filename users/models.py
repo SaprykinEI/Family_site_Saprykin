@@ -8,7 +8,7 @@ class User(AbstractUser):
     username = None
     email = models.EmailField(unique=True, verbose_name="Email")
     first_name = models.CharField(max_length=150, verbose_name="Имя", default="Анонимный")
-    last_name = models.CharField(max_length=150, verbose_name="Имя", default="Пользователь")
+    last_name = models.CharField(max_length=150, verbose_name="Фамилия", default="Пользователь")
     phone = models.CharField(max_length=20, verbose_name="Телефон", **NULLABLE)
     telegram = models.CharField(max_length=150, verbose_name="Телеграм", **NULLABLE)
     avatar = models.ImageField(upload_to='users/', verbose_name="Фото профиля", **NULLABLE)
