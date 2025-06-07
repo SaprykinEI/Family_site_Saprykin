@@ -38,7 +38,7 @@ class UserChangePasswordForm(PasswordChangeForm):
 
 
 class ConfirmationCodeForm(forms.Form):
-    code =forms.CharField(max_length=6)
+    code = forms.CharField(max_length=6)
 
 class ResetPasswordForm(forms.Form):
     email = forms.EmailField(label="Введите ваш email")

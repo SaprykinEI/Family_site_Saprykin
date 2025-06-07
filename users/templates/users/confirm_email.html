@@ -1,24 +1,50 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Подтверждение Email{% endblock %}
 
 {% block content %}
-<div class="container mt-5" style="max-width: 500px;">
-    <h2 class="mb-4 text-center">Подтверждение Email</h2>
+<!-- Подключение CSS -->
+<link rel="stylesheet" href="{% static 'css/users/code_confirm.css' %}">
+
+<div class="register-wrapper">
+  <div class="register-image">
+    <img src="{% static 'img/111.jpg' %}" alt="Подтверждение">
+  </div>
+
+  <div class="register-form-container">
+    <h2 class="register-title">Подтверждение Email</h2>
 
     {% if messages %}
-        {% for message in messages %}
-            <div class="alert alert-{{ message.tags }}">
-                {{ message }}
-            </div>
-        {% endfor %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+          {{ message }}
+        </div>
+      {% endfor %}
     {% endif %}
 
-    <form method="post">
-        {% csrf_token %}
-        <div class="mb-3">
-            {{ form.code.label_tag }}
-            {{ form.code }}
-        </div>
-        <button type="submit" class="btn btn-primary w-100">Подтвердить</button>
+    <form method="post" class="register-form" id="code-form">
+      {% csrf_token %}
+
+      <!-- Блок 6 клеточек -->
+      <div class="code-inputs">
+        {% for i in "123456" %}
+          <input type="text" maxlength="1" class="code-input" name="code_{{ forloop.counter }}" inputmode="numeric" pattern="\d*" required>
+        {% endfor %}
+      </div>
+
+      <!-- Скрытое поле, собирающее весь код -->
+      <input type="hidden" name="code" id="code-hidden">
+
+      <button type="submit" class="btn-submit mt-3">Подтвердить</button>
     </form>
+
+    <p class="register-footer">
+      Нужна помощь? <a href="{% url 'users:user_register' %}">Зарегистрироваться заново</a>
+    </p>
+  </div>
 </div>
+
+<!-- Подключение JS -->
+<script src="{% static 'js/users/code-confirmation.js' %}"></script>
 {% endblock %}
