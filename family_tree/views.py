@@ -30,7 +30,9 @@ def person_create_view(request):
     if request.method == 'POST':
         form = PersonForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            person_object = form.save()
+            person_object.creator = request.user
+            person_object.save()
             return HttpResponseRedirect(reverse('family_tree:persons'))
     context = {
         'title': 'Добавить члена семьи',
