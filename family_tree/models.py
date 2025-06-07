@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 from users.models import NULLABLE
 
@@ -22,6 +23,9 @@ class Person(models.Model):
     playlist = models.URLField(**NULLABLE, verbose_name="Любимая музыка")
     hobbies = models.CharField(max_length=500, **NULLABLE, verbose_name="Хобби")
 
+
+    creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL,
+                                related_name='created_people', **NULLABLE, verbose_name="Создатель карточки")
     mother = models.ForeignKey('self', on_delete=models.SET_NULL,
                                related_name='children_from_mother', **NULLABLE, verbose_name="Мать")
     father = models.ForeignKey('self', on_delete=models.SET_NULL,
