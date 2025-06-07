@@ -2,7 +2,7 @@
   position: relative;
   display: flex;
   align-items: center;
-  width: 260px; /* Ширина карточки */
+  width: 260px;
   padding: 8px 12px;
   background: #f1f1f1;
   border-radius: 10px;
@@ -99,4 +99,3 @@
   right: 1px;
   user-select: none;
 }
-

@@ -1,6 +1,10 @@
 <div style="display: flex; gap: 8px; align-items: center;">
   {% if spouse %}
-    {% include 'family_tree/includes/inc_card_tree.html' with person=spouse is_spouse=True %}
+    <div class="spouse-wrapper" data-spouse-id="{{ spouse.id }}" style="cursor: pointer;" title="Показать родословную супруги">
+      {% include 'family_tree/includes/inc_card_tree.html' with person=spouse is_spouse=True %}
+    </div>
   {% endif %}
-  {% include 'family_tree/includes/inc_card_tree.html' with person=person is_spouse=False %}
+  <div>
+    {% include 'family_tree/includes/inc_card_tree.html' with person=person is_spouse=False %}
+  </div>
 </div>
