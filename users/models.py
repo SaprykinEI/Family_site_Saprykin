@@ -13,6 +13,8 @@ class User(AbstractUser):
     telegram = models.CharField(max_length=150, verbose_name="Телеграм", **NULLABLE)
     avatar = models.ImageField(upload_to='users/', verbose_name="Фото профиля", **NULLABLE)
     is_active = models.BooleanField(default=True, verbose_name="Активность")
+    is_verified = models.BooleanField(default=False, verbose_name="Подтверждение почты")
+    confirmation_code = models.CharField(max_length=6, **NULLABLE, verbose_name="Код подтверждения")
 
     # Communication with a Person (one-to-one)
     person = models.OneToOneField('family_tree.Person', on_delete=models.SET_NULL, **NULLABLE, related_name='user')
