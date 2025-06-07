@@ -35,3 +35,10 @@ class UserUpdateForm(forms.ModelForm):
 
 class UserChangePasswordForm(PasswordChangeForm):
     pass
+
+
+class ConfirmationCodeForm(forms.Form):
+    code =forms.CharField(max_length=6)
+
+class ResetPasswordForm(forms.Form):
+    email = forms.EmailField(label="Введите ваш email")
