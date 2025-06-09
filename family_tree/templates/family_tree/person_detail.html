@@ -21,8 +21,10 @@
         {{ person.profession }}
       </div>
       <div class="header-action-buttons">
+        {% if user.is_staff or user == object.creator %}
         <a href="{% url 'family_tree:person_update' person.id %}" class="btn btn-outline-light btn-edit">Редактировать</a>
         <a href="{% url 'family_tree:person_delete' person.id %}" class="btn btn-outline-light btn-delete">Удалить</a>
+        {% endif %}
       </div>
     </div>
   </div>
