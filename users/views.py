@@ -64,34 +64,24 @@ class UserProfileView(LoginRequiredMixin, TemplateView):
         return context
 
 
-# @login_required(login_url='users:user_login')
-# def user_profile_view(request):
-#     user_object = request.user
-#     if user_object.first_name and user_object.last_name:
-#         user_name = user_object.first_name + ' ' + user_object.last_name
-#     else:
-#         user_name = "Анонимный пользователь"
-#     context = {
-#         'title': f"Ваш профиль: {user_name}"
-#     }
-#     return render(request, 'users/user_profile.html', context=context)
+class UserUpdateView(LoginRequiredMixin, UpdateView):
+    model = User
+    form_class = UserUpdateForm
+    template_name = 'users/user_update.html'
+    success_url = reverse_lazy('users:user_profile')
+    login_url = reverse_lazy('users:user_login')
+
+    def get_object(self, queryset=None):
+        return self.request.user
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        context['title'] = f"Изменить данные профиля {user.first_name} {user.last_name}"
+        return context
 
 
-@login_required(login_url='users:user_login')
-def user_update_view(request):
-    user_object = request.user
-    if request.method == 'POST':
-        form = UserUpdateForm(request.POST, request.FILES, instance=user_object)
-        if form.is_valid():
-            user_object = form.save()
-            user_object.save()
-            return HttpResponseRedirect(reverse('users:user_profile'))
-    context = {
-        'object': user_object,
-        'title': f"Изменить данные профиля {user_object.first_name} {user_object.last_name}",
-        'form': UserUpdateForm(instance=user_object)
-    }
-    return render(request, 'users/user_update.html', context=context)
+
 
 
 @login_required(login_url='users:user_login')
