@@ -3,6 +3,9 @@ from django.http import  HttpResponseRedirect, HttpResponse
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.urls import reverse_lazy
+from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView
+from django.views.generic import ListView, UpdateView, DeleteView, FormView, TemplateView
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -12,46 +15,40 @@ from users.forms import (UserRegisterForm, UserLoginForm, UserUpdateForm, UserCh
 from users.services import send_confirmation_email, send_new_password, generate_new_password
 
 
-def user_register_view(request):
-    if request.method == 'POST':
-        form = UserRegisterForm(request.POST)
-        if form.is_valid():
-            new_user = form.save(commit=False)
-            new_user.is_active = False  # Пользователь неактивен до подтверждения
-            new_user.set_password(form.cleaned_data['password'])
-            new_user.save()
-
-            send_confirmation_email(new_user)
-
-            request.session['pending_user_email'] = new_user.email
-            messages.info(request, 'Проверьте почту и введите код подтверждения')
-            return redirect('users:confirm_email')
-    else:
-        form = UserRegisterForm()
-
-    context = {
-        'title': 'Создать аккаунт',
-        'form': form
+class UserRegisterView(FormView):
+    form_class = UserRegisterForm
+    template_name = 'users/user_register.html'
+    success_url = reverse_lazy('users:confirm_email')
+    extra_context = {
+        'tittle': "Создайте новый аккаунт"
     }
-    return render(request, 'users/user_register.html', context=context)
+
+    def form_valid(self, form):
+        new_user = form.save(commit=False)
+        new_user.is_active = False
+        new_user.set_password(form.cleaned_data['password1'])
+        new_user.save()
+
+        send_confirmation_email(new_user)
+
+        # Сохраняем email нового пользователя во временное хранилище (сессию)
+        self.request.session['pending_user_email'] = new_user.email
+        messages.info(self.request, "Проверьте почту и введите код подтверждения")
+
+        return super().form_valid(form)
 
 
-def user_login_view(request):
-    if request.method == 'POST':
-        form = UserLoginForm(request.POST)
-        if form.is_valid():
-            cleaned_data = form.cleaned_data
-            user = authenticate(email=cleaned_data['email'], password=cleaned_data['password'])
-            if user is not None:
-                if user.is_active:
-                    login(request, user)
-                    return HttpResponseRedirect(reverse('family_tree:index'))
-            return HttpResponse("Вы не зарегистрированы, или ввели не верные данные.")
-    context = {
-        'title': 'Вход в аккаунт',
-        'form': UserLoginForm
+
+class UserLoginView(LoginView):
+    form_class = UserLoginForm
+    template_name = 'users/user_login.html'
+    success_url = reverse_lazy('family_tree:index')
+    extra_context = {
+        'tittle': "Вход в аккаунт"
     }
-    return render(request, 'users/user_login.html', context=context)
+
+
+
 
 
 @login_required(login_url='users:user_login')
