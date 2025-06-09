@@ -81,26 +81,26 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
         return context
 
 
+class UserChangePasswordView(LoginRequiredMixin, PasswordChangeView):
+    template_name = 'users/user_change_password.html'
+    success_url = reverse_lazy('users:user_profile')
+    login_url = reverse_lazy('users:user_login')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        context['title'] = f"Изменение пароля {user.first_name} {user.last_name}"
+        return context
+
+    def form_valid(self, form):
+        messages.success(self.request, "Пароль был успешно изменён!")
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, "Не удалось изменить пароль!")
+        return super().form_invalid(form)
 
 
-
-@login_required(login_url='users:user_login')
-def user_change_password_view(request):
-    user_object = request.user
-    form = UserChangePasswordForm(user_object, request.POST)
-    if request.method == 'POST':
-        if form.is_valid():
-            user_object = form.save()
-            update_session_auth_hash(request, user_object)
-            messages.success(request, "Пароль был успешно изменён!")
-            return HttpResponseRedirect(reverse('users:user_profile'))
-        else:
-            messages.error(request, "Не удалось изменить пароль")
-    context = {
-        'title': f"Изменение пароля {user_object.first_name} {user_object.last_name}",
-        'form': form
-    }
-    return render(request, 'users/user_change_password.html', context=context)
 
 
 @login_required(login_url='users:user_login')
