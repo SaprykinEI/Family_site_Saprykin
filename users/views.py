@@ -2,6 +2,7 @@ from django.shortcuts import render, reverse, redirect
 from django.http import  HttpResponseRedirect, HttpResponse
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView
@@ -30,13 +31,11 @@ class UserRegisterView(FormView):
         new_user.save()
 
         send_confirmation_email(new_user)
-
         # Сохраняем email нового пользователя во временное хранилище (сессию)
         self.request.session['pending_user_email'] = new_user.email
         messages.info(self.request, "Проверьте почту и введите код подтверждения")
 
         return super().form_valid(form)
-
 
 
 class UserLoginView(LoginView):
@@ -48,20 +47,34 @@ class UserLoginView(LoginView):
     }
 
 
+class UserProfileView(LoginRequiredMixin, TemplateView):
+    template_name = 'users/user_profile.html'
+    login_url = reverse_lazy('users:user_login')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+
+        if user.first_name and user.last_name:
+            user_name = f"{user.first_name} {user.last_name}"
+        else:
+            user_name = "Анонимный пользователь"
+
+        context['title'] = f"Ваш профиль: {user_name}"
+        return context
 
 
-
-@login_required(login_url='users:user_login')
-def user_profile_view(request):
-    user_object = request.user
-    if user_object.first_name and user_object.last_name:
-        user_name = user_object.first_name + ' ' + user_object.last_name
-    else:
-        user_name = "Анонимный пользователь"
-    context = {
-        'title': f"Ваш профиль: {user_name}"
-    }
-    return render(request, 'users/user_profile.html', context=context)
+# @login_required(login_url='users:user_login')
+# def user_profile_view(request):
+#     user_object = request.user
+#     if user_object.first_name and user_object.last_name:
+#         user_name = user_object.first_name + ' ' + user_object.last_name
+#     else:
+#         user_name = "Анонимный пользователь"
+#     context = {
+#         'title': f"Ваш профиль: {user_name}"
+#     }
+#     return render(request, 'users/user_profile.html', context=context)
 
 
 @login_required(login_url='users:user_login')
