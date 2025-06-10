@@ -5848,7 +5848,7 @@ ul.sr-item-attr > li a:hover {
 
 .owl-carousel.cc-height-full .owl-stage-outer,
 .owl-carousel.cc-height-full .owl-stage,
-.owl-carousel.cc-height-full .owl-item, {
+.owl-carousel.cc-height-full .owl-item {
 	height: 100%;
 }
 

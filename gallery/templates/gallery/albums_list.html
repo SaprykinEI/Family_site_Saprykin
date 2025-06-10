@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<!-- Begin page header inner -->
+<div class="page-header-inner tt-wrap" xmlns:year>
+    <div class="page-header-caption ph-caption-lg parallax-5">
+        <h1 class="page-header-title">Семейный Фотоальбом</h1>
+        <hr class="hr-short">
+
+        <div class="page-header-description" data-max-words="40">
+            <p> альбомы – это не просто собрание фотографий, это живое отражение истории,
+                эмоций и традиций каждой семьи. Они позволяют не только запечатлеть важные моменты,
+                но и передать их будущим поколениям, создавая уникальную связь между прошлым и настоящим.
+                Альбомы становятся хранилищем воспоминаний, которые можно пересматривать,
+                обсуждать и делиться с близкими.</p>
+        </div>
+    </div>
+</div>
+</section>
+
+<section id="gallery-list-section">
+    <div class="isotope-wrap tt-wrap">
+        <div class="gallery-container">
+            <div class="filter-sidebar">
+                <div class="filter-group">
+                    <h4>Категории</h4>
+                    <div class="isotope-filter">
+                        <ul class="isotope-filter-links">
+                            <li><a href="#" class="active" data-filter="*">Все альбомы</a></li>
+                            {% for category in categories %}
+                                <li><a href="#" data-filter=".category-{{ category.id }}">{{ category.name }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <h4>Год</h4>
+                    <select class="form-control" id="year-filter">
+                        <option value="*">Все годы</option>
+                        {% for year in years %}
+                            <option value="{{ year }}"
+                                {% if request.GET.year == year|stringformat:"s" %}selected{% endif %}>
+                                {{ year }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <h4>Теги</h4>
+                    <div class="tag-cloud">
+                        <a href="{% url 'gallery:album_list' %}" class="tag" data-tag="*">Все теги</a>
+                        {% for tag in tags %}
+                            <a href="{% url 'gallery:album_list' %}?tag={{ tag.id }}" class="tag">{{ tag.name }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <h4>Люди</h4>
+                    <div class="tag-cloud">
+                        {% for person in persons %}
+                            <a href="{% url 'gallery:album_list' %}?person={{ person.id }}" class="tag">{{ person.name }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <h4>Поиск</h4>
+                    <input type="text" class="form-control" id="album-search" placeholder="Название альбома...">
+                </div>
+            </div>
+
+            <div class="albums-container">
+                <div class="isotope col-3 gutter-3">
+                    <div class="isotope-items-wrap gli-colored gli-frame gli-alter-3">
+                        <div class="grid-sizer"></div>
+
+                        {% for album in albums %}
+                        <div class="isotope-item category-{{ album.category.id }} year-{{ album.date.year }} iso-height-1">
+                            <div class="gallery-list-item">
+                                <div class="gl-item-image-wrap">
+                                    <a href="#" class="gl-item-image-inner">
+                                        <div class="gl-item-image bg-image" style="background-image: url({{ album.cover_image.url }});"></div>
+                                        <span class="gl-item-image-zoom"></span>
+                                    </a>
+
+                                    <ul class="gli-meta">
+                                        <li>
+                                            <div class="favorite-btn">
+                                                <div class="fav-inner">
+                                                    <div class="icon-heart">
+                                                        <span class="icon-heart-empty"></span>
+                                                        <span class="icon-heart-filled"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="fav-count">{{ album.likes_count }}</div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="gl-item-info">
+                                    <div class="gl-item-caption">
+                                        <h2 class="gl-item-title"><a href="#">{{ album.title }}</a></h2>
+                                        <span class="gl-item-category">
+                                            <a href="{% url 'gallery:album_list' %}?category={{ album.category.id }}">{{ album.category.name }}</a>
+                                            {% if album.tags.exists %}
+                                                {% for tag in album.tags.all %}
+                                                    , <a href="{% url 'gallery:album_list' %}?tag={{ tag.id }}">{{ tag.name }}</a>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="isotope-pagination">
+                        <div class="iso-load-more">
+                            {% if page_obj.has_next %}
+                                <a class="btn btn-dark-bordered btn-lg" href="?page={{ page_obj.next_page_number }}">Показать еще <i class="fas fa-refresh"></i></a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+            <!-- Пагинация -->
+            <div class="isotope-pagination">
+                <div class="iso-load-more">
+                    {% if page_obj.has_next %}
+                    <a class="btn btn-dark-bordered btn-lg" href="?page={{ page_obj.next_page_number }}">Показать еще <i class="fas fa-refresh"></i></a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Добавим скрипт для фильтрации -->
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
+<script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
+<script src="{% static 'js/gallery/filter_gallery.js' %}"></script>
+
+{% endblock %}
