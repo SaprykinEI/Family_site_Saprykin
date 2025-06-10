@@ -62,6 +62,10 @@ class Photo(models.Model):
     def __str__(self):
         return self.caption or f"Фото от {self.date_taken}"
 
+    class Meta:
+        verbose_name = "Фотография"
+        verbose_name_plural = "Фотографии"
+
 
 class Video(models.Model):
     file = models.FileField(upload_to=video_upload_path, **NULLABLE, verbose_name="Видео")
@@ -76,3 +80,7 @@ class Video(models.Model):
 
     def __str__(self):
         return self.caption or f"Видео от {self.date_taken}"
+
+    class Meta:
+        verbose_name = "Видео"
+        verbose_name_plural = "Видео"
