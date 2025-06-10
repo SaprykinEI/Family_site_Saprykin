@@ -1,0 +1,13 @@
+.logout-button {
+  all: unset;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+  padding: 10px 10px 10px 0;
+  margin-left: 20px; /* отступ слева */
+  transition: color 0.3s ease;
+}
+
+.logout-button:hover {
+  color: #007bff; /* голубой цвет при наведении */
+}

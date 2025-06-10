@@ -6,7 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView
-from django.views.generic import ListView, UpdateView, DeleteView, FormView, TemplateView
+from django.views.generic import  UpdateView,  FormView, TemplateView, View
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -82,6 +82,7 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
 
 
 class UserChangePasswordView(LoginRequiredMixin, PasswordChangeView):
+    form_class = UserChangePasswordForm
     template_name = 'users/user_change_password.html'
     success_url = reverse_lazy('users:user_profile')
     login_url = reverse_lazy('users:user_login')
@@ -101,31 +102,35 @@ class UserChangePasswordView(LoginRequiredMixin, PasswordChangeView):
         return super().form_invalid(form)
 
 
+class UserLogoutView(LogoutView):
+    pass
 
 
-@login_required(login_url='users:user_login')
-def user_logout_view(request):
-    logout(request)
-    return redirect('family_tree:index')
+class ConfirmEmailView(View):
+    form_class = ConfirmationCodeForm
+    template_name = 'users/confirm_email.html'
+    success_url = reverse_lazy('users:user_login')
+    error_url = reverse_lazy('users:user_register')
 
+    def get(self, request):
+        form = self.form_class()
+        return render(request, self.template_name, {'form': form})
 
-def confirm_email_view(request):
-    form = ConfirmationCodeForm(request.POST)
-
-    if request.method == 'POST':
+    def post(self, request):
+        form = self.form_class(request.POST)
         if form.is_valid():
             code = form.cleaned_data['code']
             email = request.session.get('pending_user_email')
 
             if not email:
-                messages.error(request, "Сессия истекла. Повторите регистрацию.")
-                return redirect('users:user_register')
+                messages.error(request, "Сессия истекла. Повторите регистрацию")
+                return redirect(self.error_url)
 
             try:
                 user = User.objects.get(email=email)
             except User.DoesNotExist:
                 messages.error(request, "Пользователь не найден.")
-                return redirect('users:user_register')
+                return redirect(self.error_url)
 
             if user.confirmation_code == code:
                 user.is_active = True
@@ -135,35 +140,38 @@ def confirm_email_view(request):
                 del request.session['pending_user_email']
 
                 messages.success(request, "Email подтверждён. Добро пожаловать в семью!")
-                return redirect('users:user_login')
+                return redirect(self.success_url)
             else:
                 messages.error(request, "Неверный код подтверждения, попробуйте снова.")
+        return render(request, self.template_name, {'form': form})
 
 
-    return render(request, 'users/confirm_email.html', {'form': form})
+class ResetPasswordView(View):
+    form_class = ResetPasswordForm
+    template_name = 'users/reset_password.html'
+    success_url = reverse_lazy('users:user_login')
+    error_url = reverse_lazy('users:reset_password')
 
+    def get(self, request):
+        form = self.form_class()
+        return render(request, self.template_name, {'form': form})
 
-@login_required(login_url='users:user_login')
-def reset_password_view(request):
-    form = ResetPasswordForm(request.POST or None)
-
-    if request.method == 'POST':
+    def post(self, request):
+        form = self.form_class(request.POST)
         if form.is_valid():
             email = form.cleaned_data['email']
-
             try:
                 user = User.objects.get(email=email)
             except User.DoesNotExist:
                 messages.error(request, "Пользователь с таким email не найден.")
-                return redirect('users:reset_password')
+                return redirect(self.error_url)
 
             new_password = generate_new_password()
             user.set_password(new_password)
             user.save()
 
             send_new_password(email, new_password)
-
             messages.success(request, "Новый пароль был отправлен на вашу почту.")
-            return redirect('users:user_login')
+            return redirect(self.success_url)
 
-    return render(request, 'users/reset_password.html', {'form': form})
+        return render(request, self.template_name, {'form': form})
