@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     # project apps
     'users',
     'family_tree',
+    'gallery',
 ]
 
 MIDDLEWARE = [
