@@ -1,0 +1,123 @@
+/* Стили горизонтальных фильтров */
+
+.filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 30px 0;
+    padding: 0 15px;
+}
+
+.filter-bar a,
+.filter-bar button,
+.filter-bar .tag {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 14px;
+    text-decoration: none;
+    background-color: #f2f2f2;
+    color: #333;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.filter-bar a:hover,
+.filter-bar button:hover,
+.filter-bar .tag:hover {
+    background-color: #dcdcdc;
+    color: #000;
+}
+
+.filter-bar .active {
+    background-color: #333;
+    color: #fff;
+}
+
+.filter-section {
+    margin: 20px 0 30px;
+    padding: 0 15px;
+}
+
+.filter-label {
+    font-weight: 600;
+    margin: 10px 0 8px;
+    font-size: 16px;
+    color: #222;
+}
+
+.filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 15px;
+    margin: 20px 0;
+    padding: 0 15px;
+}
+
+.filter-inline-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.filter-inline-group label {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 4px;
+    color: #444;
+}
+
+.filter-inline-group select,
+.filter-inline-group input[type="text"] {
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    min-width: 160px;
+    font-size: 14px;
+}
+
+.search-group input[type="text"] {
+    min-width: 200px;
+}
+
+.button-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.btn-filter-apply,
+.btn-filter-reset {
+    padding: 8px 18px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    text-align: center;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.btn-filter-apply {
+    background-color: #05945e;
+    color: #fff;
+    border: 1px solid transparent;
+}
+
+.btn-filter-apply:hover {
+    background-color: #3bc076;
+}
+
+.btn-filter-reset {
+    background-color: transparent;
+    color: #444;
+    border: 1px solid #ccc;
+}
+
+.btn-filter-reset:hover {
+    background-color: #f0f0f0;
+    border-color: #bbb;
+}
+
+

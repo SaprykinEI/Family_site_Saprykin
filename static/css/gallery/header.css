@@ -1,0 +1,33 @@
+.page-header-inner {
+
+    position: relative;
+    background-color: #f0f0f0;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    color: white;
+    padding: 80px 20px;
+    border-radius: 12px;
+
+}
+
+.page-header-title {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 0.5em;
+
+}
+
+.page-header-description p {
+    font-size: 15px;
+    line-height: 1.5;
+    max-width: 700px;
+
+}
+
+.hr-short {
+    width: 80px;
+    border: 2px solid white;
+    margin: 0 auto 1.5rem;
+    border-radius: 2px;
+}
