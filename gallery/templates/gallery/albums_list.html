@@ -3,7 +3,7 @@
 {% block content %}
 
 <link rel="stylesheet" href="{% static 'css/gallery/header.css' %}">
-<link rel="stylesheet" href="{% static 'css/gallery/filters_album.css' %}">
+<link rel="stylesheet" href="{% static 'css/gallery/filter_albums.css' %}">
 
 
 <!-- Begin page header inner -->
@@ -85,11 +85,13 @@
                     </div>
                 </div>
 
-                <!-- Кнопки применить / сбросить -->
+                <!-- Кнопки применить / сбросить / Создать альбом-->
                 <div class="filter-row button-row">
                     <button type="submit" class="btn-filter-apply">Применить фильтры</button>
                     <a href="{% url 'gallery:album_list' %}" class="btn-filter-reset">Сбросить фильтры</a>
+                    <a href="{% url 'gallery:album_create' %}" class="btn-create-album">Создать альбом</a>
                 </div>
+
 
             </form>  {# ЗАКРЫЛИ ФОРМУ ЗДЕСЬ #}
 

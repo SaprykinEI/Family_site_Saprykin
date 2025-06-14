@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Создание альбома{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/gallery/album_create.css' %}">
+
+<div class="register-wrapper">
+
+  <h2 class="register-title">Создание альбома</h2>
+
+  <form method="post" class="register-form">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit" class="btn-submit">Создать</button>
+  </form>
+
+
+  <p class="register-footer" style="margin-top: 20px;">
+    <a href="{% url 'gallery:album_list' %}">← Вернуться к списку альбомов</a>
+  </p>
+</div>
+{% endblock %}
