@@ -11,6 +11,7 @@ from rest_framework.reverse import reverse_lazy
 
 from gallery.models import Album, Category, Tag, Photo, Video
 from gallery.forms import AlbumCreateForm, PhotoUploadForm
+from gallery.utils import convert_photo_to_webp
 
 from family_tree.models import Person
 
@@ -112,6 +113,9 @@ class FileUploadView(View):
                 album=album,
                 image=uploaded_file,
             )
+            # Конвертация загруженного фото в WebP
+            convert_photo_to_webp(photo)
+
             return JsonResponse({
                 'status': 'ok',
                 'type': 'photo',

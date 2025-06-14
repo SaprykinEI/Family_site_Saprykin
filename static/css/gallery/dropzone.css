@@ -1,0 +1,7 @@
+.dropzone {
+  margin: 20px 0; /* сверху и снизу отступ по 20px */
+  padding: 15px;  /* внутренние отступы */
+  border-radius: 8px; /* скруглить углы, если хочешь */
+  border: 2px dashed #ccc; /* чтобы рамка была мягче */
+  background-color: #fafafa; /* светлый фон */
+}
