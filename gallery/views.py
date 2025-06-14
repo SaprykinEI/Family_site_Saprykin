@@ -1,12 +1,15 @@
-from django.shortcuts import redirect
+from django.http import JsonResponse
+from django.shortcuts import redirect, render
 from django.urls import reverse
-from django.views.generic import ListView, FormView, CreateView
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
+from django.views.generic import ListView, FormView, CreateView, View
 from django.db.models import Q, F, Value, CharField
 from django.db.models.functions import ExtractYear
 from rest_framework.generics import get_object_or_404
 from rest_framework.reverse import reverse_lazy
 
-from gallery.models import Album, Category, Tag, Photo
+from gallery.models import Album, Category, Tag, Photo, Video
 from gallery.forms import AlbumCreateForm, PhotoUploadForm
 
 from family_tree.models import Person
@@ -86,26 +89,46 @@ class AlbumCreateView(CreateView):
         return reverse_lazy('gallery:photo_upload', kwargs={'album_id': self.object.id})
 
 
-class PhotoUploadView(FormView):
-    """Класс загрузки фотографий"""
-    template_name = 'gallery/photo_upload.html'
-    form_class = PhotoUploadForm
+class PhotoUploadPageView(View):
+    """Отображает страницу загрузки медиа в альбом"""
+    def get(self, request, album_id):
+        album = get_object_or_404(Album, id=album_id)
+        return render(request, 'gallery/photo_upload.html', {'album': album})
 
-    def dispatch(self, request, *args, **kwargs):
-        """Получение альбома по id из url"""
-        self.album = get_object_or_404(Album, id=kwargs['album_id'])
-        return super().dispatch(request, *args, **kwargs)
 
-    def form_valid(self, form):
-        """Сохранение фото, связанного с альбомом"""
-        photo = form.save(commit=False)
-        photo.album = self.album
-        photo.save()
-        form.save_m2m()
-        return redirect('gallery:photo_upload', album_id=self.album.id)
+@method_decorator(csrf_exempt, name='dispatch')
+class FileUploadView(View):
+    def post(self, request, album_id):
+        album = get_object_or_404(Album, id=album_id)
+        uploaded_file = request.FILES.get('file')
 
-    def get_context_data(self, **kwargs):
-        """Добавление альбома в шаблон"""
-        context = super().get_context_data(**kwargs)
-        context['album'] = self.album
-        return context
+        if not uploaded_file:
+            return JsonResponse({'status': 'error', 'message': 'Файл не передан'}, status=400)
+
+        content_type = uploaded_file.content_type
+
+        if content_type.startswith('image/'):
+            photo = Photo.objects.create(
+                album=album,
+                image=uploaded_file,
+            )
+            return JsonResponse({
+                'status': 'ok',
+                'type': 'photo',
+                'id': photo.id,
+                'filename': photo.image.name,
+            })
+
+        elif content_type.startswith('video/'):
+            video = Video.objects.create(
+                album=album,
+                file=uploaded_file,
+            )
+            return JsonResponse({
+                'status': 'ok',
+                'type': 'video',
+                'id': video.id,
+                'filename': video.file.name,
+            })
+
+        return JsonResponse({'status': 'error', 'message': 'Неподдерживаемый тип файла'}, status=400)
