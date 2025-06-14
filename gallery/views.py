@@ -101,6 +101,7 @@ class PhotoUploadView(FormView):
         photo = form.save(commit=False)
         photo.album = self.album
         photo.save()
+        form.save_m2m()
         return redirect('gallery:photo_upload', album_id=self.album.id)
 
     def get_context_data(self, **kwargs):

@@ -1,10 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load static %}
 
-</body>
-</html>
+{% block title %}Загрузка фотографий{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/gallery/album_create.css' %}">
+
+<div class="register-wrapper">
+
+  <h2 class="register-title">Загрузка фотографий в альбом "{{ album.title }}"</h2>
+
+    <form method="post" enctype="multipart/form-data" class="register-form">
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+
+      <p>
+        {{ form.image.label_tag }}
+        {{ form.image.errors }}
+        {{ form.image }}
+      </p>
+
+      <p>
+        {{ form.caption.label_tag }}
+        {{ form.caption.errors }}
+        {{ form.caption }}
+      </p>
+
+      <p>
+        {{ form.people.label_tag }}
+        {{ form.people.errors }}
+        {{ form.people }}
+      </p>
+
+      <p>
+        {{ form.tags.label_tag }}
+        {{ form.tags.errors }}
+        {{ form.tags }}
+      </p>
+
+      <button type="submit" class="btn-submit">Загрузить</button>
+    </form>
+
+  <p class="register-footer" style="margin-top: 20px;">
+    <a href="{% url 'gallery:album_list' %}">← Вернуться к списку альбомов</a>
+  </p>
+</div>
+{% endblock %}

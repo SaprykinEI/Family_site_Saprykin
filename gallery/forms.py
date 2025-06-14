@@ -33,6 +33,6 @@ class PhotoUploadForm(forms.ModelForm):
         model = Photo
         fields = ['image', 'caption', 'people', 'tags']
         widgets = {
-            'people': forms.CheckboxSelectMultiple,
-            'tags': forms.CheckboxSelectMultiple,
+            'people': forms.SelectMultiple(attrs={'class': 'form-control', 'size': '6'}),
+            'tags': forms.SelectMultiple(attrs={'class': 'form-control', 'size': '6'}),
         }
