@@ -1,12 +1,14 @@
+from venv import create
+
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import ListView, FormView, CreateView, View
+from django.views.generic import ListView, FormView, CreateView, View, DetailView
 from django.db.models import Q, F, Value, CharField
 from django.db.models.functions import ExtractYear
-from rest_framework.generics import get_object_or_404
+from django.shortcuts import get_object_or_404
 from rest_framework.reverse import reverse_lazy
 
 from gallery.models import Album, Category, Tag, Photo, Video
@@ -87,20 +89,35 @@ class AlbumCreateView(CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse_lazy('gallery:photo_upload', kwargs={'album_id': self.object.id})
+        return reverse_lazy('gallery:photo_upload', kwargs={'pk': self.object.id})
+
+
+class AlbumDetailView(DetailView):
+    model = Album
+    template_name = 'gallery/album_detail.html'
+    context_object_name = 'album'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        album = self.get_object()
+
+        context['previous_album'] = Album.objects.filter(pk__lt=album.pk).order_by('-pk').first()
+        context['next_album'] = Album.objects.filter(pk__gt=album.pk).order_by('-pk').first()
+
+        return context
 
 
 class PhotoUploadPageView(View):
     """Отображает страницу загрузки медиа в альбом"""
-    def get(self, request, album_id):
-        album = get_object_or_404(Album, id=album_id)
+    def get(self, request, pk):
+        album = get_object_or_404(Album, id=pk)
         return render(request, 'gallery/photo_upload.html', {'album': album})
 
 
 @method_decorator(csrf_exempt, name='dispatch')
 class FileUploadView(View):
-    def post(self, request, album_id):
-        album = get_object_or_404(Album, id=album_id)
+    def post(self, request, pk):
+        album = get_object_or_404(Album, id=pk)
         uploaded_file = request.FILES.get('file')
 
         if not uploaded_file:
