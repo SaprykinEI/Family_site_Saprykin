@@ -40,6 +40,8 @@ class Album(models.Model):
     cover_image = models.ImageField(upload_to='album_covers/', verbose_name="Обложка альбома")
     created_at = models.DateTimeField(auto_now_add=True, **NULLABLE, verbose_name="Дата создания")
 
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL,  **NULLABLE,
+                                related_name='albums', verbose_name='Владелец альбома')
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, **NULLABLE,
                                  related_name='albums', verbose_name="Категория")
     tags = models.ManyToManyField(Tag, blank=True, related_name='albums', verbose_name="Теги")
