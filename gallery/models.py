@@ -38,6 +38,7 @@ class Album(models.Model):
     location = models.CharField(max_length=255, **NULLABLE, verbose_name="Локация")
     description = models.TextField(**NULLABLE, verbose_name="Описание альбома")
     cover_image = models.ImageField(upload_to='album_covers/', verbose_name="Обложка альбома")
+    created_at = models.DateTimeField(auto_now_add=True, **NULLABLE, verbose_name="Дата создания")
 
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, **NULLABLE,
                                  related_name='albums', verbose_name="Категория")
