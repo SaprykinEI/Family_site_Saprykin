@@ -5,12 +5,22 @@ from gallery.models import Album, Category, Photo
 
 
 class AlbumCreateForm(forms.ModelForm):
-    new_category = forms.CharField(max_length=100, required=False, label="Новая категория",
-                                   help_text="Если нужной категории нет в списке, введите новую")
+    new_category = forms.CharField(
+        max_length=100,
+        required=False,
+        label="Новая категория",
+        help_text="Если нужной категории нет в списке, введите новую"
+    )
+    new_tags = forms.CharField(
+        max_length=200,
+        required=False,
+        label="Новые теги",
+        help_text="Введите новые теги через запятую, если их нет в списке"
+    )
 
     class Meta:
         model = Album
-        fields = ['title', 'cover_image', 'description', 'category', 'date']
+        fields = ['title', 'location', 'cover_image', 'description',  'date', 'category', 'tags']
         widgets = {
             'date': forms.DateInput(attrs={'type': 'date'}),
         }
@@ -18,13 +28,24 @@ class AlbumCreateForm(forms.ModelForm):
     def save(self, commit=True):
         album = super().save(commit=False)
 
-        new_category_name = self.cleaned_data['new_category']
+        new_category_name = self.cleaned_data.get('new_category')
         if new_category_name:
             category, created = Category.objects.get_or_create(name=new_category_name.strip())
             album.category = category
 
         if commit:
             album.save()
+            # Сохраняем M2M связи (теги из выпадающего списка)
+            self.save_m2m()
+
+            new_tags_str = self.cleaned_data.get('new_tags', '')
+            if new_tags_str:
+                # Разбиваем строку на теги, удаляем лишние пробелы и пустые
+                tag_names = [tag.strip() for tag in new_tags_str.split(',') if tag.strip()]
+                for tag_name in tag_names:
+                    tag, created = Tag.objects.get_or_create(name=tag_name)
+                    album.tags.add(tag)
+
         return album
 
 

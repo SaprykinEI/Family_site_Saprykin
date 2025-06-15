@@ -5,7 +5,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import ListView, FormView, CreateView, View, DetailView
+from django.views.generic import ListView, CreateView, View, DetailView, UpdateView, DeleteView
 from django.db.models import Q, F, Value, CharField
 from django.db.models.functions import ExtractYear
 from django.shortcuts import get_object_or_404
@@ -93,6 +93,7 @@ class AlbumCreateView(CreateView):
 
 
 class AlbumDetailView(DetailView):
+    """Класс детального просмотра альбома"""
     model = Album
     template_name = 'gallery/album_detail.html'
     context_object_name = 'album'
@@ -103,8 +104,28 @@ class AlbumDetailView(DetailView):
 
         context['previous_album'] = Album.objects.filter(pk__lt=album.pk).order_by('-pk').first()
         context['next_album'] = Album.objects.filter(pk__gt=album.pk).order_by('-pk').first()
+        people_on_photos = Person.objects.filter(photos__album=album).distinct()
+        context['people_on_photos'] = people_on_photos
 
         return context
+
+
+class AlbumUpdateView(UpdateView):
+    model = Album
+    form_class = AlbumCreateForm
+    template_name = 'gallery/album_update.html'
+    success_url = reverse_lazy('gallery:album_list')
+
+    def get_initial(self):
+        """Обеспечиваем правильный формат даты для input type='date'"""
+        initial = super().get_initial()
+        album = self.get_object()
+        if album.date:
+            initial['date'] = album.date.strftime('%Y-%m-%d')
+        return initial
+
+class AlbumDeleteView(DeleteView):
+    pass
 
 
 class PhotoUploadPageView(View):

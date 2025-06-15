@@ -41,6 +41,7 @@ class Album(models.Model):
 
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, **NULLABLE,
                                  related_name='albums', verbose_name="Категория")
+    tags = models.ManyToManyField(Tag, blank=True, related_name='albums', verbose_name="Теги")
 
     def __str__(self):
         return self.title

@@ -2,129 +2,171 @@
 {% load static %}
 
 {% block content %}
-<!DOCTYPE html>
-<html lang="ru">
-  <head>
-    <title>{{ album.title }} / Фотоальбом</title>
-    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/vendor/animsition/css/animsition.min.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/vendor/fontawesome/css/fontawesome-all.min.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/vendor/lightgallery/css/lightgallery.min.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/vendor/owl-carousel/css/owl.carousel.min.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/vendor/owl-carousel/css/owl.theme.default.min.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/vendor/ytplayer/css/jquery.mb.YTPlayer.min.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/css/helper.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/css/theme.css' %}">
-  </head>
-  <body id="body" class="animsition tt-boxed">
-    <div id="body-content">
+<link rel="stylesheet" href="{% static 'css/gallery/side_bar.css' %}">
 
-      <section id="page-header" class="ph-xlg">
-        <div class="page-header-image parallax-bg-3 bg-image" style="background-image: url({% static 'assets/img/misc/page-header-bg-11.jpg' %});">
-          <div class="cover bg-transparent-5-dark"></div>
-        </div>
-        <div class="page-header-inner tt-wrap">
-          <div class="page-header-caption parallax-5 fade-out-scroll-4">
-            <h1 class="page-header-title">{{ album.title }}</h1>
-            {% if album.category %}<div class="page-header-category"><a href="#">{{ album.category.name }}</a></div>{% endif %}
-          </div>
-        </div>
-      </section>
 
-      <section id="gallery-single-section" class="gallery-single-with-sidebar gs-sidebar-left">
-        <div class="gallery-single-inner tt-wrap">
-          <div class="row">
-            <div class="col-lg-4">
-              <div class="gs-sidebar">
-                <div class="gs-sidebar-info">
-                  <div class="gallery-single-credits">
-                    {% if album.author %}<dl><dt>Автор</dt><dd>{{ album.author }}</dd></dl>{% endif %}
-                    {% if album.location %}<dl><dt>Локация</dt><dd>{{ album.location }}</dd></dl>{% endif %}
-                    <dl><dt>Дата создания</dt><dd>{{ album.created_at|date:"d.m.Y" }}</dd></dl>
-                  </div>
-                  <div class="gs-sidebar-description">
-                    <p>{{ album.description }}</p>
-                  </div>
-                </div>
-                <div class="social-buttons margin-top-40">
-                  <ul>
-                    <li><strong>Поделиться:</strong></li>
-                    <li><a href="#" class="btn btn-social-min btn-facebook btn-sm btn-rounded-full"><i class="fab fa-facebook-f"></i></a></li>
-                    <li><a href="#" class="btn btn-social-min btn-twitter btn-sm btn-rounded-full"><i class="fab fa-twitter"></i></a></li>
-                  </ul>
-                </div>
-                <ul class="gallery-meta">
-                  <li><div class="favorite-btn"><div class="fav-inner"><div class="icon-heart"><span class="icon-heart-empty"></span><span class="icon-heart-filled"></span></div></div><div class="fav-count">0</div></div></li>
-                </ul>
-                <div class="gallery-single-nav margin-top-50">
-                  {% if previous_album %}<a href="{% url 'gallery:album_detail' previous_album.id %}" class="gsn-prew"><i class="fas fa-angle-left"></i></a>{% endif %}
-                  <a href="{% url 'gallery:album_list' %}" class="gsn-back"><i class="fas fa-th"></i></a>
-                  {% if next_album %}<a href="{% url 'gallery:album_detail' next_album.id %}" class="gsn-next"><i class="fas fa-angle-right"></i></a>{% endif %}
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-8">
-              <div class="isotope-wrap">
-                <div class="isotope col-3 gutter-3">
-                  <div id="gallery" class="isotope-items-wrap lightgallery">
-                    <div class="grid-sizer"></div>
-                    {% for photo in album.photos.all %}
-                      <div class="isotope-item">
-                        <a href="{{ photo.image.url }}" class="gallery-single-item lg-trigger" data-sub-html="<p>{{ photo.caption }}</p>">
-                          <img src="{{ photo.image.url }}" class="gs-item-image" alt="">
-                          {% if photo.caption %}<div class="gsi-image-caption">{{ photo.caption }}</div>{% endif %}
-                          <div class="gs-item-icon"><i class="fas fa-search"></i></div>
-                        </a>
-                      </div>
-                    {% empty %}
-                      <p>Фотографий пока нет.</p>
-                    {% endfor %}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="call-to-action-section bg-gray-3 margin-top-60">
-        <div class="full-cover for-light-style bg-image" style="background-image: url({% static 'assets/img/pattern/bg-pattern-2-light.png' %});"></div>
-        <div class="full-cover for-dark-style bg-image" style="background-image: url({% static 'assets/img/pattern/bg-pattern-2-dark.png' %});"></div>
-        <div class="call-to-action-inner tt-wrap">
-          <div class="row">
-            <div class="col-md-12 text-center">
-              <div class="tt-heading tt-heading-lg text-center">
-                <div class="tt-heading-inner tt-wrap">
-                  <h1 class="tt-heading-title">Что дальше?</h1>
-                  <div class="tt-heading-subtitle">Хочешь добавить больше воспоминаний?</div>
-                  <hr class="hr-short">
-                </div>
-              </div>
-              <div class="margin-top-30 max-width-1000 margin-auto">
-                <p>Ты можешь добавить новые фотографии или создать новый альбом.</p>
-                <div class="margin-top-30">
-                  <a href="{% url 'gallery:album_create' %}" class="btn btn-dark margin-top-5 margin-right-5">Создать альбом</a>
-                  <a href="{% url 'gallery:photo_upload' album.id %}" class="btn btn-primary margin-top-5">Добавить фото</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+<section id="page-header" class="ph-xlg">
+  <div class="page-header-image parallax-bg-3 bg-image" style="background-image: url({{ album.cover_image.url }});">
+    <div class="cover bg-transparent-5-dark"></div>
+  </div>
+  <div class="page-header-inner tt-wrap">
+    <div class="page-header-caption parallax-5 fade-out-scroll-4" style="position: relative;">
+      <h1 class="page-header-title">{{ album.title }}</h1>
+      {% if album.category %}
+        <div class="page-header-category"><a href="#">{{ album.category.name }}</a></div>
+      {% endif %}
     </div>
+  </div>
+</section>
 
-    <script src="{% static 'assets/vendor/jquery/jquery.min.js' %}"></script>
-    <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'assets/vendor/animsition/js/animsition.min.js' %}"></script>
-    <script src="{% static 'assets/vendor/jquery.easing.min.js' %}"></script>
-    <script src="{% static 'assets/vendor/isotope.pkgd.min.js' %}"></script>
-    <script src="{% static 'assets/vendor/imagesloaded.pkgd.min.js' %}"></script>
-    <script src="{% static 'assets/vendor/owl-carousel/js/owl.carousel.min.js' %}"></script>
-    <script src="{% static 'assets/vendor/jquery.mousewheel.min.js' %}"></script>
-    <script src="{% static 'assets/vendor/ytplayer/js/jquery.mb.YTPlayer.min.js' %}"></script>
-    <script src="{% static 'assets/vendor/lightgallery/js/lightgallery-all.min.js' %}"></script>
-    <script src="{% static 'assets/js/theme.js' %}"></script>
-  </body>
-</html>
+<section id="gallery-single-section" class="gallery-single-with-sidebar gs-sidebar-left">
+  <div class="gallery-single-inner tt-wrap">
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="gs-sidebar">
+          <div class="gs-sidebar-info">
+            <div class="album-action-buttons margin-top-30">
+              <a href="{% url 'gallery:album_update' album.pk %}" class="btn-edit">Редактировать альбом</a>
+              <a href="{% url 'gallery:album_delete' album.pk %}" class="btn-delete">Удалить</a>
+            </div>
+
+            <div class="gallery-single-credits" style="margin-top: 30px;">
+              <dl>
+                {% if album.author %}
+                  <dt>Автор</dt>
+                  <dd>{{ album.author }}</dd>
+                {% endif %}
+                {% if album.location %}
+                  <dt>Локация</dt>
+                  <dd>{{ album.location }}</dd>
+                {% endif %}
+                {% if album.category %}
+                  <dt>Категория</dt>
+                  <dd>{{ album.category.name }}</dd>
+                {% endif %}
+                <dt>Дата создания</dt>
+                <dd>{{ album.date|date:"d.m.Y" }}</dd>
+
+                {% if album.tags.exists %}
+                  <dt>Теги</dt>
+                  <dd class="tag-list">
+                    {% for tag in album.tags.all %}
+                      <span class="tag">{{ tag.name }}</span>
+                    {% endfor %}
+                  </dd>
+                {% endif %}
+
+                {% if album.description %}
+                  <dt>Описание</dt>
+                    <dd class="gs-sidebar-description">
+                      {% for tag in album.tags.all %}
+                        <span class="description">{{ album.description }}</span>
+                      {% endfor %}
+                    </dd>
+                  {% endif %}
+
+                  {% if people_on_photos %}
+                    <div class="gallery-sidebar-people margin-top-30">
+                      <h5 class="sidebar-title">Люди на фото</h5>
+                      <ul class="people-list">
+                        {% for person in people_on_photos %}
+                          <li>
+                            <a href="{% url 'family_tree:person_detail' person.pk %}">
+
+                              {{ person.full_name }}
+                            </a>
+                          </li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                  {% endif %}
+              </dl>
+            </div>
+
+
+          </div>
+
+          <div class="social-buttons margin-top-40">
+            <ul>
+              <li><strong>Поделиться:</strong></li>
+              <li><a href="#" class="btn btn-social-min btn-facebook btn-sm btn-rounded-full"><i class="fab fa-facebook-f"></i></a></li>
+              <li><a href="#" class="btn btn-social-min btn-twitter btn-sm btn-rounded-full"><i class="fab fa-twitter"></i></a></li>
+            </ul>
+          </div>
+
+          <ul class="gallery-meta">
+            <li>
+              <div class="favorite-btn">
+                <div class="fav-inner">
+                  <div class="icon-heart">
+                    <span class="icon-heart-empty"></span><span class="icon-heart-filled"></span>
+                  </div>
+                </div>
+                <div class="fav-count">0</div>
+              </div>
+            </li>
+          </ul>
+
+          <div class="gallery-single-nav margin-top-50">
+            {% if previous_album %}
+              <a href="{% url 'gallery:album_detail' previous_album.id %}" class="gsn-prew"><i class="fas fa-angle-left"></i></a>
+            {% endif %}
+            <a href="{% url 'gallery:album_list' %}" class="gsn-back"><i class="fas fa-th"></i></a>
+            {% if next_album %}
+              <a href="{% url 'gallery:album_detail' next_album.id %}" class="gsn-next"><i class="fas fa-angle-right"></i></a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-8">
+        <div class="isotope-wrap">
+          <div class="isotope col-3 gutter-3">
+            <div id="gallery" class="isotope-items-wrap lightgallery">
+              <div class="grid-sizer"></div>
+              {% for photo in album.photos.all %}
+                <div class="isotope-item">
+                  <a href="{{ photo.image.url }}" class="gallery-single-item lg-trigger" data-sub-html="<p>{{ photo.caption }}</p>">
+                    <img src="{{ photo.image.url }}" class="gs-item-image" alt="">
+                    {% if photo.caption %}
+                      <div class="gsi-image-caption">{{ photo.caption }}</div>
+                    {% endif %}
+                    <div class="gs-item-icon"><i class="fas fa-search"></i></div>
+                  </a>
+                </div>
+              {% empty %}
+                <p>Фотографий пока нет.</p>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="call-to-action-section bg-gray-3 margin-top-60">
+  <div class="full-cover for-light-style bg-image" style="background-image: url({% static 'assets/img/pattern/bg-pattern-2-light.png' %});"></div>
+  <div class="full-cover for-dark-style bg-image" style="background-image: url({% static 'assets/img/pattern/bg-pattern-2-dark.png' %});"></div>
+  <div class="call-to-action-inner tt-wrap">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <div class="tt-heading tt-heading-lg text-center">
+          <div class="tt-heading-inner tt-wrap">
+            <h1 class="tt-heading-title">Что дальше?</h1>
+            <div class="tt-heading-subtitle">Хочешь добавить больше воспоминаний?</div>
+            <hr class="hr-short">
+          </div>
+        </div>
+        <div class="margin-top-30 max-width-1000 margin-auto">
+          <p>Ты можешь добавить новые фотографии или создать новый альбом.</p>
+          <div class="margin-top-30">
+            <a href="{% url 'gallery:album_create' %}" class="btn btn-dark margin-top-5 margin-right-5">Создать альбом</a>
+            <a href="{% url 'gallery:photo_upload' album.id %}" class="btn btn-primary margin-top-5">Добавить фото</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 {% endblock %}

@@ -4,6 +4,7 @@
 
 <link rel="stylesheet" href="{% static 'css/gallery/header.css' %}">
 <link rel="stylesheet" href="{% static 'css/gallery/filter_albums.css' %}">
+<link rel="stylesheet" href="{% static 'css/gallery/album_menu.css' %}">
 
 
 <!-- Begin page header inner -->
@@ -102,29 +103,35 @@
                         <div class="grid-sizer"></div>
 
                         {% for album in albums %}
-                        <div class="isotope-item category-{{ album.category.id }} year-{{ album.date.year }} iso-height-1">
-                            <div class="gallery-list-item">
-                                <div class="gl-item-image-wrap">
-                                    <a href="{% url 'gallery:album_detail' album.pk %}" class="gl-item-image-inner">
-                                        <div class="gl-item-image bg-image" style="background-image: url({{ album.cover_image.url }});"></div>
-                                        <span class="gl-item-image-zoom"></span>
-                                    </a>
-                                </div>
+                            <div class="isotope-item category-{{ album.category.id }} year-{{ album.date.year }} iso-height-1 album-card" style="position: relative;">
+                                <div class="gallery-list-item">
+                                    <div class="gl-item-image-wrap">
+                                        <a href="{% url 'gallery:album_detail' album.pk %}" class="gl-item-image-inner">
+                                            <div class="gl-item-image bg-image" style="background-image: url({{ album.cover_image.url }});"></div>
+                                            <span class="gl-item-image-zoom"></span>
+                                        </a>
+                                    </div>
 
-                                <div class="gl-item-info">
-                                    <div class="gl-item-caption">
-                                        <h2 class="gl-item-title"><a href="{% url 'gallery:album_detail' album.pk %}">{{ album.title }}</a></h2>
-                                        <span class="gl-item-category">
-                                            <a href="{% url 'gallery:album_list' %}?category={{ album.category.id }}">{{ album.category.name }}</a>
-                                        </span>
+                                    <div class="gl-item-info">
+                                        <div class="gl-item-caption" style="position: relative;">
+                                            <h2 class="gl-item-title" style="margin: 0;">
+                                                <a href="{% url 'gallery:album_detail' album.pk %}">
+                                                    {{ album.title }}
+                                                </a>
+                                            </h2>
+
+
+
+                                            <span class="gl-item-category">
+                                                <a href="{% url 'gallery:album_list' %}?category={{ album.category.id }}">{{ album.category.name }}</a>
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        {% empty %}
-                            <p>Альбомы не найдены по заданным фильтрам.</p>
-                        {% endfor %}
-                    </div>
+                            {% empty %}
+                                <p>Альбомы не найдены по заданным фильтрам.</p>
+                            {% endfor %}
 
                     <!-- Пагинация -->
                     <div class="isotope-pagination">
@@ -140,5 +147,7 @@
         </div>
     </div>
 </section>
+
+<script src="{% static 'js/gallery/album_menu.js' %}"></script>
 
 {% endblock %}
