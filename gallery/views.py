@@ -102,6 +102,7 @@ class AlbumDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         album = self.get_object()
 
+        context['videos'] = album.videos.all()
         context['previous_album'] = Album.objects.filter(pk__lt=album.pk).order_by('-pk').first()
         context['next_album'] = Album.objects.filter(pk__gt=album.pk).order_by('-pk').first()
         people_on_photos = Person.objects.filter(photos__album=album).distinct()

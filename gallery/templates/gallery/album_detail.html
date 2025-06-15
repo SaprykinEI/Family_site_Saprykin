@@ -139,6 +139,20 @@
               {% empty %}
                 <p>Фотографий пока нет.</p>
               {% endfor %}
+
+              {% for video in videos %}
+                <div class="isotope-item">
+                  <video controls class="gs-item-image" style="max-width: 100%;">
+                    <source src="{{ video.file.url }}" type="video/mp4">
+                    Ваш браузер не поддерживает видео тег.
+                  </video>
+                  {% if video.caption %}
+                    <div class="gsi-image-caption">{{ video.caption }}</div>
+                  {% endif %}
+                </div>
+              {% empty %}
+                <p>Видео пока нет.</p>
+              {% endfor %}
             </div>
           </div>
         </div>

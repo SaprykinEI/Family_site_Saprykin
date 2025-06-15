@@ -125,6 +125,18 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Максимальный размер тела запроса (в байтах)
+# По умолчанию 2.5MB, увеличим до 100MB (пример)
+DATA_UPLOAD_MAX_MEMORY_SIZE = 104857600  # 100 * 1024 * 1024
+
+# Максимальный размер памяти для загружаемых файлов
+FILE_UPLOAD_MAX_MEMORY_SIZE = 104857600  # 100 MB
+
+# Опционально, чтобы не лимитировать загрузку больших файлов:
+FILE_UPLOAD_HANDLERS = [
+    'django.core.files.uploadhandler.MemoryFileUploadHandler',
+    'django.core.files.uploadhandler.TemporaryFileUploadHandler',
+]
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/

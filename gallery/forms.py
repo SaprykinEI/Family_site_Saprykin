@@ -1,7 +1,7 @@
 from django import forms
 from django.template.defaultfilters import title
 
-from gallery.models import Album, Category, Photo
+from gallery.models import Album, Category, Photo, Tag
 
 
 class AlbumCreateForm(forms.ModelForm):
