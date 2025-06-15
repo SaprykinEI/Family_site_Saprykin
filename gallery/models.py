@@ -35,6 +35,7 @@ class Category(models.Model):
 class Album(models.Model):
     title = models.CharField(max_length=200, verbose_name="Название альбома")
     date = models.DateField(verbose_name="Дата")
+    location = models.CharField(max_length=255, **NULLABLE, verbose_name="Локация")
     description = models.TextField(**NULLABLE, verbose_name="Описание альбома")
     cover_image = models.ImageField(upload_to='album_covers/', verbose_name="Обложка альбома")
 
