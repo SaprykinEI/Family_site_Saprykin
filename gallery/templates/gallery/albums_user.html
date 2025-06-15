@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/gallery/header.css' %}">
+<link rel="stylesheet" href="{% static 'css/gallery/filter_albums.css' %}">
+<link rel="stylesheet" href="{% static 'css/gallery/album_menu.css' %}">
+
+<div class="page-header-inner tt-wrap">
+    <div class="page-header-caption ph-caption-lg parallax-5">
+        <h1 class="page-header-title">Мои альбомы</h1>
+        <hr class="hr-short">
+        <div class="page-header-description">
+            <p>альбомы – это не просто собрание фотографий, это живое отражение истории,
+                эмоций и традиций каждой семьи. Они позволяют не только запечатлеть важные моменты,
+                но и передать их будущим поколениям, создавая уникальную связь между прошлым и настоящим.</p>
+        </div>
+    </div>
+</div>
+
+<section id="gallery-list-section">
+    <div class="isotope-wrap tt-wrap">
+        <div class="gallery-container">
+
+            <form method="get" id="filter-form" class="filter-sidebar">
+
+
+
+            <!-- Сетка альбомов -->
+            <div class="albums-container">
+                <div class="isotope col-3 gutter-3">
+                    <div class="isotope-items-wrap gli-colored gli-frame gli-alter-3">
+                        <div class="grid-sizer"></div>
+
+                        {% for album in albums %}
+                            <div class="isotope-item category-{{ album.category.id }} year-{{ album.date.year }} iso-height-1 album-card">
+                                <div class="gallery-list-item">
+                                    <div class="gl-item-image-wrap">
+                                        <a href="{% url 'gallery:album_detail' album.pk %}" class="gl-item-image-inner">
+                                            <div class="gl-item-image bg-image" style="background-image: url({{ album.cover_image.url }});"></div>
+                                            <span class="gl-item-image-zoom"></span>
+                                        </a>
+                                    </div>
+
+                                    <div class="gl-item-info">
+                                        <div class="gl-item-caption">
+                                            <h2 class="gl-item-title">
+                                                <a href="{% url 'gallery:album_detail' album.pk %}">
+                                                    {{ album.title }}
+                                                </a>
+                                            </h2>
+                                            <span class="gl-item-category">
+                                                <a href="{% url 'gallery:album_list' %}?category={{ album.category.id }}">
+                                                    {{ album.category.name }}
+                                                </a>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% empty %}
+                            <p>Альбомы не найдены по заданным фильтрам.</p>
+                        {% endfor %}
+
+                        <!-- Пагинация -->
+                        <div class="isotope-pagination">
+                            <div class="iso-load-more">
+                                {% if page_obj.has_next %}
+                                    <a class="btn btn-dark-bordered btn-lg"
+                                       href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ page_obj.next_page_number }}">
+                                        Показать еще <i class="fas fa-refresh"></i>
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<script src="{% static 'js/gallery/album_menu.js' %}"></script>
+{% endblock %}

@@ -93,7 +93,18 @@
                                     <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="user-menu">
-                                    <li><a href="{% url 'users:user_profile' %}"><i class="fas fa-user"></i> Профиль</a></li>
+                                    <li>
+                                        <a href="{% url 'gallery:user_albums' %}">
+                                            <i class="fas fa-images"></i> Мои альбомы
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="{% url 'users:user_profile' %}">
+                                            <i class="fas fa-user"></i> Профиль
+                                        </a>
+                                    </li>
+
                                     <li>
                                       <form method="post" action="{% url 'users:user_logout' %}" style="display:inline;">
                                           {% csrf_token %}

@@ -1,5 +1,6 @@
 from venv import create
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
@@ -16,6 +17,15 @@ from gallery.forms import AlbumCreateForm, PhotoUploadForm
 from gallery.utils import convert_photo_to_webp
 
 from family_tree.models import Person
+
+
+class UserAlbumListView(LoginRequiredMixin, ListView):
+    model = Album
+    template_name = 'gallery/albums_user.html'
+    context_object_name = 'albums'
+
+    def get_queryset(self):
+        return Album.objects.filter(owner=self.request.user).order_by('-created_at')
 
 
 class AlbumListView(ListView):
@@ -86,6 +96,7 @@ class AlbumCreateView(CreateView):
     template_name = 'gallery/album_create.html'
 
     def form_valid(self, form):
+        form.instance.owner = self.request.user
         return super().form_valid(form)
 
     def get_success_url(self):
