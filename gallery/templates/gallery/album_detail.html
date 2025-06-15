@@ -13,7 +13,9 @@
     <div class="page-header-caption parallax-5 fade-out-scroll-4" style="position: relative;">
       <h1 class="page-header-title">{{ album.title }}</h1>
       {% if album.category %}
-        <div class="page-header-category"><a href="#">{{ album.category.name }}</a></div>
+        <div class="page-header-category no-link">
+          {{ album.description }}
+        </div>
       {% endif %}
     </div>
   </div>

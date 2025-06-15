@@ -62,4 +62,9 @@
   color: #444;
 }
 
+.page-header-category.no-link {
+  font-size: 16px;
+  font-weight: 500;
+  /* дополнительные стили */
+}
 
