@@ -15,6 +15,7 @@ from django.views.generic import ListView, CreateView, DetailView, UpdateView, D
 
 from family_tree.models import Person
 from family_tree.forms import PersonForm
+from gallery.models import Album
 
 
 class IndexView(ListView):
@@ -27,6 +28,7 @@ class IndexView(ListView):
         '''Переопределяем метод, чтобы добавить дополнительный контекст в шаблон.'''
         context = super().get_context_data(**kwargs)
         context['title'] = "<h1>Сайт семьи - Сапрыкины</h1>"
+        context['latest_albums'] = Album.objects.order_by('-created_at')[:4]
         return context
 
 

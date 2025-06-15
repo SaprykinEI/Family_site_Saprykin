@@ -95,7 +95,10 @@
     <div class="tt-heading tt-heading-lg padding-on text-center">
         <div class="tt-heading-inner tt-wrap">
             <h1 class="tt-heading-title">Последние альбомы</h1>
-            <div class="tt-heading-subtitle">Последние добавленные альбомы / <a href="{% url 'gallery:album_list' %}" >Все альбомы</a></div>
+            <div class="tt-heading-subtitle">
+                Последние добавленные альбомы /
+                <a href="{% url 'gallery:album_list' %}">Все альбомы</a>
+            </div>
             <hr class="hr-short">
         </div>
     </div>
@@ -105,47 +108,40 @@
             <div class="isotope-items-wrap gli-colored gli-alter-4">
                 <div class="grid-sizer"></div>
 
-                <!-- Gallery Item 1 -->
+                {% for album in latest_albums %}
                 <div class="isotope-item iso-height-1">
                     <div class="gallery-list-item">
                         <div class="gl-item-image-wrap">
-                            <a href="/gallery/1" class="gl-item-image-inner">
-                                <div class="gl-item-image bg-image" style="background-image: url({% static 'img/gallery/gallery-list/gallery-list-1.jpg' %}); background-position: 50% 50%"></div>
+                            <a href="{% url 'gallery:album_detail' album.pk %}" class="gl-item-image-inner">
+                                <div class="gl-item-image bg-image"
+                                     style="background-image: url('{{ album.cover_image.url }}'); background-position: 50% 50%">
+                                </div>
                                 <span class="gl-item-image-zoom"></span>
                             </a>
                         </div>
                         <div class="gl-item-info">
                             <div class="gl-item-caption">
-                                <h2 class="gl-item-title"><a href="/gallery/1">Свадьба Алины и Максима</a></h2>
-                                <span class="gl-item-category"><a href="/portfolio/wedding">Свадьбы</a></span>
+                                <h2 class="gl-item-title">
+                                    <a href="{% url 'gallery:album_detail' album.pk %}">{{ album.title }}</a>
+                                </h2>
+                                {% if album.category %}
+                                <span class="gl-item-category">
+                                    <a href="#">{{ album.category.name }}</a>
+                                </span>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
                 </div>
+                {% empty %}
+                <p>Альбомы пока не добавлены.</p>
+                {% endfor %}
 
-                <!-- Gallery Item 2 -->
-                <div class="isotope-item iso-height-1">
-                    <div class="gallery-list-item">
-                        <div class="gl-item-image-wrap">
-                            <a href="/gallery/2" class="gl-item-image-inner">
-                                <div class="gl-item-image bg-image" style="background-image: url({% static 'img/gallery/gallery-list/gallery-list-2.jpg' %}); background-position: 50% 50%"></div>
-                                <span class="gl-item-image-zoom"></span>
-                            </a>
-                        </div>
-                        <div class="gl-item-info">
-                            <div class="gl-item-caption">
-                                <h2 class="gl-item-title"><a href="/gallery/2">Портретная съемка</a></h2>
-                                <span class="gl-item-category"><a href="/portfolio/portrait">Портреты</a></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- More gallery items here... -->
             </div>
         </div>
     </div>
 </section>
+
 
 <!-- ===========================
 ///// Begin prices section /////
