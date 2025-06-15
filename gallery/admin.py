@@ -17,7 +17,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Album)
 class AlbumAdmin(admin.ModelAdmin):
-    list_display = ('title', 'date', 'category')
+    list_display = ('pk', 'title', 'date', 'category')
     list_filter = ('category', 'date')
     search_fields = ('title', 'description')
 
