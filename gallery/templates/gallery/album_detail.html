@@ -28,6 +28,7 @@
         <div class="gs-sidebar">
           <div class="gs-sidebar-info">
             <div class="album-action-buttons margin-top-30">
+              <a href="{% url 'gallery:photo_upload' album.pk %}" class="btn-edit">Добавить контент в альбом</a>
               <a href="{% url 'gallery:album_update' album.pk %}" class="btn-edit">Редактировать альбом</a>
               <a href="{% url 'gallery:album_delete' album.pk %}" class="btn-delete">Удалить</a>
             </div>

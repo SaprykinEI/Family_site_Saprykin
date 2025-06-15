@@ -14,12 +14,15 @@
         enctype="multipart/form-data">
     {% csrf_token %}
   </form>
+
+  <div class="margin-top-20">
+    <a href="{% url 'gallery:album_detail' album.id %}" class="btn-return">← Вернуться в альбом</a>
+  </div>
 </div>
 {% endblock %}
 
 {% block extra_js %}
 <!-- Dropzone CDN -->
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.js"></script>
 
 <!-- Инициализация Dropzone -->
