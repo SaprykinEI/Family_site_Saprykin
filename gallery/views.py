@@ -125,7 +125,9 @@ class AlbumUpdateView(UpdateView):
         return initial
 
 class AlbumDeleteView(DeleteView):
-    pass
+    model = Album
+    template_name = 'gallery/album_delete.html'
+    success_url = reverse_lazy('gallery:album_list')
 
 
 class PhotoUploadPageView(View):
