@@ -52,10 +52,11 @@
         <div class="header-inner tt-wrap">
             <!-- Logo -->
             <div id="logo">
-                <a href="{% url 'family_tree:index' %}" class="logo-dark"><img src="{% static 'img/logo-dark.png' %}" alt="logo"></a>
+                <a href="{% url 'family_tree:index' %}" class="logo-dark"><img src="{% static 'img/logo-dark2.png' %}" alt="logo" style="height: 100px; max-height: none; width: auto;"></a>
+                <br>
                 <a href="{% url 'family_tree:index' %}" class="logo-light"><img src="{% static 'img/logo-light.png' %}" alt="logo"></a>
                 <!-- Mobile logo -->
-                <a href="{% url 'family_tree:index' %}" class="logo-dark-m"><img src="{% static 'img/logo-dark-m.png' %}" alt="logo"></a>
+                <a href="{% url 'family_tree:index' %}" class="logo-dark-m"><img src="{% static 'img/logo-dark-m1.png' %}" alt="logo" style="margin-bottom: 20px;"></a>
                 <a href="{% url 'family_tree:index' %}" class="logo-light-m"><img src="{% static 'img/logo-light-m.png' %}" alt="logo"></a>
             </div>
 
@@ -86,7 +87,7 @@
                         <li><a href="{% url 'family_tree:tree' %}">Семейное дерево</a></li>
                         <li><a href="{% url 'gallery:album_list' %}">Галерея</a></li>
                         <li class="tt-submenu-wrap tt-submenu-classic">
-                            <a href="#">События / Хроника</a>
+                            <a href="#">Лето́пись</a>
                             <ul class="tt-submenu tt-submenu-light">
                                 <li><a href="{% url 'events:events_list' %}">События</a></li>
                             </ul>
@@ -149,8 +150,8 @@
                     <div class="col-md-3">
                         <!-- Footer logo -->
                         <div id="footer-logo">
-                            <a href="{% url 'family_tree:index' %}" class="logo-dark"><img src="{% static 'img/logo-dark.png' %}" alt="logo"></a>
-                            <a href="{% url 'family_tree:index' %}" class="logo-light"><img src="{% static 'img/logo-light.png' %}" alt="logo"></a>
+
+                            <a href="{% url 'family_tree:index' %}" class="logo-light"><img src="{% static 'img/logo-light1.png' %}" alt="logo"></a>
                         </div>
                     </div>
 
@@ -193,7 +194,7 @@
                         <div class="col-md-6 col-md-pull-6">
                             <!-- Footer copyright -->
                             <div class="footer-copyright">
-                                <p>&copy; {% now "Y" %} Сайт нашей семьи / Все права защищены</p>
+                                <p>&copy; {% now "Y" %} Сайт семьи Сапрыкиных/ Все права защищены</p>
                             </div>
                         </div>
                     </div>
