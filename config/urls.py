@@ -25,4 +25,5 @@ urlpatterns = [
     path('', include('family_tree.urls', namespace='family_tree')),
     path('users/', include('users.urls', namespace='users')),
     path('gallery/', include('gallery.urls', namespace='gallery')),
+    path('events/', include('events.urls', namespace='events'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
