@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'users',
     'family_tree',
     'gallery',
+    'events',
 ]
 
 MIDDLEWARE = [
