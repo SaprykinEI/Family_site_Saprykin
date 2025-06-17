@@ -55,9 +55,8 @@ class AlbumListView(ListView):
                 qs = qs.annotate(year=ExtractYear('date')).filter(year__in=years_int)
 
         if tag_ids:
-            qs = qs.filter(
-                Q(photos__tags__id__in=tag_ids) | Q(videos__tags__id__in=tag_ids)
-            )
+            # Фильтруем по тегам, прикреплённым к самому альбому
+            qs = qs.filter(tags__id__in=tag_ids)
 
         if person_id and person_id.isdigit():
             qs = qs.filter(
