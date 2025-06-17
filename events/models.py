@@ -1,3 +1,49 @@
 from django.db import models
+from django.utils import timezone
+from family_tree.models import Person
 
-# Create your models here.
+from users.models import NULLABLE
+
+
+class Event(models.Model):
+    REPEAT_CHOICES = [
+        ('none', 'Не повторяется'),
+        ('yearly', 'Каждый год'),
+        ('custom', 'Каждые N лет'),
+    ]
+
+    EVENT_TYPE_CHOICES = [
+        ('birthday', 'День рождения'),
+        ('wedding', 'Свадьба'),
+        ('anniversary', 'Юбилей'),
+        ('memory', 'Памятное событие'),
+        ('military', 'Армия / фронт'),
+        ('death', 'Смерть'),
+        ('study', 'Учёба / работа'),
+        ('other', 'Другое'),
+    ]
+
+    title = models.CharField(max_length=255, verbose_name="Название события")
+    date = models.DateField(verbose_name="Дата события")
+
+    repeat = models.CharField(max_length=25, choices=REPEAT_CHOICES, default='none', verbose_name="Повтор")
+    event_type = models.CharField(max_length=20, choices=EVENT_TYPE_CHOICES, default='other', verbose_name="Тип события")
+    description = models.TextField(**NULLABLE, verbose_name="Описание")
+
+    people = models.ManyToManyField('family_tree.Person', **NULLABLE,
+                                    verbose_name="Связанные лица", related_name='events')
+    categories = models.ManyToManyField('gallery.Category', **NULLABLE, verbose_name="Категории")
+
+    is_reminder_enabled = models.BooleanField(default=False, verbose_name="Напоминание включено")
+    is_in_timeline = models.BooleanField(default=True, verbose_name="Показывать в хронологии")
+
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Создано")
+
+    class Meta:
+        verbose_name = "Событие"
+        verbose_name_plural = "События"
+        ordering = ('date',)
+
+    def __str__(self):
+        return self.title
+
