@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const captionModal = document.getElementById('captionModal');
   const deleteModal = document.getElementById('deleteModal');
   const captionInput = document.getElementById('captionInput');
+  const peopleSelect = document.getElementById('peopleSelect'); // селект для людей
   const cancelBtn = document.getElementById('cancelBtn');
   const saveCaptionBtn = document.getElementById('saveCaptionBtn');
   const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
@@ -22,6 +23,19 @@ document.addEventListener('DOMContentLoaded', () => {
       const captionText = captionHtml.replace(/<\/?p>/g, '').trim();
 
       captionInput.value = captionText;
+
+      if (peopleSelect) {
+        const peopleData = photoItem.dataset.people || '';
+        const selectedIds = peopleData.split(',').map(id => id.trim()).filter(id => id);
+
+        Array.from(peopleSelect.options).forEach(opt => opt.selected = false);
+
+        selectedIds.forEach(id => {
+          const option = peopleSelect.querySelector(`option[value="${id}"]`);
+          if (option) option.selected = true;
+        });
+      }
+
       openModal(captionModal);
     }
 
@@ -47,7 +61,10 @@ document.addEventListener('DOMContentLoaded', () => {
   saveCaptionBtn.addEventListener('click', () => {
     if (!currentPhotoId) return;
 
-    const newCaption = captionInput.value.trim();
+    const caption = captionInput.value.trim();
+    const peopleIds = peopleSelect
+      ? Array.from(peopleSelect.selectedOptions).map(option => option.value)
+      : [];
 
     fetch(`/gallery/photo/${currentPhotoId}/update_caption/`, {
       method: 'POST',
@@ -55,7 +72,10 @@ document.addEventListener('DOMContentLoaded', () => {
         'Content-Type': 'application/json',
         'X-CSRFToken': getCookie('csrftoken')
       },
-      body: JSON.stringify({ caption: newCaption })
+      body: JSON.stringify({
+        caption: caption,
+        people: peopleIds
+      })
     })
     .then(response => {
       if (!response.ok) throw new Error('Ошибка сервера');
@@ -66,11 +86,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const photoItem = document.querySelector(`.isotope-item[data-photo-id="${currentPhotoId}"]`);
         if (photoItem) {
           photoItem.querySelector('a.gallery-single-item').setAttribute('data-sub-html', `<p>${data.caption}</p>`);
+          photoItem.dataset.people = peopleIds.join(',');
         }
         closeModal(captionModal);
         currentPhotoId = null;
       } else {
-        alert(data.message || 'Ошибка обновления подписи');
+        alert(data.message || 'Ошибка обновления');
       }
     })
     .catch(err => {

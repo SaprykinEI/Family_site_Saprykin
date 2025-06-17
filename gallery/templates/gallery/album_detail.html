@@ -180,8 +180,18 @@
 <!-- Модальные окна -->
 <div id="captionModal" class="modal-hidden">
   <div class="modal-content">
-    <h3>Редактировать подпись</h3>
+    <h3>Редактировать фото</h3>
+
+    <label for="captionInput">Подпись:</label>
     <textarea id="captionInput" rows="4"></textarea>
+
+    <label for="peopleSelect">Кто на фото:</label>
+    <select id="peopleSelect" multiple>
+      {% for person in all_people %}
+        <option value="{{ person.id }}">{{ person.full_name }}</option>
+      {% endfor %}
+    </select>
+
     <div class="modal-buttons">
       <button id="cancelBtn" class="btn-cancel">Отмена</button>
       <button id="saveCaptionBtn" class="btn-save">Сохранить</button>

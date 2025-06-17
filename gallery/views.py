@@ -119,6 +119,7 @@ class AlbumDetailView(DetailView):
         context['next_album'] = Album.objects.filter(pk__gt=album.pk).order_by('-pk').first()
         people_on_photos = Person.objects.filter(photos__album=album).distinct()
         context['people_on_photos'] = people_on_photos
+        context['all_people'] = Person.objects.all().order_by('last_name', 'first_name')
 
         return context
 
@@ -202,8 +203,17 @@ class PhotoUpdateCaptionView(View):
         try:
             data = json.loads(request.body.decode('utf-8'))
             caption = data.get('caption', '').strip()
+            people_ids = data.get('people', [])
+
             photo.caption = caption
             photo.save()
+
+            if isinstance(people_ids, list):
+                people_qs = Person.objects.filter(id__in=people_ids)
+                photo.people.set(people_qs)
+            else:
+                photo.people.clear()
+
             return JsonResponse({'status': 'ok', 'caption': photo.caption})
         except json.JSONDecodeError:
             return JsonResponse({'status': 'error', 'message': 'Некорректный формат JSON'}, status=400)
