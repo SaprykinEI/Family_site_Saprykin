@@ -1,0 +1,17 @@
+.tt-submenu {
+    background-color: #fff !important;
+    color: #000 !important; /* Цвет текста подменю */
+}
+
+.tt-submenu li {
+    color: #000 !important; /* Цвет текста пунктов */
+}
+
+.tt-submenu a {
+    color: #000 !important; /* Цвет ссылок */
+}
+
+.tt-submenu a:hover {
+    background-color: #f0f0f0 !important; /* Подсветка при наведении */
+    color: #000 !important; /* Цвет ссылки при наведении */
+}

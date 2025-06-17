@@ -37,6 +37,7 @@
     <link rel="stylesheet" href="{% static 'css/theme.css' %}">
 
     <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/css_menu.css' %}">
     <link rel="stylesheet" href="{% static 'css/custom.css' %}">
     <link rel="stylesheet" href="{% static 'css/users/log_in.css' %}">
     <link rel="stylesheet" href="{% static 'css/users/button.css' %}">
@@ -84,7 +85,12 @@
                         <li><a href="{% url 'family_tree:persons' %}">Члены семьи</a></li>
                         <li><a href="{% url 'family_tree:tree' %}">Семейное дерево</a></li>
                         <li><a href="{% url 'gallery:album_list' %}">Галерея</a></li>
-                        <li><a href="{% url 'family_tree:index' %}">Блог</a></li>
+                        <li class="tt-submenu-wrap tt-submenu-classic">
+                            <a href="#">События / Хроника</a>
+                            <ul class="tt-submenu tt-submenu-light">
+                                <li><a href="{% url 'events:events_list' %}">События</a></li>
+                            </ul>
+                        </li>
                         <li><a href="{% url 'family_tree:index' %}">Контакты</a></li>
                         <li><a href="{% url 'family_tree:index' %}">О нас</a></li>
 
