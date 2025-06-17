@@ -2,8 +2,8 @@
 {% load static %}
 
 {% block content %}
+<link rel="stylesheet" href="{% static 'css/gallery/ico_style.css' %}">
 <link rel="stylesheet" href="{% static 'css/gallery/side_bar.css' %}">
-
 
 <section id="page-header" class="ph-xlg">
   <div class="page-header-image parallax-bg-3 bg-image" style="background-image: url({{ album.cover_image.url }});">
@@ -61,32 +61,23 @@
 
                 {% if album.description %}
                   <dt>Описание</dt>
-                    <dd class="gs-sidebar-description">
-                      {% for tag in album.tags.all %}
-                        <span class="description">{{ album.description }}</span>
+                  <dd class="gs-sidebar-description">{{ album.description }}</dd>
+                {% endif %}
+
+                {% if people_on_photos %}
+                  <div class="gallery-sidebar-people margin-top-30">
+                    <h5 class="sidebar-title">Люди на фото</h5>
+                    <ul class="people-list">
+                      {% for person in people_on_photos %}
+                        <li>
+                          <a href="{% url 'family_tree:person_detail' person.pk %}">{{ person.full_name }}</a>
+                        </li>
                       {% endfor %}
-                    </dd>
-                  {% endif %}
-
-                  {% if people_on_photos %}
-                    <div class="gallery-sidebar-people margin-top-30">
-                      <h5 class="sidebar-title">Люди на фото</h5>
-                      <ul class="people-list">
-                        {% for person in people_on_photos %}
-                          <li>
-                            <a href="{% url 'family_tree:person_detail' person.pk %}">
-
-                              {{ person.full_name }}
-                            </a>
-                          </li>
-                        {% endfor %}
-                      </ul>
-                    </div>
-                  {% endif %}
+                    </ul>
+                  </div>
+                {% endif %}
               </dl>
             </div>
-
-
           </div>
 
           <div class="social-buttons margin-top-40">
@@ -128,31 +119,30 @@
             <div id="gallery" class="isotope-items-wrap lightgallery">
               <div class="grid-sizer"></div>
               {% for photo in album.photos.all %}
-                <div class="isotope-item">
+                <div class="isotope-item" data-photo-id="{{ photo.id }}" data-type="photo" style="position: relative;">
                   <a href="{{ photo.image.url }}" class="gallery-single-item lg-trigger" data-sub-html="<p>{{ photo.caption }}</p>">
                     <img src="{{ photo.image.url }}" class="gs-item-image" alt="">
-                    {% if photo.caption %}
-                      <div class="gsi-image-caption">{{ photo.caption }}</div>
-                    {% endif %}
-                    <div class="gs-item-icon"><i class="fas fa-search"></i></div>
                   </a>
+
+                  <!-- Иконки редактирования и удаления, видны при наведении -->
+                  <div class="icon-buttons">
+                    <button type="button" class="edit-btn" title="Редактировать">
+                      <i class="fas fa-pencil-alt"></i>
+                    </button>
+                    <button type="button" class="delete-btn" title="Удалить">
+                      <i class="fas fa-trash-alt"></i>
+                    </button>
+                  </div>
                 </div>
-              {% empty %}
-                <p>Фотографий пока нет.</p>
               {% endfor %}
 
               {% for video in videos %}
-                <div class="isotope-item">
+                <div class="isotope-item" data-video-id="{{ video.id }}" data-type="video">
                   <video controls class="gs-item-image" style="max-width: 100%;">
                     <source src="{{ video.file.url }}" type="video/mp4">
                     Ваш браузер не поддерживает видео тег.
                   </video>
-                  {% if video.caption %}
-                    <div class="gsi-image-caption">{{ video.caption }}</div>
-                  {% endif %}
                 </div>
-              {% empty %}
-                <p>Видео пока нет.</p>
               {% endfor %}
             </div>
           </div>
@@ -163,8 +153,8 @@
 </section>
 
 <section class="call-to-action-section bg-gray-3 margin-top-60">
-  <div class="full-cover for-light-style bg-image" style="background-image: url({% static 'assets/img/pattern/bg-pattern-2-light.png' %});"></div>
-  <div class="full-cover for-dark-style bg-image" style="background-image: url({% static 'assets/img/pattern/bg-pattern-2-dark.png' %});"></div>
+  <div class="full-cover for-light-style bg-image" style="background-image: url({% static 'img/pattern/bg-pattern-2-light.png' %});"></div>
+  <div class="full-cover for-dark-style bg-image" style="background-image: url({% static 'img/pattern/bg-pattern-2-dark.png' %});"></div>
   <div class="call-to-action-inner tt-wrap">
     <div class="row">
       <div class="col-md-12 text-center">
@@ -186,4 +176,33 @@
     </div>
   </div>
 </section>
+
+<!-- Модальные окна -->
+<div id="captionModal" class="modal-hidden">
+  <div class="modal-content">
+    <h3>Редактировать подпись</h3>
+    <textarea id="captionInput" rows="4"></textarea>
+    <div class="modal-buttons">
+      <button id="cancelBtn" class="btn-cancel">Отмена</button>
+      <button id="saveCaptionBtn" class="btn-save">Сохранить</button>
+    </div>
+  </div>
+</div>
+
+<div id="deleteModal" class="modal-hidden">
+  <div class="modal-content">
+    <h3>Удалить фото?</h3>
+    <p>Вы уверены, что хотите удалить это фото? Действие необратимо.</p>
+    <div class="modal-buttons">
+      <button id="cancelDeleteBtn" class="btn-cancel">Отмена</button>
+      <button id="confirmDeleteBtn" class="btn-delete">Удалить</button>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
+
+{% block extra_js %}
+<script src="{% static 'js/gallery/edit_photo.js' %}"></script>
+<script src="{% static 'js/gallery/modal_js.js' %}"></script>
 {% endblock %}

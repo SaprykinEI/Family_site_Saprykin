@@ -1,7 +1,8 @@
+import json
 from venv import create
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseBadRequest
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils.decorators import method_decorator
@@ -188,3 +189,31 @@ class FileUploadView(View):
             })
 
         return JsonResponse({'status': 'error', 'message': 'Неподдерживаемый тип файла'}, status=400)
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class PhotoUpdateCaptionView(View):
+    def post(self, request, pk):
+        try:
+            photo = Photo.objects.get(pk=pk)
+        except Photo.DoesNotExist:
+            return JsonResponse({'status': 'error', 'message': 'Фото не найдено'}, status=404)
+
+        try:
+            data = json.loads(request.body.decode('utf-8'))
+            caption = data.get('caption', '').strip()
+            photo.caption = caption
+            photo.save()
+            return JsonResponse({'status': 'ok', 'caption': photo.caption})
+        except json.JSONDecodeError:
+            return JsonResponse({'status': 'error', 'message': 'Некорректный формат JSON'}, status=400)
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': f'Ошибка обработки данных: {str(e)}'}, status=400)
+
+
+class PhotoDeleteView(LoginRequiredMixin, View):
+    def post(self, request, pk, *args, **kwargs):
+        photo = get_object_or_404(Photo, pk=pk)
+        # проверка прав, удаление и т.д.
+        photo.delete()
+        return JsonResponse({'success': True})

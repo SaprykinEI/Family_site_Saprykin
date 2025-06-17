@@ -1,0 +1,125 @@
+/* Стили для иконок редактирования/удаления на фото */
+.isotope-item {
+  position: relative;
+}
+
+.icon-buttons {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  gap: 6px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 10;
+}
+
+.isotope-item:hover .icon-buttons {
+  opacity: 1;
+}
+
+.icon-buttons button {
+  background-color: rgba(255,255,255,0.85);
+  border: none;
+  padding: 5px 7px;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #666;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.icon-buttons button:hover {
+  color: #000;
+}
+
+.icon-buttons .edit-btn:hover {
+  color: #2a9d8f; /* зелёный */
+}
+
+.icon-buttons .delete-btn:hover {
+  color: #e63946; /* красный */
+}
+
+/* Модальные окна */
+.modal-hidden {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.5);
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: auto;
+  padding: 20px 25px;
+  border-radius: 6px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+}
+
+.modal-buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.btn-cancel, .btn-save, .btn-delete {
+  padding: 8px 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-cancel {
+  background-color: #ddd;
+  color: #333;
+}
+
+.btn-cancel:hover {
+  background-color: #bbb;
+}
+
+.btn-save {
+  background-color: #2a9d8f;
+  color: white;
+}
+
+.btn-save:hover {
+  background-color: #21867a;
+}
+
+.btn-delete {
+  background-color: #e63946;
+  color: white;
+}
+
+.btn-delete:hover {
+  background-color: #b52a39;
+}
+
+/* Текстовое поле */
+#captionInput {
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px 10px;
+  resize: vertical;
+  font-size: 14px;
+  font-family: inherit;
+}
