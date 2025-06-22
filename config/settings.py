@@ -48,7 +48,7 @@ INSTALLED_APPS = [
 
     # project apps
     'users',
-    'family_tree',
+    'family_tree.apps.FamilyTreeConfig',
     'gallery',
     'events',
 ]

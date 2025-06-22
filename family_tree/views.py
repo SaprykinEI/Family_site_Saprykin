@@ -11,10 +11,9 @@ from django.http import JsonResponse
 from django.template.loader import render_to_string
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 
-
-
 from family_tree.models import Person
 from family_tree.forms import PersonForm
+from family_tree.services import get_person_cache, get_descendants_tree_cached, get_ancestors_tree_cached
 from gallery.models import Album
 
 
@@ -37,6 +36,10 @@ class PersonsListView(ListView):
     model = Person
     template_name = 'family_tree/persons.html'
     context_object_name = 'persons'
+
+    def get_queryset(self):
+        """Получаем кешированный список Person"""
+        return get_person_cache()
 
     def get_context_data(self, **kwargs):
         ''' Добавляем в контекст дополнительную информацию'''
@@ -65,7 +68,7 @@ class PersonCreateView(LoginRequiredMixin, CreateView):
         return context
 
 
-class PersonDetailView(DetailView):
+class PersonDetailView(LoginRequiredMixin, DetailView):
     '''Представление-класс для отображения подробной информации о человеке'''
     model = Person
     template_name = 'family_tree/person_detail.html'
@@ -114,6 +117,7 @@ class TreeView(DetailView):
     template_name = 'family_tree/tree.html'
     context_object_name = 'root_person'
 
+
     def get_object(self, queryset=None):
         """Переопределяем метод, чтобы задать person_id по умолчанию"""
         pk = self.kwargs.get('person_id')
@@ -128,7 +132,7 @@ class TreeDataView(APIView):
     def get(self, request, person_id):
         """Это метод, который отвечает на GET-запрос."""
         root = get_object_or_404(Person, pk=person_id)
-        data = self.build_descendants_tree(root, is_spouse=False)
+        data = get_descendants_tree_cached(root, self.build_descendants_tree)
         return Response(data, status=status.HTTP_200_OK)
 
     def build_descendants_tree(self, person, is_spouse=False):
@@ -158,7 +162,7 @@ class SpouseTreeDataView(APIView):
     def get(self, request, spouse_id):
         """Это метод, который отвечает на GET-запрос."""
         spouse = get_object_or_404(Person, pk=spouse_id)
-        data = self.build_ancestors_tree(spouse)
+        data = get_ancestors_tree_cached(spouse, self.build_ancestors_tree)
         return Response(data, status=status.HTTP_200_OK)
 
     def build_ancestors_tree(self, person):
