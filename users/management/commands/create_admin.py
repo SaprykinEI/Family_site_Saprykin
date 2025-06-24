@@ -42,7 +42,7 @@ class Command(BaseCommand):
             last_name='User',
             role=UserRoles.USER,
             is_staff=False,
-            is_superuser=True,
+            is_superuser=False,
             is_active=True,
             is_verified=True,
         )
