@@ -146,6 +146,7 @@
       "description": "Предновогодняя фотосессия в студии.",
       "cover_image": "album_covers/М_ARAzea2.jpg",
       "created_at": "2025-06-17T12:42:51.219Z",
+      "is_active": true,
       "owner": 1,
       "category": 7,
       "tags": [
@@ -164,6 +165,7 @@
       "description": "Разные фотографии",
       "cover_image": "album_covers/photo_2024-11-01_12-29-05_JYeIdvv.jpg",
       "created_at": "2025-06-17T15:10:40.252Z",
+      "is_active": true,
       "owner": 1,
       "category": 9,
       "tags": [

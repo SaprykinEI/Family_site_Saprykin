@@ -7,6 +7,8 @@
 <link rel="stylesheet" href="{% static 'css/gallery/album_menu.css' %}">
 
 
+
+
 <!-- Begin page header inner -->
 
 <div class="page-header-inner tt-wrap">
@@ -92,9 +94,14 @@
                     <a href="{% url 'gallery:album_list' %}" class="btn-filter-reset">Сбросить фильтры</a>
                     <a href="{% url 'gallery:album_create' %}" class="btn-create-album">Создать альбом</a>
                 </div>
+                <!-- Новые кнопки: Активные / Неактивные -->
+                <div class="filter-row button-row" style="margin-top: 15px;">
+                    <a href="#" class="btn-create-album btn-active">Активные альбомы</a>
+                    <a href="#" class="btn-filter-reset btn-inactive" style="margin-left: 10px;">Неактивные альбомы</a>
+                </div>
 
 
-            </form>  {# ЗАКРЫЛИ ФОРМУ ЗДЕСЬ #}
+            </form>
 
             <!-- Вывод альбомов -->
             <div class="albums-container">

@@ -20,9 +20,10 @@ class AlbumCreateForm(forms.ModelForm):
 
     class Meta:
         model = Album
-        fields = ['title', 'location', 'cover_image', 'description',  'date', 'category', 'tags']
+        fields = ['title', 'location', 'cover_image', 'description',  'date', 'category', 'tags', 'is_active']
         widgets = {
             'date': forms.DateInput(attrs={'type': 'date'}),
+            'is_active': forms.CheckboxInput(attrs={'class': 'toggle-switch-checkbox'}),
         }
 
     def save(self, commit=True):

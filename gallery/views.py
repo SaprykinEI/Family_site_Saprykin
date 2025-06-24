@@ -1,4 +1,5 @@
 import json
+from turtledemo.sorting_animate import qsort
 from venv import create
 
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -19,6 +20,8 @@ from gallery.utils import convert_photo_to_webp
 
 from family_tree.models import Person
 
+from users.models import UserRoles
+
 
 class UserAlbumListView(LoginRequiredMixin, ListView):
     model = Album
@@ -29,16 +32,23 @@ class UserAlbumListView(LoginRequiredMixin, ListView):
         return Album.objects.filter(owner=self.request.user).order_by('-created_at')
 
 
-class AlbumListView(ListView):
+class AlbumListView(LoginRequiredMixin, ListView):
     model = Album
     template_name = 'gallery/albums_list.html'
     context_object_name = 'albums'
     paginate_by = 12
 
+
     def get_queryset(self):
+        user = self.request.user
         qs = Album.objects.all().select_related('category').prefetch_related(
             'photos__tags', 'photos__people', 'videos__tags', 'videos__people'
         ).distinct()
+
+        if user.role == UserRoles.MODERATOR:
+            qs = qs.filter(is_active=True)
+        elif user.role == UserRoles.USER:
+            qs = qs.filter(is_active=True)
 
         category_ids = self.request.GET.getlist('category')
         years = self.request.GET.getlist('year')
@@ -71,6 +81,8 @@ class AlbumListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+        context['view_mode'] = 'active'
+
         context['categories'] = Category.objects.all()
         context['years'] = Album.objects.dates('date', 'year', order='DESC')
         context['tags'] = Tag.objects.all()
@@ -87,6 +99,27 @@ class AlbumListView(ListView):
 
         return context
 
+
+class AlbumDeactivatedListView(LoginRequiredMixin, ListView):
+    model = Album
+    template_name = 'gallery/albums_list.html'
+    context_object_name = 'albums'
+    paginate_by = 12
+
+    def get_queryset(self):
+        user = self.request.user
+        queryset = super().get_queryset()
+        qs = queryset.filter(is_active=False)
+
+        if user.role == UserRoles.ADMIN:
+            return qs
+        else:
+            return qs.filter(owner=user)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['view_mode'] = 'inactive'
+        return context
 
 class AlbumCreateView(CreateView):
     """Класс создания альбома"""

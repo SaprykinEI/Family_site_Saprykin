@@ -1,25 +1,24 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Создание альбома{% endblock %}
+{% block title %}Редактирование альбома{% endblock %}
 
 {% block content %}
-<link rel="stylesheet" href="{% static 'css/gallery/album_create.css' %}">
+<link rel="stylesheet" href="{% static 'css/gallery/album_create1.css' %}">
 
-<div class="register-wrapper">
+<div class="album-create-wrapper">
+  <h2 class="album-create-title">Создание альбома</h2>
 
-  <h2 class="register-title">Редактирование альбома</h2>
-
-  <form method="post" enctype="multipart/form-data" class="register-form">
+  <form method="post" enctype="multipart/form-data" class="album-create-form">
     {% csrf_token %}
     {{ form.as_p }}
-
-    <button type="submit" class="btn-submit">Сохранить</button>
+    <button type="submit" class="btn-submit">Сохранить альбом</button>
   </form>
 
-
-  <p class="register-footer" style="margin-top: 20px;">
-    <a href="{% url 'gallery:album_list' %}">← Вернуться к списку альбомов</a>
+  <p class="album-create-footer">
+    <a href="{% url 'gallery:album_detail' album.id %}">← Вернуться к альбому</a>
   </p>
 </div>
+
+
 {% endblock %}
