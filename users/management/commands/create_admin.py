@@ -37,7 +37,7 @@ class Command(BaseCommand):
         print("Модератор создан")
 
         user = User.objects.create(
-            email='saprykin-family@yandex.com',
+            email='user@yandex.com',
             first_name='User',
             last_name='User',
             role=UserRoles.USER,
