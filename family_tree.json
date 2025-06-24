@@ -16,6 +16,7 @@
       "favorite_food": "Пельмени",
       "playlist": null,
       "hobbies": "Футбол",
+      "creator": null,
       "mother": 5,
       "father": 7,
       "spouse": 4
@@ -38,6 +39,7 @@
       "favorite_food": "Конфеты",
       "playlist": null,
       "hobbies": "Пение",
+      "creator": null,
       "mother": 4,
       "father": 2,
       "spouse": null
@@ -60,6 +62,7 @@
       "favorite_food": null,
       "playlist": null,
       "hobbies": null,
+      "creator": null,
       "mother": null,
       "father": null,
       "spouse": 2
@@ -82,6 +85,7 @@
       "favorite_food": null,
       "playlist": null,
       "hobbies": null,
+      "creator": null,
       "mother": 11,
       "father": 10,
       "spouse": 7
@@ -104,8 +108,9 @@
       "favorite_food": null,
       "playlist": null,
       "hobbies": "Рыбалка",
-      "mother": null,
-      "father": null,
+      "creator": null,
+      "mother": 13,
+      "father": 12,
       "spouse": 5
     }
   },
@@ -126,6 +131,7 @@
       "favorite_food": "Конфеты",
       "playlist": null,
       "hobbies": "Пение",
+      "creator": null,
       "mother": 4,
       "father": 2,
       "spouse": null
@@ -148,6 +154,7 @@
       "favorite_food": "Конфеты",
       "playlist": null,
       "hobbies": "Пение",
+      "creator": null,
       "mother": 4,
       "father": 2,
       "spouse": null
@@ -170,7 +177,8 @@
       "favorite_food": null,
       "playlist": null,
       "hobbies": null,
-      "mother": null,
+      "creator": null,
+      "mother": 23,
       "father": null,
       "spouse": 11
     }
@@ -192,9 +200,148 @@
       "favorite_food": null,
       "playlist": null,
       "hobbies": null,
-      "mother": null,
+      "creator": null,
+      "mother": 22,
       "father": null,
       "spouse": 10
+    }
+  },
+  {
+    "model": "family_tree.person",
+    "pk": 12,
+    "fields": {
+      "last_name": "Сапрыкин",
+      "first_name": "Виктор",
+      "maiden_name": null,
+      "patronymic": "Иосифович",
+      "birth_date": "1945-05-20",
+      "death_date": "1998-06-10",
+      "photo": "",
+      "gender": "male",
+      "bio": "",
+      "profession": null,
+      "favorite_food": null,
+      "playlist": null,
+      "hobbies": null,
+      "creator": null,
+      "mother": null,
+      "father": null,
+      "spouse": 13
+    }
+  },
+  {
+    "model": "family_tree.person",
+    "pk": 13,
+    "fields": {
+      "last_name": "Сапрыкина",
+      "first_name": "Людмила",
+      "maiden_name": "Чеховская",
+      "patronymic": "Яковлевна",
+      "birth_date": "1947-05-20",
+      "death_date": "1994-08-11",
+      "photo": "",
+      "gender": "female",
+      "bio": "",
+      "profession": null,
+      "favorite_food": null,
+      "playlist": null,
+      "hobbies": null,
+      "creator": null,
+      "mother": null,
+      "father": null,
+      "spouse": 12
+    }
+  },
+  {
+    "model": "family_tree.person",
+    "pk": 14,
+    "fields": {
+      "last_name": "Сапрыкин",
+      "first_name": "Олег",
+      "maiden_name": null,
+      "patronymic": "Викторович",
+      "birth_date": "1977-03-01",
+      "death_date": null,
+      "photo": "",
+      "gender": "male",
+      "bio": "",
+      "profession": null,
+      "favorite_food": null,
+      "playlist": null,
+      "hobbies": null,
+      "creator": null,
+      "mother": 13,
+      "father": 12,
+      "spouse": null
+    }
+  },
+  {
+    "model": "family_tree.person",
+    "pk": 15,
+    "fields": {
+      "last_name": "Сапрыкин",
+      "first_name": "Константин",
+      "maiden_name": null,
+      "patronymic": "Олегович",
+      "birth_date": "2025-01-22",
+      "death_date": null,
+      "photo": "",
+      "gender": "male",
+      "bio": "",
+      "profession": null,
+      "favorite_food": null,
+      "playlist": null,
+      "hobbies": null,
+      "creator": null,
+      "mother": null,
+      "father": 14,
+      "spouse": null
+    }
+  },
+  {
+    "model": "family_tree.person",
+    "pk": 22,
+    "fields": {
+      "last_name": "Логвинова",
+      "first_name": "Екатерина",
+      "maiden_name": null,
+      "patronymic": null,
+      "birth_date": "1921-03-20",
+      "death_date": null,
+      "photo": "",
+      "gender": "female",
+      "bio": "Данные",
+      "profession": null,
+      "favorite_food": null,
+      "playlist": null,
+      "hobbies": null,
+      "creator": 1,
+      "mother": null,
+      "father": null,
+      "spouse": null
+    }
+  },
+  {
+    "model": "family_tree.person",
+    "pk": 23,
+    "fields": {
+      "last_name": "Михеева",
+      "first_name": "Юзефа",
+      "maiden_name": null,
+      "patronymic": "Викентьевна",
+      "birth_date": "1923-05-20",
+      "death_date": null,
+      "photo": "",
+      "gender": "female",
+      "bio": "",
+      "profession": null,
+      "favorite_food": null,
+      "playlist": null,
+      "hobbies": null,
+      "creator": 1,
+      "mother": null,
+      "father": null,
+      "spouse": null
     }
   }
 ]

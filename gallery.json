@@ -1,0 +1,389 @@
+[
+  {
+    "model": "gallery.tag",
+    "pk": 1,
+    "fields": {
+      "name": "Днюха"
+    }
+  },
+  {
+    "model": "gallery.tag",
+    "pk": 2,
+    "fields": {
+      "name": "Прогулка"
+    }
+  },
+  {
+    "model": "gallery.tag",
+    "pk": 3,
+    "fields": {
+      "name": "НовыйГод"
+    }
+  },
+  {
+    "model": "gallery.tag",
+    "pk": 4,
+    "fields": {
+      "name": "Концерт"
+    }
+  },
+  {
+    "model": "gallery.tag",
+    "pk": 5,
+    "fields": {
+      "name": "СапрыкиныНГ"
+    }
+  },
+  {
+    "model": "gallery.tag",
+    "pk": 6,
+    "fields": {
+      "name": "Детство"
+    }
+  },
+  {
+    "model": "gallery.tag",
+    "pk": 7,
+    "fields": {
+      "name": "ЖеняСапрыкин"
+    }
+  },
+  {
+    "model": "gallery.tag",
+    "pk": 8,
+    "fields": {
+      "name": "Разное"
+    }
+  },
+  {
+    "model": "gallery.category",
+    "pk": 1,
+    "fields": {
+      "name": "День Рождения",
+      "description": "",
+      "color": null
+    }
+  },
+  {
+    "model": "gallery.category",
+    "pk": 2,
+    "fields": {
+      "name": "Садик",
+      "description": "",
+      "color": null
+    }
+  },
+  {
+    "model": "gallery.category",
+    "pk": 3,
+    "fields": {
+      "name": "Отдых",
+      "description": "",
+      "color": null
+    }
+  },
+  {
+    "model": "gallery.category",
+    "pk": 4,
+    "fields": {
+      "name": "Разное",
+      "description": "",
+      "color": null
+    }
+  },
+  {
+    "model": "gallery.category",
+    "pk": 5,
+    "fields": {
+      "name": "Прогулка",
+      "description": null,
+      "color": null
+    }
+  },
+  {
+    "model": "gallery.category",
+    "pk": 6,
+    "fields": {
+      "name": "Свадьба",
+      "description": null,
+      "color": null
+    }
+  },
+  {
+    "model": "gallery.category",
+    "pk": 7,
+    "fields": {
+      "name": "Новый год",
+      "description": null,
+      "color": null
+    }
+  },
+  {
+    "model": "gallery.category",
+    "pk": 8,
+    "fields": {
+      "name": "Концерт",
+      "description": null,
+      "color": null
+    }
+  },
+  {
+    "model": "gallery.category",
+    "pk": 9,
+    "fields": {
+      "name": "Детство",
+      "description": null,
+      "color": null
+    }
+  },
+  {
+    "model": "gallery.album",
+    "pk": 58,
+    "fields": {
+      "title": "Новый год 2025",
+      "date": "2024-11-26",
+      "location": "г. Воронеж, Левобережный р-он",
+      "description": "Предновогодняя фотосессия в студии.",
+      "cover_image": "album_covers/М_ARAzea2.jpg",
+      "created_at": "2025-06-17T12:42:51.219Z",
+      "owner": 1,
+      "category": 7,
+      "tags": [
+        3,
+        5
+      ]
+    }
+  },
+  {
+    "model": "gallery.album",
+    "pk": 59,
+    "fields": {
+      "title": "Женя Детство",
+      "date": "2025-06-17",
+      "location": null,
+      "description": "Разные фотографии",
+      "cover_image": "album_covers/photo_2024-11-01_12-29-05_JYeIdvv.jpg",
+      "created_at": "2025-06-17T15:10:40.252Z",
+      "owner": 1,
+      "category": 9,
+      "tags": [
+        6,
+        7,
+        8
+      ]
+    }
+  },
+  {
+    "model": "gallery.photo",
+    "pk": 98,
+    "fields": {
+      "image": "album_58/photos/e05c83f142494f59b8d7a2d2529f25d3.webp",
+      "caption": "Настюшка",
+      "date_taken": null,
+      "album": 58,
+      "people": [
+        9
+      ],
+      "tags": []
+    }
+  },
+  {
+    "model": "gallery.photo",
+    "pk": 99,
+    "fields": {
+      "image": "album_58/photos/ca90500d7c48445496337a4585cecaeb.webp",
+      "caption": "Сестрички",
+      "date_taken": null,
+      "album": 58,
+      "people": [
+        9,
+        8,
+        3
+      ],
+      "tags": []
+    }
+  },
+  {
+    "model": "gallery.photo",
+    "pk": 100,
+    "fields": {
+      "image": "album_58/photos/df59cd3bbd6b40df9f2d789058332813.webp",
+      "caption": "Лерочка",
+      "date_taken": null,
+      "album": 58,
+      "people": [
+        8
+      ],
+      "tags": []
+    }
+  },
+  {
+    "model": "gallery.photo",
+    "pk": 101,
+    "fields": {
+      "image": "album_58/photos/54d73053020f4614929c091f7ae37788.webp",
+      "caption": "Лерочка с подарком",
+      "date_taken": null,
+      "album": 58,
+      "people": [
+        8
+      ],
+      "tags": []
+    }
+  },
+  {
+    "model": "gallery.photo",
+    "pk": 102,
+    "fields": {
+      "image": "album_58/photos/f5a11094320c40d98ac1b8243e181d30.webp",
+      "caption": "С Мамой",
+      "date_taken": null,
+      "album": 58,
+      "people": [
+        9,
+        8,
+        4,
+        3
+      ],
+      "tags": []
+    }
+  },
+  {
+    "model": "gallery.photo",
+    "pk": 103,
+    "fields": {
+      "image": "album_58/photos/70bc3929b7c14c329df4f2ce1661f4ed.webp",
+      "caption": "Настюшка на лошадке",
+      "date_taken": null,
+      "album": 58,
+      "people": [
+        9
+      ],
+      "tags": []
+    }
+  },
+  {
+    "model": "gallery.photo",
+    "pk": 104,
+    "fields": {
+      "image": "album_58/photos/45896f01b04440569d73428675f46645.webp",
+      "caption": "Лера с подарком",
+      "date_taken": null,
+      "album": 58,
+      "people": [
+        8
+      ],
+      "tags": []
+    }
+  },
+  {
+    "model": "gallery.photo",
+    "pk": 105,
+    "fields": {
+      "image": "album_58/photos/a15369c082814fdeabc387bc258514ff.webp",
+      "caption": "Лера с подарком",
+      "date_taken": null,
+      "album": 58,
+      "people": [
+        8
+      ],
+      "tags": []
+    }
+  },
+  {
+    "model": "gallery.photo",
+    "pk": 106,
+    "fields": {
+      "image": "album_58/photos/d1be89f5c5ab448690def9a1c79bbf73.webp",
+      "caption": "Настя у снеговика",
+      "date_taken": null,
+      "album": 58,
+      "people": [
+        9
+      ],
+      "tags": []
+    }
+  },
+  {
+    "model": "gallery.photo",
+    "pk": 107,
+    "fields": {
+      "image": "album_58/photos/39497c5d65794fe58eca619ab7c557fb.webp",
+      "caption": "София на кресле",
+      "date_taken": null,
+      "album": 58,
+      "people": [
+        3
+      ],
+      "tags": []
+    }
+  },
+  {
+    "model": "gallery.photo",
+    "pk": 108,
+    "fields": {
+      "image": "album_58/photos/b4f63f483a39410998be28c669166f3c.webp",
+      "caption": "София на лошадке 2",
+      "date_taken": null,
+      "album": 58,
+      "people": [
+        3
+      ],
+      "tags": []
+    }
+  },
+  {
+    "model": "gallery.photo",
+    "pk": 109,
+    "fields": {
+      "image": "album_58/photos/929581d4285e4973afcae439a97323c7.webp",
+      "caption": "София в платье",
+      "date_taken": null,
+      "album": 58,
+      "people": [
+        3
+      ],
+      "tags": []
+    }
+  },
+  {
+    "model": "gallery.photo",
+    "pk": 110,
+    "fields": {
+      "image": "album_58/photos/fa2aef5b8964463ab0f789417fad6c03.webp",
+      "caption": "София на лошадке!",
+      "date_taken": null,
+      "album": 58,
+      "people": [
+        3
+      ],
+      "tags": []
+    }
+  },
+  {
+    "model": "gallery.photo",
+    "pk": 111,
+    "fields": {
+      "image": "album_59/photos/a26ceb5cd26544c9920a111e6e3510b8.webp",
+      "caption": "с братом (Дмитрий Скородед)\n20.02.1994",
+      "date_taken": null,
+      "album": 59,
+      "people": [
+        2
+      ],
+      "tags": []
+    }
+  },
+  {
+    "model": "gallery.photo",
+    "pk": 112,
+    "fields": {
+      "image": "album_59/photos/962161d166c44f1390675795efb1d762.webp",
+      "caption": "с братом (Дмитрий Скородед)\nг. Гурзуф 1993 год",
+      "date_taken": null,
+      "album": 59,
+      "people": [],
+      "tags": []
+    }
+  }
+]
