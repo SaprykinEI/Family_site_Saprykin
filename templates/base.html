@@ -103,6 +103,13 @@
                                     <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="user-menu">
+                                    {% if user.is_superuser %}
+                                    <li>
+                                        <a href="/admin/">
+                                            <i class="fas fa-cogs">Админ. панель</i>
+                                        </a>
+                                    </li>
+                                    {% endif %}
                                     <li>
                                         <a href="{% url 'gallery:user_albums' %}">
                                             <i class="fas fa-images"></i> Мои альбомы
