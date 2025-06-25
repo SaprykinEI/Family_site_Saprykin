@@ -121,6 +121,16 @@ class AlbumDeactivatedListView(LoginRequiredMixin, ListView):
         context['view_mode'] = 'inactive'
         return context
 
+
+def album_toggle_activity(request, pk):
+    album_item = get_object_or_404(Album, pk=pk)
+    if album_item.is_active:
+        album_item.is_active = False
+    else:
+        album_item.is_active = True
+    album_item.save()
+    return redirect(reverse('gallery:album_list'))
+
 class AlbumCreateView(CreateView):
     """Класс создания альбома"""
 
