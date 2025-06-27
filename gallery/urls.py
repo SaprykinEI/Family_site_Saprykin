@@ -2,16 +2,16 @@ from django.urls import path
 
 from gallery.views import (AlbumListView, AlbumCreateView, AlbumDetailView, FileUploadView, PhotoUploadPageView, \
     AlbumUpdateView, AlbumDeleteView, UserAlbumListView, PhotoUpdateCaptionView, PhotoDeleteView,
-                           AlbumDeactivatedListView, album_toggle_activity)
+                           AlbumDeactivatedListView)
 
 app_name = 'gallery'
 
 urlpatterns = [
     path('', AlbumListView.as_view(), name='album_list'),
-    path('album/', AlbumDeactivatedListView.as_view(), name='deactivated_list'),
+    path('album/deactivated', AlbumDeactivatedListView.as_view(), name='album_deactivated_list'),
     path('album/create/', AlbumCreateView.as_view(), name='album_create'),
     path('album/update/<int:pk>/', AlbumUpdateView.as_view(), name='album_update'),
-    path('album/toggle/<int:pk>/', album_toggle_activity, name='album_toggle_activity'),
+
     path('album/<int:pk>/delete/', AlbumDeleteView.as_view(), name='album_delete'),
     path('album/<int:pk>/upload/', PhotoUploadPageView.as_view(), name='photo_upload'),
     path('album/<int:pk>/upload/file/', FileUploadView.as_view(), name='file_upload'),

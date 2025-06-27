@@ -38,22 +38,19 @@ class AlbumListView(LoginRequiredMixin, ListView):
     context_object_name = 'albums'
     paginate_by = 12
 
-
     def get_queryset(self):
         user = self.request.user
-        qs = Album.objects.all().select_related('category').prefetch_related(
+
+        # Все активные альбомы
+        qs = Album.objects.filter(is_active=True).select_related('category').prefetch_related(
             'photos__tags', 'photos__people', 'videos__tags', 'videos__people'
         ).distinct()
 
-        if user.role == UserRoles.MODERATOR:
-            qs = qs.filter(is_active=True)
-        elif user.role == UserRoles.USER:
-            qs = qs.filter(is_active=True)
-
+        # Фильтры GET
         category_ids = self.request.GET.getlist('category')
         years = self.request.GET.getlist('year')
         tag_ids = self.request.GET.getlist('tag')
-        person_id = self.request.GET.get('person')  # одно значение
+        person_id = self.request.GET.get('person')
         search = self.request.GET.get('search', '').strip()
 
         if category_ids:
@@ -65,7 +62,6 @@ class AlbumListView(LoginRequiredMixin, ListView):
                 qs = qs.annotate(year=ExtractYear('date')).filter(year__in=years_int)
 
         if tag_ids:
-            # Фильтруем по тегам, прикреплённым к самому альбому
             qs = qs.filter(tags__id__in=tag_ids)
 
         if person_id and person_id.isdigit():
@@ -80,6 +76,7 @@ class AlbumListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        user = self.request.user
 
         context['view_mode'] = 'active'
 
@@ -97,6 +94,9 @@ class AlbumListView(LoginRequiredMixin, ListView):
         context['selected_persons'] = safe_int_list(self.request.GET.getlist('person'))
         context['search'] = self.request.GET.get('search', '')
 
+        context['is_admin'] = user.role == UserRoles.ADMIN
+        context['is_moderator'] = user.role == UserRoles.MODERATOR
+
         return context
 
 
@@ -108,28 +108,33 @@ class AlbumDeactivatedListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         user = self.request.user
-        queryset = super().get_queryset()
-        qs = queryset.filter(is_active=False)
+
+        qs = Album.objects.filter(is_active=False).select_related('category').prefetch_related(
+            'photos__tags', 'photos__people', 'videos__tags', 'videos__people'
+        ).distinct()
 
         if user.role == UserRoles.ADMIN:
-            return qs
+            # админ видит все неактивные
+            return qs.order_by('-created_at')
+        elif user.role == UserRoles.MODERATOR:
+            # модератор — только свои
+            return qs.filter(owner=user).order_by('-created_at')
         else:
-            return qs.filter(owner=user)
+            # юзер — пусто
+            return Album.objects.none()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        user = self.request.user
+
         context['view_mode'] = 'inactive'
+        context['is_admin'] = user.role == UserRoles.ADMIN
+        context['is_moderator'] = user.role == UserRoles.MODERATOR
+
         return context
 
 
-def album_toggle_activity(request, pk):
-    album_item = get_object_or_404(Album, pk=pk)
-    if album_item.is_active:
-        album_item.is_active = False
-    else:
-        album_item.is_active = True
-    album_item.save()
-    return redirect(reverse('gallery:album_list'))
+
 
 class AlbumCreateView(CreateView):
     """Класс создания альбома"""
