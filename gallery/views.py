@@ -50,7 +50,7 @@ class UserAlbumListView(LoginRequiredMixin, ListView):
 
 class UserAlbumDeactivatedListView(LoginRequiredMixin, ListView):
     model = Album
-    template_name = 'gallery/albums_user.html'  # тот же шаблон
+    template_name = 'gallery/albums_user.html'
     context_object_name = 'albums'
     paginate_by = 12
 

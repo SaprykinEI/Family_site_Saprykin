@@ -67,18 +67,18 @@
                     <p><strong>Дата смерти:</strong> {{ person.death_date|date:"d.m.Y" }}</p>
                   {% endif %}
                   {% if person.father %}
-                    <p><strong>Отец:</strong> <a href="{% url 'family_tree:person_detail' person.father.id %}">{{ person.father.full_name }}</a></p>
+                    <p><strong>Отец:</strong> <a href="{% url 'family_tree:person_detail' person.father.slug %}">{{ person.father.full_name }}</a></p>
                   {% endif %}
                   {% if person.mother %}
-                    <p><strong>Мать:</strong> <a href="{% url 'family_tree:person_detail' person.mother.id %}">{{ person.mother.full_name }}</a></p>
+                    <p><strong>Мать:</strong> <a href="{% url 'family_tree:person_detail' person.mother.slug %}">{{ person.mother.full_name }}</a></p>
                   {% endif %}
                   {% if person.spouse %}
-                    <p><strong>Супруг(а):</strong> <a href="{% url 'family_tree:person_detail' person.spouse.id %}">{{ person.spouse.full_name }}</a></p>
+                    <p><strong>Супруг(а):</strong> <a href="{% url 'family_tree:person_detail' person.spouse.slug %}">{{ person.spouse.full_name }}</a></p>
                   {% endif %}
                   {% if person.children %}
                     <p><strong>Дети:</strong>
                       {% for child in person.children %}
-                        <a href="{% url 'family_tree:person_detail' child.id %}">{{ child.full_name }}</a>{% if not forloop.last %}, {% endif %}
+                        <a href="{% url 'family_tree:person_detail' child.slug %}">{{ child.full_name }}</a>{% if not forloop.last %}, {% endif %}
                       {% endfor %}
                     </p>
                   {% endif %}
@@ -97,9 +97,18 @@
         <div class="row">
           <div class="row-lg-height">
 
+
             <!-- Заглушка фото -->
             <div class="col-lg-6 col-lg-push-6 col-lg-height split-box-image no-padding bg-image"
-                 style="background-image: url({% static 'img/no-photo.jpg' %}); background-position: 50% 50%;">
+                 style="background-image: url(
+                 {% if person.photo_other %}
+                    {{ person.photo_other.url }}
+                 {% else %}
+                    {% static 'img/no-photo.jpg' %}
+                 {% endif %}
+                 ); background-position: 50% 50%;">
+
+
               <div class="sbi-height padding-height-85"></div>
             </div>
 
@@ -113,7 +122,7 @@
                   </div>
                 </div>
                 <div class="margin-top-30">
-                  <p>{{ person.biography|linebreaks }}</p>
+                  <p>{{ person.bio|linebreaks }}</p>
                 </div>
               </div>
             </div>

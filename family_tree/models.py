@@ -17,6 +17,7 @@ class Person(models.Model):
     birth_date = models.DateField(verbose_name="Дата рождения")
     death_date = models.DateField(**NULLABLE, verbose_name="Дата Смерти")
     photo = models.ImageField(upload_to="person_photos/", **NULLABLE, verbose_name="Фотография")
+    photo_other = models.ImageField(upload_to="person_other_photos/", **NULLABLE, verbose_name="Фотография_2")
     gender = models.CharField(max_length=6, choices=GENDER_CHOICES)
     bio = models.TextField(**NULLABLE, verbose_name="Биография")
     profession = models.CharField(max_length=150, **NULLABLE, verbose_name="Профессия")
