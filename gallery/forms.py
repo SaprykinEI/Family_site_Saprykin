@@ -1,6 +1,11 @@
 from django import forms
 from django.template.defaultfilters import title
 
+from django.utils.text import slugify
+import uuid
+
+from family_tree.utils import slug_generator
+
 from gallery.models import Album, Category, Photo, Tag
 
 
@@ -20,7 +25,7 @@ class AlbumCreateForm(forms.ModelForm):
 
     class Meta:
         model = Album
-        fields = ['title', 'location', 'cover_image', 'description',  'date', 'category', 'tags', 'is_active']
+        fields = ['title','location', 'cover_image', 'description',  'date', 'category', 'tags', 'is_active']
         widgets = {
             'date': forms.DateInput(attrs={'type': 'date'}),
             'is_active': forms.CheckboxInput(attrs={'class': 'toggle-switch-checkbox'}),
@@ -29,6 +34,9 @@ class AlbumCreateForm(forms.ModelForm):
     def save(self, commit=True):
         album = super().save(commit=False)
 
+        if not album.slug:
+            album.slug = slug_generator(album.title)
+
         new_category_name = self.cleaned_data.get('new_category')
         if new_category_name:
             category, created = Category.objects.get_or_create(name=new_category_name.strip())
@@ -36,12 +44,10 @@ class AlbumCreateForm(forms.ModelForm):
 
         if commit:
             album.save()
-            # Сохраняем M2M связи (теги из выпадающего списка)
             self.save_m2m()
 
             new_tags_str = self.cleaned_data.get('new_tags', '')
             if new_tags_str:
-                # Разбиваем строку на теги, удаляем лишние пробелы и пустые
                 tag_names = [tag.strip() for tag in new_tags_str.split(',') if tag.strip()]
                 for tag_name in tag_names:
                     tag, created = Tag.objects.get_or_create(name=tag_name)

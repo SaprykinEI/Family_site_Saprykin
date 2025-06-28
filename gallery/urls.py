@@ -10,12 +10,12 @@ urlpatterns = [
     path('', AlbumListView.as_view(), name='album_list'),
     path('album/deactivated', AlbumDeactivatedListView.as_view(), name='album_deactivated_list'),
     path('album/create/', AlbumCreateView.as_view(), name='album_create'),
-    path('album/update/<int:pk>/', AlbumUpdateView.as_view(), name='album_update'),
+    path('album/update/<slug:slug>/', AlbumUpdateView.as_view(), name='album_update'),
 
-    path('album/<int:pk>/delete/', AlbumDeleteView.as_view(), name='album_delete'),
-    path('album/<int:pk>/upload/', PhotoUploadPageView.as_view(), name='photo_upload'),
-    path('album/<int:pk>/upload/file/', FileUploadView.as_view(), name='file_upload'),
-    path('album/<int:pk>/', AlbumDetailView.as_view(), name='album_detail'),
+    path('album/<slug:slug>/delete/', AlbumDeleteView.as_view(), name='album_delete'),
+    path('album/<slug:slug>/upload/', PhotoUploadPageView.as_view(), name='photo_upload'),
+    path('album/<slug:slug>/upload/file/', FileUploadView.as_view(), name='file_upload'),
+    path('album/<slug:slug>/', AlbumDetailView.as_view(), name='album_detail'),
 
     path('my_albums/', UserAlbumListView.as_view(), name='user_albums'),
 

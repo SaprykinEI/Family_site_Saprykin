@@ -9,6 +9,7 @@ class TagAdmin(admin.ModelAdmin):
     search_fields = ('name',)
 
 
+
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name', 'description')
@@ -20,6 +21,7 @@ class AlbumAdmin(admin.ModelAdmin):
     list_display = ('pk', 'title', 'date', 'category')
     list_filter = ('category', 'date')
     search_fields = ('title', 'description')
+    prepopulated_fields = {'slug': ('title',)}
 
 
 @admin.register(Photo)

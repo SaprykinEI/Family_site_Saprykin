@@ -29,9 +29,9 @@
           <div class="gs-sidebar-info">
             {% if user.is_authenticated and user.role == 'admin' or user.role == 'moderator' and album.owner == user %}
               <div class="album-action-buttons margin-top-30">
-                <a href="{% url 'gallery:photo_upload' album.pk %}" class="btn-edit">Добавить контент в альбом</a>
-                <a href="{% url 'gallery:album_update' album.pk %}" class="btn-edit">Редактировать альбом</a>
-                <a href="{% url 'gallery:album_delete' album.pk %}" class="btn-delete">Удалить</a>
+                <a href="{% url 'gallery:photo_upload' slug=album.slug %}" class="btn-edit">Добавить контент в альбом</a>
+                <a href="{% url 'gallery:album_update' slug=album.slug %}" class="btn-edit">Редактировать альбом</a>
+                <a href="{% url 'gallery:album_delete' slug=album.slug %}" class="btn-delete">Удалить</a>
               </div>
             {% endif %}
 
@@ -72,7 +72,7 @@
                     <ul class="people-list">
                       {% for person in people_on_photos %}
                         <li>
-                          <a href="{% url 'family_tree:person_detail' person.pk %}">{{ person.full_name }}</a>
+                          <a href="{% url 'family_tree:person_detail' slug=person.slug %}">{{ person.full_name }}</a>
                         </li>
                       {% endfor %}
                     </ul>
@@ -99,11 +99,11 @@
 
           <div class="gallery-single-nav margin-top-50">
             {% if previous_album %}
-              <a href="{% url 'gallery:album_detail' previous_album.id %}" class="gsn-prew"><i class="fas fa-angle-left"></i></a>
+              <a href="{% url 'gallery:album_detail' previous_album.slug %}" class="gsn-prew"><i class="fas fa-angle-left"></i></a>
             {% endif %}
             <a href="{% url 'gallery:album_list' %}" class="gsn-back"><i class="fas fa-th"></i></a>
             {% if next_album %}
-              <a href="{% url 'gallery:album_detail' next_album.id %}" class="gsn-next"><i class="fas fa-angle-right"></i></a>
+              <a href="{% url 'gallery:album_detail' next_album.slug %}" class="gsn-next"><i class="fas fa-angle-right"></i></a>
             {% endif %}
           </div>
         </div>

@@ -16,7 +16,7 @@
   </form>
 
   <p class="album-create-footer">
-    <a href="{% url 'gallery:album_detail' album.id %}">← Вернуться к альбому</a>
+    <a href="{% url 'gallery:album_detail' slug=album.slug %}">← Вернуться к альбому</a>
   </p>
 </div>
 

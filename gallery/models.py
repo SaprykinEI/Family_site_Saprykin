@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 
 from family_tree.models import Person
+from family_tree.utils import slug_generator
 from users.models import NULLABLE
 
 from gallery.utils import photo_upload_path, video_upload_path
@@ -40,6 +41,7 @@ class Album(models.Model):
     cover_image = models.ImageField(upload_to='album_covers/', verbose_name="Обложка альбома")
     created_at = models.DateTimeField(auto_now_add=True, **NULLABLE, verbose_name="Дата создания")
     is_active = models.BooleanField(default=True, verbose_name="Активность альбома")
+    slug = models.SlugField(max_length=255, unique=True, verbose_name="Слаг")
 
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL,  **NULLABLE,
                                 related_name='albums', verbose_name='Владелец альбома')
@@ -47,6 +49,10 @@ class Album(models.Model):
                                  related_name='albums', verbose_name="Категория")
     tags = models.ManyToManyField(Tag, blank=True, related_name='albums', verbose_name="Теги")
 
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slug_generator(self.title)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.title
@@ -62,9 +68,9 @@ class Photo(models.Model):
     date_taken = models.DateField(**NULLABLE, verbose_name="Дата")
 
     album = models.ForeignKey(Album, on_delete=models.CASCADE, related_name='photos', verbose_name="Привязка к альбому")
-    people = models.ManyToManyField('family_tree.Person', **NULLABLE,
+    people = models.ManyToManyField('family_tree.Person', blank=True,
                                     related_name='photos', verbose_name="Привязка к карточке")
-    tags = models.ManyToManyField('Tag', **NULLABLE, related_name='photos', verbose_name="Привязка к тегам")
+    tags = models.ManyToManyField('Tag', blank=True, related_name='photos', verbose_name="Привязка к тегам")
 
     def __str__(self):
         return self.caption or f"Фото от {self.date_taken}"
@@ -81,9 +87,9 @@ class Video(models.Model):
     date_taken = models.DateField(**NULLABLE, verbose_name="Дата")
 
     album = models.ForeignKey(Album, on_delete=models.CASCADE, related_name='videos', verbose_name="Привязка к альбому")
-    people = models.ManyToManyField('family_tree.Person', **NULLABLE,
+    people = models.ManyToManyField('family_tree.Person', blank=True,
                                     related_name='videos', verbose_name="Привязка к карточке")
-    tags = models.ManyToManyField('Tag', **NULLABLE, related_name='videos', verbose_name="Привязка к тегам")
+    tags = models.ManyToManyField('Tag', blank=True, related_name='videos', verbose_name="Привязка к тегам")
 
     def __str__(self):
         return self.caption or f"Видео от {self.date_taken}"

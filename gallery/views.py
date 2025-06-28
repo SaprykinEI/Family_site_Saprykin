@@ -154,12 +154,14 @@ class AlbumCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse_lazy('gallery:photo_upload', kwargs={'pk': self.object.id})
+        return reverse_lazy('gallery:photo_upload', kwargs={'slug': self.object.slug})
 
 
 class AlbumDetailView(LoginRequiredMixin, DetailView):
     """Класс детального просмотра альбома"""
     model = Album
+    slug_field = 'slug'
+    slug_url_kwarg = 'slug'
     template_name = 'gallery/album_detail.html'
     context_object_name = 'album'
 
@@ -179,6 +181,8 @@ class AlbumDetailView(LoginRequiredMixin, DetailView):
 
 class AlbumUpdateView(LoginRequiredMixin, UpdateView):
     model = Album
+    slug_field = 'slug'
+    slug_url_kwarg = 'slug'
     form_class = AlbumCreateForm
     template_name = 'gallery/album_update.html'
     success_url = reverse_lazy('gallery:album_list')
@@ -207,6 +211,8 @@ class AlbumUpdateView(LoginRequiredMixin, UpdateView):
 
 class AlbumDeleteView(LoginRequiredMixin, DeleteView):
     model = Album
+    slug_field = 'slug'
+    slug_url_kwarg = 'slug'
     template_name = 'gallery/album_delete.html'
     success_url = reverse_lazy('gallery:album_list')
 
@@ -218,13 +224,13 @@ class AlbumDeleteView(LoginRequiredMixin, DeleteView):
             return queryset
         elif user.role == UserRoles.MODERATOR:
             return queryset.filter(owner=user)
-        return queryset.none
-
-
+        return queryset.none()
 
 
 class PhotoUploadPageView(LoginRequiredMixin, View):
     """Отображает страницу загрузки медиа в альбом"""
+    slug_field = 'slug'
+    slug_url_kwarg = 'slug'
     def get_queryset(self):
         """Формируем queryset альбомов, к которым есть доступ для загрузки"""
         user = self.request.user
@@ -235,14 +241,16 @@ class PhotoUploadPageView(LoginRequiredMixin, View):
             return Album.objects.filter(owner=user)
         return Album.objects.none()
 
-    def get(self, request, pk):
+    def get(self, request, slug):
         queryset = self.get_queryset()
-        album = get_object_or_404(queryset, id=pk)
+        album = get_object_or_404(queryset, slug=slug)
         return render(request, 'gallery/photo_upload.html', {'album': album})
 
 
 @method_decorator(csrf_exempt, name='dispatch')
 class FileUploadView(LoginRequiredMixin, View):
+    slug_field = 'slug'
+    slug_url_kwarg = 'slug'
     def get_queryset(self):
         user = self.request.user
 
@@ -252,8 +260,8 @@ class FileUploadView(LoginRequiredMixin, View):
             return Album.objects.filter(owner=user)
         return Album.objects.none()
 
-    def post(self, request, pk):
-        album = get_object_or_404(Album, id=pk)
+    def post(self, request, slug):
+        album = get_object_or_404(Album, slug=slug)
         uploaded_file = request.FILES.get('file')
 
         if not uploaded_file:
@@ -346,6 +354,6 @@ class PhotoDeleteView(LoginRequiredMixin, View):
     def post(self, request, pk, *args, **kwargs):
         album = self.get_queryset()
 
-        photo = get_object_or_404(pk=pk, album__in=album)
+        photo = get_object_or_404(Photo, pk=pk, album__in=album)
         photo.delete()
         return JsonResponse({'success': True})

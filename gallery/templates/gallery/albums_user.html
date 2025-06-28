@@ -36,7 +36,7 @@
                             <div class="isotope-item category-{{ album.category.id }} year-{{ album.date.year }} iso-height-1 album-card">
                                 <div class="gallery-list-item">
                                     <div class="gl-item-image-wrap">
-                                        <a href="{% url 'gallery:album_detail' album.pk %}" class="gl-item-image-inner">
+                                        <a href="{% url 'gallery:album_detail' slug=album.slug %}" class="gl-item-image-inner">
                                             <div class="gl-item-image bg-image" style="background-image: url({{ album.cover_image.url }});"></div>
                                             <span class="gl-item-image-zoom"></span>
                                         </a>
@@ -45,7 +45,7 @@
                                     <div class="gl-item-info">
                                         <div class="gl-item-caption">
                                             <h2 class="gl-item-title">
-                                                <a href="{% url 'gallery:album_detail' album.pk %}">
+                                                <a href="{% url 'gallery:album_detail' slug=album.slug %}">
                                                     {{ album.title }}
                                                 </a>
                                             </h2>
