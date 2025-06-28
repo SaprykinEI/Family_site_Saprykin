@@ -24,7 +24,19 @@
 
             <form method="get" id="filter-form" class="filter-sidebar">
 
+                {% if request.user.role == 'admin' or request.user.role == 'moderator' %}
+                <!-- Кнопки Активные / Неактивные -->
+                <div class="filter-row button-row" style="margin-top: 15px;">
+                    <a href="{% url 'gallery:user_albums' %}" class="btn-create-album {% if view_mode == 'active' %}btn-active{% else %}btn-inactive{% endif %}">
+                        Активные альбомы
+                    </a>
+                    <a href="{% url 'gallery:user_deactivated_albums' %}" class="btn-filter-reset {% if view_mode == 'inactive' %}btn-active{% else %}btn-inactive{% endif %}" style="margin-left: 10px;">
+                        Неактивные альбомы
+                    </a>
+                </div>
+                {% endif %}
 
+            </form>
 
             <!-- Сетка альбомов -->
             <div class="albums-container">
@@ -59,21 +71,8 @@
                                 </div>
                             </div>
                         {% empty %}
-                            <p>Альбомы не найдены по заданным фильтрам.</p>
+                            <p>Альбомы не найдены.</p>
                         {% endfor %}
-
-                        <!-- Пагинация -->
-                        <div class="isotope-pagination">
-                            <div class="iso-load-more">
-                                {% if page_obj.has_next %}
-                                    <a class="btn btn-dark-bordered btn-lg"
-                                       href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ page_obj.next_page_number }}">
-                                        Показать еще <i class="fas fa-refresh"></i>
-                                    </a>
-                                {% endif %}
-                            </div>
-                        </div>
-
                     </div>
                 </div>
             </div>
@@ -82,5 +81,4 @@
     </div>
 </section>
 
-<script src="{% static 'js/gallery/album_menu.js' %}"></script>
 {% endblock %}

@@ -1,7 +1,7 @@
 from django.urls import path
 
 from gallery.views import (AlbumListView, AlbumCreateView, AlbumDetailView, FileUploadView, PhotoUploadPageView, \
-    AlbumUpdateView, AlbumDeleteView, UserAlbumListView, PhotoUpdateCaptionView, PhotoDeleteView,
+    AlbumUpdateView, AlbumDeleteView, UserAlbumListView, UserAlbumDeactivatedListView, PhotoUpdateCaptionView, PhotoDeleteView,
                            AlbumDeactivatedListView)
 
 app_name = 'gallery'
@@ -18,6 +18,7 @@ urlpatterns = [
     path('album/<slug:slug>/', AlbumDetailView.as_view(), name='album_detail'),
 
     path('my_albums/', UserAlbumListView.as_view(), name='user_albums'),
+    path('my_albums/deactivated', UserAlbumDeactivatedListView.as_view(), name='user_deactivated_albums'),
 
     path('photo/<int:pk>/update_caption/', PhotoUpdateCaptionView.as_view(), name='photo_update_caption'),
     path('photo/<int:pk>/delete/', PhotoDeleteView.as_view(), name='photo_delete'),

@@ -30,7 +30,53 @@ class UserAlbumListView(LoginRequiredMixin, ListView):
     context_object_name = 'albums'
 
     def get_queryset(self):
-        return Album.objects.filter(owner=self.request.user).order_by('-created_at')
+        user = self.request.user
+        return Album.objects.filter(
+            owner=user,
+            is_active=True
+        ).select_related('category').prefetch_related(
+            'photos__tags', 'photos__people', 'videos__tags', 'videos__people'
+        ).order_by('-created_at').distinct()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        context['view_mode'] = 'active'
+        context['is_admin'] = user.role == UserRoles.ADMIN
+        context['is_moderator'] = user.role == UserRoles.MODERATOR
+
+        return context
+
+
+class UserAlbumDeactivatedListView(LoginRequiredMixin, ListView):
+    model = Album
+    template_name = 'gallery/albums_user.html'  # тот же шаблон
+    context_object_name = 'albums'
+    paginate_by = 12
+
+    def get_queryset(self):
+        user = self.request.user
+
+        qs = Album.objects.filter(owner=user, is_active=False).select_related('category').prefetch_related(
+            'photos__tags', 'photos__people', 'videos__tags', 'videos__people'
+        ).distinct()
+
+        if user.role == UserRoles.ADMIN:
+            return qs.order_by('-created_at')
+        elif user.role == UserRoles.MODERATOR:
+            return qs.order_by('-created_at')
+        else:
+            return qs.order_by('-created_at')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+
+        context['view_mode'] = 'inactive'
+        context['is_admin'] = user.role == UserRoles.ADMIN
+        context['is_moderator'] = user.role == UserRoles.MODERATOR
+
+        return context
 
 
 class AlbumListView(LoginRequiredMixin, ListView):
@@ -357,3 +403,4 @@ class PhotoDeleteView(LoginRequiredMixin, View):
         photo = get_object_or_404(Photo, pk=pk, album__in=album)
         photo.delete()
         return JsonResponse({'success': True})
+
