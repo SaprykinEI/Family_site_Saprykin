@@ -95,6 +95,11 @@ class PersonDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         '''Добавляем заголовка в шаблон.'''
         context = super().get_context_data(**kwargs)
+        person = self.object
+
+        photos_queryset = person.photos.all()
+        random_photos = photos_queryset.order_by('?')[:10]
+        context['random_photos'] = random_photos
         context['title'] = self.object
         return context
 
