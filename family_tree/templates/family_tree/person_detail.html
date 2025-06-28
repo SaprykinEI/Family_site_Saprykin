@@ -22,8 +22,8 @@
       </div>
       <div class="header-action-buttons">
         {% if user.role == 'admin' or user.role == 'moderator' and user == person.creator %}
-          <a href="{% url 'family_tree:person_update' person.id %}" class="btn btn-outline-light btn-edit">Редактировать</a>
-          <a href="{% url 'family_tree:person_delete' person.id %}" class="btn btn-outline-light btn-delete">Удалить</a>
+          <a href="{% url 'family_tree:person_update' slug=person.slug %}" class="btn btn-outline-light btn-edit">Редактировать</a>
+          <a href="{% url 'family_tree:person_delete' slug=person.slug %}" class="btn btn-outline-light btn-delete">Удалить</a>
         {% endif %}
       </div>
     </div>

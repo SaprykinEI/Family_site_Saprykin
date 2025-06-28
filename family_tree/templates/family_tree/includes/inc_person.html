@@ -1,6 +1,6 @@
 {% load static %}
 <div class="polaroid-card">
-  <a href="{% url 'family_tree:person_detail' person.pk %}" class="polaroid-card-link">
+  <a href="{% url 'family_tree:person_detail' slug=person.slug %}" class="polaroid-card-link">
     <div class="polaroid-photo">
       {% if person.photo %}
         <img src="{{ person.photo.url }}" alt="{{ person.full_name }}">

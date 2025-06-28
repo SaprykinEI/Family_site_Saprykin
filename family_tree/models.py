@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 
+from family_tree.utils import slug_generator
 from users.models import NULLABLE
 
 
@@ -22,6 +23,7 @@ class Person(models.Model):
     favorite_food = models.CharField(max_length=150, **NULLABLE, verbose_name="Любимая еда")
     playlist = models.URLField(**NULLABLE, verbose_name="Любимая музыка")
     hobbies = models.CharField(max_length=500, **NULLABLE, verbose_name="Хобби")
+    slug = models.SlugField(max_length=255, unique=True, blank=True)
 
 
     creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL,
@@ -43,6 +45,12 @@ class Person(models.Model):
         if self.patronymic:
             parts.append(self.patronymic)
         return " ".join(parts)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            full_name = f"{self.last_name} {self.first_name}"
+            self.slug = slug_generator(full_name)
+        super().save(*args, **kwargs)
 
     def children(self):
         return Person.objects.filter(models.Q(father=self) | models.Q(mother=self))

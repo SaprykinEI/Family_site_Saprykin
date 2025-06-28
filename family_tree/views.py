@@ -87,6 +87,8 @@ class PersonCreateView(LoginRequiredMixin, CreateView):
 class PersonDetailView(LoginRequiredMixin, DetailView):
     '''Представление-класс для отображения подробной информации о человеке'''
     model = Person
+    slug_field = 'slug'
+    slug_url_kwarg = 'slug'
     template_name = 'family_tree/person_detail.html'
     context_object_name = 'person'
 
@@ -100,6 +102,8 @@ class PersonDetailView(LoginRequiredMixin, DetailView):
 class PersonUpdateView(LoginRequiredMixin, UpdateView):
     '''Представление-класс для редактирования данных о человеке.'''
     model = Person
+    slug_field = 'slug'
+    slug_url_kwarg = 'slug'
     form_class = PersonForm
     template_name = 'family_tree/person_create_update.html'
     context_object_name = 'object'
@@ -123,12 +127,14 @@ class PersonUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
         """После успешного сохранения — перейти на страницу детального просмотра."""
-        return reverse('family_tree:person_detail', args=[self.object.pk])
+        return reverse('family_tree:person_detail', kwargs={'slug': self.object.slug})
 
 
 class PersonDeleteView(LoginRequiredMixin, DeleteView):
     """Представление-класс для удаления объекта Person с подтверждением."""
     model = Person
+    slug_field = 'slug'
+    slug_url_kwarg = 'slug'
     template_name = 'family_tree/person_delete.html'
     context_object_name = 'object'
     success_url = reverse_lazy('family_tree:persons')

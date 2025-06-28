@@ -7,3 +7,4 @@ class UserAdmin(admin.ModelAdmin):
     list_filter = ('last_name',)
     search_fields = ('first_name', 'last_name')
     ordering = ('last_name', 'first_name')
+    prepopulated_fields = {'slug': ('last_name', 'first_name')}
