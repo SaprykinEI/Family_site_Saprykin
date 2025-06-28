@@ -27,11 +27,13 @@
       <div class="col-lg-4">
         <div class="gs-sidebar">
           <div class="gs-sidebar-info">
-            <div class="album-action-buttons margin-top-30">
-              <a href="{% url 'gallery:photo_upload' album.pk %}" class="btn-edit">Добавить контент в альбом</a>
-              <a href="{% url 'gallery:album_update' album.pk %}" class="btn-edit">Редактировать альбом</a>
-              <a href="{% url 'gallery:album_delete' album.pk %}" class="btn-delete">Удалить</a>
-            </div>
+            {% if user.is_authenticated and user.role == 'admin' or user.role == 'moderator' and album.owner == user %}
+              <div class="album-action-buttons margin-top-30">
+                <a href="{% url 'gallery:photo_upload' album.pk %}" class="btn-edit">Добавить контент в альбом</a>
+                <a href="{% url 'gallery:album_update' album.pk %}" class="btn-edit">Редактировать альбом</a>
+                <a href="{% url 'gallery:album_delete' album.pk %}" class="btn-delete">Удалить</a>
+              </div>
+            {% endif %}
 
             <div class="gallery-single-credits" style="margin-top: 30px;">
               <dl>
@@ -80,13 +82,7 @@
             </div>
           </div>
 
-          <div class="social-buttons margin-top-40">
-            <ul>
-              <li><strong>Поделиться:</strong></li>
-              <li><a href="#" class="btn btn-social-min btn-facebook btn-sm btn-rounded-full"><i class="fab fa-facebook-f"></i></a></li>
-              <li><a href="#" class="btn btn-social-min btn-twitter btn-sm btn-rounded-full"><i class="fab fa-twitter"></i></a></li>
-            </ul>
-          </div>
+
 
           <ul class="gallery-meta">
             <li>
@@ -125,14 +121,16 @@
                   </a>
 
                   <!-- Иконки редактирования и удаления, видны при наведении -->
-                  <div class="icon-buttons">
-                    <button type="button" class="edit-btn" title="Редактировать">
-                      <i class="fas fa-pencil-alt"></i>
-                    </button>
-                    <button type="button" class="delete-btn" title="Удалить">
-                      <i class="fas fa-trash-alt"></i>
-                    </button>
-                  </div>
+                  {% if user.is_authenticated and user.role == 'admin' or user.role == 'moderator' and album.owner == user %}
+                    <div class="icon-buttons">
+                      <button type="button" class="edit-btn" title="Редактировать">
+                        <i class="fas fa-pencil-alt"></i>
+                      </button>
+                      <button type="button" class="delete-btn" title="Удалить">
+                        <i class="fas fa-trash-alt"></i>
+                      </button>
+                    </div>
+                  {% endif %}
                 </div>
               {% endfor %}
 
@@ -160,17 +158,17 @@
       <div class="col-md-12 text-center">
         <div class="tt-heading tt-heading-lg text-center">
           <div class="tt-heading-inner tt-wrap">
-            <h1 class="tt-heading-title">Что дальше?</h1>
-            <div class="tt-heading-subtitle">Хочешь добавить больше воспоминаний?</div>
-            <hr class="hr-short">
-          </div>
-        </div>
-        <div class="margin-top-30 max-width-1000 margin-auto">
-          <p>Ты можешь добавить новые фотографии или создать новый альбом.</p>
-          <div class="margin-top-30">
-            <a href="{% url 'gallery:album_create' %}" class="btn btn-dark margin-top-5 margin-right-5">Создать альбом</a>
-            <a href="{% url 'gallery:photo_upload' album.id %}" class="btn btn-primary margin-top-5">Добавить фото</a>
-          </div>
+<!--            <h1 class="tt-heading-title">Что дальше?</h1>-->
+<!--            <div class="tt-heading-subtitle">Хочешь добавить больше воспоминаний?</div>-->
+<!--            <hr class="hr-short">-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="margin-top-30 max-width-1000 margin-auto">-->
+<!--          <p>Ты можешь добавить новые фотографии или создать новый альбом.</p>-->
+<!--          <div class="margin-top-30">-->
+<!--            <a href="{% url 'gallery:album_create' %}" class="btn btn-dark margin-top-5 margin-right-5">Создать альбом</a>-->
+<!--            <a href="{% url 'gallery:photo_upload' album.id %}" class="btn btn-primary margin-top-5">Добавить фото</a>-->
+<!--          </div>-->
         </div>
       </div>
     </div>

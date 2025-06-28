@@ -171,11 +171,23 @@ class AlbumDetailView(DetailView):
         return context
 
 
-class AlbumUpdateView(UpdateView):
+class AlbumUpdateView(LoginRequiredMixin, UpdateView):
     model = Album
     form_class = AlbumCreateForm
     template_name = 'gallery/album_update.html'
     success_url = reverse_lazy('gallery:album_list')
+
+    def get_queryset(self):
+        """Ограничиваем доступ к обновлению альбомов"""
+        queryset = super().get_queryset()
+        user = self.request.user
+
+        if user.role == UserRoles.ADMIN:
+            return queryset
+        elif user.role == UserRoles.MODERATOR:
+            return queryset.filter(owner=user)
+        return queryset.none()
+
 
     def get_initial(self):
         """Обеспечиваем правильный формат даты для input type='date'"""
@@ -185,21 +197,55 @@ class AlbumUpdateView(UpdateView):
             initial['date'] = album.date.strftime('%Y-%m-%d')
         return initial
 
-class AlbumDeleteView(DeleteView):
+
+
+class AlbumDeleteView(LoginRequiredMixin, DeleteView):
     model = Album
     template_name = 'gallery/album_delete.html'
     success_url = reverse_lazy('gallery:album_list')
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        user = self.request.user
 
-class PhotoUploadPageView(View):
+        if user.role == UserRoles.ADMIN:
+            return queryset
+        elif user.role == UserRoles.MODERATOR:
+            return queryset.filter(owner=user)
+        return queryset.none
+
+
+
+
+class PhotoUploadPageView(LoginRequiredMixin, View):
     """Отображает страницу загрузки медиа в альбом"""
+    def get_queryset(self):
+        """Формируем queryset альбомов, к которым есть доступ для загрузки"""
+        user = self.request.user
+
+        if user.role == UserRoles.ADMIN:
+            return Album.objects.all()
+        elif user.role == UserRoles.MODERATOR:
+            return Album.objects.filter(owner=user)
+        return Album.objects.none()
+
     def get(self, request, pk):
-        album = get_object_or_404(Album, id=pk)
+        queryset = self.get_queryset()
+        album = get_object_or_404(queryset, id=pk)
         return render(request, 'gallery/photo_upload.html', {'album': album})
 
 
 @method_decorator(csrf_exempt, name='dispatch')
-class FileUploadView(View):
+class FileUploadView(LoginRequiredMixin, View):
+    def get_queryset(self):
+        user = self.request.user
+
+        if user.role == UserRoles.ADMIN:
+            return Album.objects.all()
+        elif user.role == UserRoles.MODERATOR:
+            return Album.objects.filter(owner=user)
+        return Album.objects.none()
+
     def post(self, request, pk):
         album = get_object_or_404(Album, id=pk)
         uploaded_file = request.FILES.get('file')
@@ -240,10 +286,23 @@ class FileUploadView(View):
 
 
 @method_decorator(csrf_exempt, name='dispatch')
-class PhotoUpdateCaptionView(View):
+class PhotoUpdateCaptionView(LoginRequiredMixin, View):
+
+    def get_queryset(self):
+        user = self.request.user
+
+        if user.role == UserRoles.ADMIN:
+            return Album.objects.all()
+        elif user.role == UserRoles.MODERATOR:
+            return Album.objects.filter(owner=user)
+        return Album.objects.none()
+
     def post(self, request, pk):
+        user = self.request.user
+        album = self.get_queryset()
+
         try:
-            photo = Photo.objects.get(pk=pk)
+            photo = Photo.objects.get(pk=pk, album__in=album)
         except Photo.DoesNotExist:
             return JsonResponse({'status': 'error', 'message': 'Фото не найдено'}, status=404)
 
@@ -269,8 +328,18 @@ class PhotoUpdateCaptionView(View):
 
 
 class PhotoDeleteView(LoginRequiredMixin, View):
+    def get_queryset(self):
+        user = self.request.user
+
+        if user.role == UserRoles.ADMIN:
+            return Album.objects.all()
+        elif user.role == UserRoles.MODERATOR:
+            return Album.objects.filter(owner=user)
+        return Album.objects.none()
+
     def post(self, request, pk, *args, **kwargs):
-        photo = get_object_or_404(Photo, pk=pk)
-        # проверка прав, удаление и т.д.
+        album = self.get_queryset()
+
+        photo = get_object_or_404(pk=pk, album__in=album)
         photo.delete()
         return JsonResponse({'success': True})

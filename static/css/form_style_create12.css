@@ -1,3 +1,8 @@
+/* Универсальное правило для учета padding и border в ширине */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 .formbg {
   max-width: 900px;
   margin: 0 auto;
@@ -5,12 +10,14 @@
   background-color: #ffffff;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
+  width: 100%; /* важно для адаптивности */
 }
 
 .form-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 24px;
+  width: 100%;
 }
 
 .field {
@@ -26,9 +33,11 @@
 .field input,
 .field select,
 .field textarea {
+  width: 100%; /* растянуть на всю ширину */
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  font-size: 16px;
 }
 
 .field-errors {
@@ -40,6 +49,10 @@
 .form-submit {
   text-align: center;
   margin-top: 32px;
+  display: flex;          /* чтобы кнопки можно было удобно выравнивать */
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 button[type="submit"] {
@@ -50,6 +63,8 @@ button[type="submit"] {
   border-radius: 6px;
   cursor: pointer;
   font-size: 16px;
+  min-width: 120px;
+  transition: background-color 0.3s ease;
 }
 
 button[type="submit"]:hover {
@@ -60,18 +75,39 @@ button[type="submit"]:hover {
   background-color: #888282;
   color: #ffffff;
   font-weight: 700;
-  font-size: 16px; /* было 18px, сделали 16px как у submit */
+  font-size: 16px;
   border-radius: 6px;
-  padding: 12px 24px; /* padding уменьшен с 14px до 12px сверху/снизу */
+  padding: 12px 24px;
   text-decoration: none;
   cursor: pointer;
   transition: background-color 0.3s ease;
   display: inline-block;
-  margin-left: 10px;
   border: none;
+  min-width: 120px;
+  text-align: center;
 }
 
 .btn-cancel:hover {
   background-color: #a69d9d;
   color: #ffffff;
+}
+
+/* Мобильная версия */
+@media (max-width: 575.98px) {
+  .form-grid {
+    grid-template-columns: 1fr; /* одна колонка */
+    gap: 15px;
+  }
+
+  .form-submit {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .form-submit button,
+  .form-submit .btn-cancel {
+    width: 100%;
+    max-width: 300px;
+    text-align: center;
+  }
 }

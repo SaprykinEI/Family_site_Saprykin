@@ -3,6 +3,7 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/persons.css' %}">
+<link rel="stylesheet" href="{% static 'css/tree/buttons_tree.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -11,7 +12,15 @@
 </div>
 
 <div class="polaroid-gallery-wrapper position-relative px-3">
-  <a href="{% url 'family_tree:person_create' %}" class="btn-outline-add-person">Добавить члена семьи</a>
+
+  <div class="inline-controls mb-3">
+    <div class="filter-inline-group search-group">
+      <input type="text" name="search" id="search" value="{{ search }}" placeholder="Введите имя или фамилию">
+    </div>
+    <a href="{% url 'family_tree:person_create' %}" class="btn-create-album">
+      Добавить члена семьи
+    </a>
+  </div>
 
   <div class="polaroid-gallery">
     {% for person in persons %}
