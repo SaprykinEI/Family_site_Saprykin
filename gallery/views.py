@@ -3,6 +3,7 @@ from turtledemo.sorting_animate import qsort
 from venv import create
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.http import JsonResponse, HttpResponseBadRequest
 from django.shortcuts import redirect, render
 from django.urls import reverse
@@ -136,12 +137,17 @@ class AlbumDeactivatedListView(LoginRequiredMixin, ListView):
 
 
 
-class AlbumCreateView(CreateView):
+class AlbumCreateView(LoginRequiredMixin, CreateView):
     """Класс создания альбома"""
-
     model = Album
     form_class = AlbumCreateForm
     template_name = 'gallery/album_create.html'
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.role not in [UserRoles.ADMIN, UserRoles.MODERATOR]:
+            raise PermissionDenied("У вас нет прав для создания альбома.")
+        return super().get_queryset()
 
     def form_valid(self, form):
         form.instance.owner = self.request.user
@@ -151,7 +157,7 @@ class AlbumCreateView(CreateView):
         return reverse_lazy('gallery:photo_upload', kwargs={'pk': self.object.id})
 
 
-class AlbumDetailView(DetailView):
+class AlbumDetailView(LoginRequiredMixin, DetailView):
     """Класс детального просмотра альбома"""
     model = Album
     template_name = 'gallery/album_detail.html'

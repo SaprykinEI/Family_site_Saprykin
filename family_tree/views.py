@@ -1,8 +1,10 @@
+from django.core.exceptions import PermissionDenied
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
 from django.shortcuts import render, get_object_or_404
+from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -15,6 +17,7 @@ from family_tree.models import Person
 from family_tree.forms import PersonForm
 from family_tree.services import get_person_cache, get_descendants_tree_cached, get_ancestors_tree_cached
 from gallery.models import Album
+from users.models import UserRoles
 
 
 class IndexView(ListView):
@@ -31,20 +34,28 @@ class IndexView(ListView):
         return context
 
 
-class PersonsListView(ListView):
+class PersonsListView(LoginRequiredMixin, ListView):
     '''Представление-класс для отображения всех членов семьи.'''
     model = Person
     template_name = 'family_tree/persons.html'
     context_object_name = 'persons'
 
     def get_queryset(self):
-        """Получаем кешированный список Person"""
-        return get_person_cache()
+        """Получаем список Person с фильтром по поиску."""
+        queryset = get_person_cache()
+        search_query = self.request.GET.get('search', '').strip()
+        if search_query:
+            queryset = queryset.filter(
+                Q(first_name__icontains=search_query) |
+                Q(last_name__icontains=search_query)
+            )
+        return queryset
 
     def get_context_data(self, **kwargs):
         ''' Добавляем в контекст дополнительную информацию'''
         context = super().get_context_data(**kwargs)
         context['title'] = "Все члены семьи"
+        context['search'] = self.request.GET.get('search', '').strip()
         return context
 
 
@@ -55,6 +66,11 @@ class PersonCreateView(LoginRequiredMixin, CreateView):
     template_name = 'family_tree/person_create_update.html'
     success_url = reverse_lazy('family_tree:persons')
     login_url = 'users:user_login'
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.role not in [UserRoles.ADMIN, UserRoles.MODERATOR]:
+            raise PermissionDenied("У вас нет прав для добавления членов семьи.")
+        return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
         '''Переопределяем поведение при успешной валидации формы.'''
@@ -76,7 +92,6 @@ class PersonDetailView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         '''Добавляем заголовка в шаблон.'''
-
         context = super().get_context_data(**kwargs)
         context['title'] = self.object
         return context
@@ -89,6 +104,16 @@ class PersonUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'family_tree/person_create_update.html'
     context_object_name = 'object'
     login_url = 'users:user_login'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        user = self.request.user
+
+        if user.role == UserRoles.ADMIN:
+            return queryset
+        elif user.role == UserRoles.MODERATOR:
+            return queryset.filter(creator=user)
+        return queryset.none()
 
     def get_context_data(self, **kwargs):
         """Добавляем заголовок в контекст шаблона."""
@@ -109,8 +134,18 @@ class PersonDeleteView(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('family_tree:persons')
     login_url = 'users:user_login'
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        user = self.request.user
 
-class TreeView(DetailView):
+        if user.role == UserRoles.ADMIN:
+            return queryset
+        elif user.role == UserRoles.MODERATOR:
+            return queryset.filter(creator=user)
+        return queryset.none()
+
+
+class TreeView(LoginRequiredMixin, DetailView):
     """Класс-представление, показывающее генеалогическое дерево
     с корнем в выбранном человеке."""
     model = Person

@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, View
 from django.http import JsonResponse
 from django.utils.dateparse import parse_date
@@ -5,7 +6,7 @@ from django.utils.dateparse import parse_date
 from events.models import Event
 
 
-class EventListView(ListView):
+class EventListView(LoginRequiredMixin, ListView):
     model = Event
     template_name = 'events/calendar.html'
     context_object_name = 'events'

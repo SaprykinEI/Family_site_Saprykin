@@ -13,13 +13,16 @@
 
 <div class="polaroid-gallery-wrapper position-relative px-3">
 
-  <div class="inline-controls mb-3">
-    <div class="filter-inline-group search-group">
+  <div class="inline-controls mb-3 d-flex justify-content-between align-items-center">
+    <form method="get" class="filter-inline-group search-group d-flex align-items-center gap-2">
       <input type="text" name="search" id="search" value="{{ search }}" placeholder="Введите имя или фамилию">
-    </div>
-    <a href="{% url 'family_tree:person_create' %}" class="btn-create-album">
-      Добавить члена семьи
-    </a>
+      <button type="submit" class="btn-create-album">Поиск</button>
+    </form>
+    {% if request.user.role == 'admin' or request.user.role == 'moderator' %}
+      <a href="{% url 'family_tree:person_create' %}" class="btn-create-album">
+        Добавить члена семьи
+      </a>
+    {% endif %}
   </div>
 
   <div class="polaroid-gallery">
