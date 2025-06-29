@@ -138,34 +138,39 @@
   },
   {
     "model": "gallery.album",
-    "pk": 58,
+    "pk": 68,
     "fields": {
       "title": "Новый год 2025",
       "date": "2024-11-26",
-      "location": "г. Воронеж, Левобережный р-он",
-      "description": "Предновогодняя фотосессия в студии.",
-      "cover_image": "album_covers/М_ARAzea2.jpg",
-      "created_at": "2025-06-17T12:42:51.219Z",
+      "location": "Г. Воронеж, Левобережный район",
+      "description": "Предновогодняя фотосессия!",
+      "cover_image": "album_covers/М_2KLtwVB.jpg",
+      "created_at": "2025-06-28T09:45:57.727Z",
       "is_active": true,
+      "slug": "novyj-god-2025",
+      "views": 0,
       "owner": 1,
       "category": 7,
       "tags": [
         3,
-        5
+        5,
+        6
       ]
     }
   },
   {
     "model": "gallery.album",
-    "pk": 59,
+    "pk": 69,
     "fields": {
       "title": "Женя Детство",
-      "date": "2025-06-17",
+      "date": "1993-07-15",
       "location": null,
-      "description": "Разные фотографии",
-      "cover_image": "album_covers/photo_2024-11-01_12-29-05_JYeIdvv.jpg",
-      "created_at": "2025-06-17T15:10:40.252Z",
-      "is_active": true,
+      "description": "Детство Евгения Сапрыкина!",
+      "cover_image": "album_covers/photo_2024-11-01_12-29-05_OYOxRib.jpg",
+      "created_at": "2025-06-28T09:56:40.528Z",
+      "is_active": false,
+      "slug": "zhenja-detstvo",
+      "views": 0,
       "owner": 1,
       "category": 9,
       "tags": [
@@ -176,27 +181,69 @@
     }
   },
   {
-    "model": "gallery.photo",
-    "pk": 98,
+    "model": "gallery.album",
+    "pk": 70,
     "fields": {
-      "image": "album_58/photos/e05c83f142494f59b8d7a2d2529f25d3.webp",
-      "caption": "Настюшка",
+      "title": "День Рождения Софии",
+      "date": "2024-07-20",
+      "location": null,
+      "description": "День Рождения Софии 5 лет",
+      "cover_image": "album_covers/IMG_2233.JPG",
+      "created_at": "2025-06-28T10:05:38.491Z",
+      "is_active": true,
+      "slug": "den-rozhdenija-sofii",
+      "views": 0,
+      "owner": 2,
+      "category": 1,
+      "tags": [
+        1,
+        6
+      ]
+    }
+  },
+  {
+    "model": "gallery.album",
+    "pk": 72,
+    "fields": {
+      "title": "Выступление Ансамбль \"Раздолье\"",
+      "date": "2024-12-22",
+      "location": "Воронежская обл. п.Отрадное, ДК\"Отрадное\"",
+      "description": "Отчётный концерт ансамбля песни и пляски \"Раздолье\"",
+      "cover_image": "album_covers/IMG_3095.JPG",
+      "created_at": "2025-06-28T10:11:28.133Z",
+      "is_active": false,
+      "slug": "vystuplenie-ansambl-razdole",
+      "views": 0,
+      "owner": 2,
+      "category": 8,
+      "tags": [
+        3,
+        4
+      ]
+    }
+  },
+  {
+    "model": "gallery.photo",
+    "pk": 133,
+    "fields": {
+      "image": "album_68/photos/7188669fa2d94f2d80cfb4654859bd66.webp",
+      "caption": "Лерочка с игрушкой",
       "date_taken": null,
-      "album": 58,
+      "album": 68,
       "people": [
-        9
+        8
       ],
       "tags": []
     }
   },
   {
     "model": "gallery.photo",
-    "pk": 99,
+    "pk": 134,
     "fields": {
-      "image": "album_58/photos/ca90500d7c48445496337a4585cecaeb.webp",
+      "image": "album_68/photos/6341eec037154fa3a6d74d0d715a63f4.webp",
       "caption": "Сестрички",
       "date_taken": null,
-      "album": 58,
+      "album": 68,
       "people": [
         9,
         8,
@@ -207,12 +254,24 @@
   },
   {
     "model": "gallery.photo",
-    "pk": 100,
+    "pk": 135,
     "fields": {
-      "image": "album_58/photos/df59cd3bbd6b40df9f2d789058332813.webp",
-      "caption": "Лерочка",
+      "image": "album_68/photos/b932e2d7d49d407b9d91b739f1ee8f1a.webp",
+      "caption": null,
       "date_taken": null,
-      "album": 58,
+      "album": 68,
+      "people": [],
+      "tags": []
+    }
+  },
+  {
+    "model": "gallery.photo",
+    "pk": 136,
+    "fields": {
+      "image": "album_68/photos/364920c1c6344064ac2652d07685ee3a.webp",
+      "caption": "None",
+      "date_taken": null,
+      "album": 68,
       "people": [
         8
       ],
@@ -221,26 +280,12 @@
   },
   {
     "model": "gallery.photo",
-    "pk": 101,
+    "pk": 137,
     "fields": {
-      "image": "album_58/photos/54d73053020f4614929c091f7ae37788.webp",
-      "caption": "Лерочка с подарком",
+      "image": "album_68/photos/9c8470fdf9954ae282a511956976a07e.webp",
+      "caption": "С мамой",
       "date_taken": null,
-      "album": 58,
-      "people": [
-        8
-      ],
-      "tags": []
-    }
-  },
-  {
-    "model": "gallery.photo",
-    "pk": 102,
-    "fields": {
-      "image": "album_58/photos/f5a11094320c40d98ac1b8243e181d30.webp",
-      "caption": "С Мамой",
-      "date_taken": null,
-      "album": 58,
+      "album": 68,
       "people": [
         9,
         8,
@@ -252,68 +297,60 @@
   },
   {
     "model": "gallery.photo",
-    "pk": 103,
+    "pk": 138,
     "fields": {
-      "image": "album_58/photos/70bc3929b7c14c329df4f2ce1661f4ed.webp",
-      "caption": "Настюшка на лошадке",
+      "image": "album_68/photos/fee51537a1ea423e9c7234191348de47.webp",
+      "caption": null,
       "date_taken": null,
-      "album": 58,
-      "people": [
-        9
-      ],
+      "album": 68,
+      "people": [],
       "tags": []
     }
   },
   {
     "model": "gallery.photo",
-    "pk": 104,
+    "pk": 139,
     "fields": {
-      "image": "album_58/photos/45896f01b04440569d73428675f46645.webp",
-      "caption": "Лера с подарком",
+      "image": "album_68/photos/99bb3f6dffb04495861789358dd7c643.webp",
+      "caption": null,
       "date_taken": null,
-      "album": 58,
-      "people": [
-        8
-      ],
+      "album": 68,
+      "people": [],
       "tags": []
     }
   },
   {
     "model": "gallery.photo",
-    "pk": 105,
+    "pk": 140,
     "fields": {
-      "image": "album_58/photos/a15369c082814fdeabc387bc258514ff.webp",
-      "caption": "Лера с подарком",
+      "image": "album_68/photos/9890a754be8740ffabbd235c311e783f.webp",
+      "caption": null,
       "date_taken": null,
-      "album": 58,
-      "people": [
-        8
-      ],
+      "album": 68,
+      "people": [],
       "tags": []
     }
   },
   {
     "model": "gallery.photo",
-    "pk": 106,
+    "pk": 141,
     "fields": {
-      "image": "album_58/photos/d1be89f5c5ab448690def9a1c79bbf73.webp",
-      "caption": "Настя у снеговика",
+      "image": "album_68/photos/4ffc70d0fa2a44e68da5c2c7b1c6b998.webp",
+      "caption": null,
       "date_taken": null,
-      "album": 58,
-      "people": [
-        9
-      ],
+      "album": 68,
+      "people": [],
       "tags": []
     }
   },
   {
     "model": "gallery.photo",
-    "pk": 107,
+    "pk": 142,
     "fields": {
-      "image": "album_58/photos/39497c5d65794fe58eca619ab7c557fb.webp",
-      "caption": "София на кресле",
+      "image": "album_68/photos/33633a27dd854dccbcf425b7c3b4e31a.webp",
+      "caption": "None",
       "date_taken": null,
-      "album": 58,
+      "album": 68,
       "people": [
         3
       ],
@@ -322,12 +359,12 @@
   },
   {
     "model": "gallery.photo",
-    "pk": 108,
+    "pk": 143,
     "fields": {
-      "image": "album_58/photos/b4f63f483a39410998be28c669166f3c.webp",
-      "caption": "София на лошадке 2",
+      "image": "album_68/photos/f72208a0e77942d2a3d140f41e9f79ba.webp",
+      "caption": "None",
       "date_taken": null,
-      "album": 58,
+      "album": 68,
       "people": [
         3
       ],
@@ -336,12 +373,12 @@
   },
   {
     "model": "gallery.photo",
-    "pk": 109,
+    "pk": 144,
     "fields": {
-      "image": "album_58/photos/929581d4285e4973afcae439a97323c7.webp",
-      "caption": "София в платье",
+      "image": "album_68/photos/c4d5037b50a8419eb24af3c27944b94d.webp",
+      "caption": "None",
       "date_taken": null,
-      "album": 58,
+      "album": 68,
       "people": [
         3
       ],
@@ -350,12 +387,12 @@
   },
   {
     "model": "gallery.photo",
-    "pk": 110,
+    "pk": 145,
     "fields": {
-      "image": "album_58/photos/fa2aef5b8964463ab0f789417fad6c03.webp",
-      "caption": "София на лошадке!",
+      "image": "album_68/photos/096e9e7d092447468940ea2a3a537775.webp",
+      "caption": "None",
       "date_taken": null,
-      "album": 58,
+      "album": 68,
       "people": [
         3
       ],
@@ -364,12 +401,12 @@
   },
   {
     "model": "gallery.photo",
-    "pk": 111,
+    "pk": 147,
     "fields": {
-      "image": "album_59/photos/a26ceb5cd26544c9920a111e6e3510b8.webp",
-      "caption": "с братом (Дмитрий Скородед)\n20.02.1994",
+      "image": "album_69/photos/4d8ca21a673647e58278d823d989ada4.webp",
+      "caption": "С Братом (Дмитрий Скородед)",
       "date_taken": null,
-      "album": 59,
+      "album": 69,
       "people": [
         2
       ],
@@ -378,12 +415,357 @@
   },
   {
     "model": "gallery.photo",
-    "pk": 112,
+    "pk": 148,
     "fields": {
-      "image": "album_59/photos/962161d166c44f1390675795efb1d762.webp",
-      "caption": "с братом (Дмитрий Скородед)\nг. Гурзуф 1993 год",
+      "image": "album_69/photos/eb85ad8011954e89937d6ba7d548b7f1.webp",
+      "caption": null,
       "date_taken": null,
-      "album": 59,
+      "album": 69,
+      "people": [],
+      "tags": []
+    }
+  },
+  {
+    "model": "gallery.photo",
+    "pk": 149,
+    "fields": {
+      "image": "album_70/photos/523eee42d818459a80dff90f18163f0e.webp",
+      "caption": "Дима",
+      "date_taken": null,
+      "album": 70,
+      "people": [],
+      "tags": []
+    }
+  },
+  {
+    "model": "gallery.photo",
+    "pk": 150,
+    "fields": {
+      "image": "album_70/photos/d7ac3b6c53594406be2eda9421f9daf0.webp",
+      "caption": null,
+      "date_taken": null,
+      "album": 70,
+      "people": [],
+      "tags": []
+    }
+  },
+  {
+    "model": "gallery.photo",
+    "pk": 151,
+    "fields": {
+      "image": "album_70/photos/2fa30b48756249aaa09c083a51bbc468.webp",
+      "caption": null,
+      "date_taken": null,
+      "album": 70,
+      "people": [],
+      "tags": []
+    }
+  },
+  {
+    "model": "gallery.photo",
+    "pk": 152,
+    "fields": {
+      "image": "album_70/photos/79a1bf41d0c346fbb10a6eb3c8600ff8.webp",
+      "caption": null,
+      "date_taken": null,
+      "album": 70,
+      "people": [],
+      "tags": []
+    }
+  },
+  {
+    "model": "gallery.photo",
+    "pk": 153,
+    "fields": {
+      "image": "album_70/photos/7190212ec2514c02bfa77ed2b43f6494.webp",
+      "caption": null,
+      "date_taken": null,
+      "album": 70,
+      "people": [],
+      "tags": []
+    }
+  },
+  {
+    "model": "gallery.photo",
+    "pk": 154,
+    "fields": {
+      "image": "album_70/photos/e2de6d0c00ea4b319d0309447e9a810a.webp",
+      "caption": null,
+      "date_taken": null,
+      "album": 70,
+      "people": [],
+      "tags": []
+    }
+  },
+  {
+    "model": "gallery.photo",
+    "pk": 155,
+    "fields": {
+      "image": "album_70/photos/ada804d860f74b48b7a92475c51a9967.webp",
+      "caption": null,
+      "date_taken": null,
+      "album": 70,
+      "people": [],
+      "tags": []
+    }
+  },
+  {
+    "model": "gallery.photo",
+    "pk": 156,
+    "fields": {
+      "image": "album_70/photos/c31c623c7f544d179a4436ba6745f7f6.webp",
+      "caption": "None",
+      "date_taken": null,
+      "album": 70,
+      "people": [
+        9
+      ],
+      "tags": []
+    }
+  },
+  {
+    "model": "gallery.photo",
+    "pk": 157,
+    "fields": {
+      "image": "album_70/photos/086bed7074524950b82dfa0ca4111c75.webp",
+      "caption": "None",
+      "date_taken": null,
+      "album": 70,
+      "people": [
+        3
+      ],
+      "tags": []
+    }
+  },
+  {
+    "model": "gallery.photo",
+    "pk": 158,
+    "fields": {
+      "image": "album_70/photos/9f226d0d120d491d8ef2467024d3e919.webp",
+      "caption": "None",
+      "date_taken": null,
+      "album": 70,
+      "people": [
+        3
+      ],
+      "tags": []
+    }
+  },
+  {
+    "model": "gallery.photo",
+    "pk": 160,
+    "fields": {
+      "image": "album_70/photos/49d03503d18b499faafb866f595307e5.webp",
+      "caption": null,
+      "date_taken": null,
+      "album": 70,
+      "people": [],
+      "tags": []
+    }
+  },
+  {
+    "model": "gallery.photo",
+    "pk": 161,
+    "fields": {
+      "image": "album_70/photos/c0df1196520e43ac9dba1b3ec6586672.webp",
+      "caption": null,
+      "date_taken": null,
+      "album": 70,
+      "people": [],
+      "tags": []
+    }
+  },
+  {
+    "model": "gallery.photo",
+    "pk": 162,
+    "fields": {
+      "image": "album_70/photos/18a2a77664254ee18c861510831f0d14.webp",
+      "caption": null,
+      "date_taken": null,
+      "album": 70,
+      "people": [],
+      "tags": []
+    }
+  },
+  {
+    "model": "gallery.photo",
+    "pk": 163,
+    "fields": {
+      "image": "album_70/photos/e18ae598982e451cba8657a71cd23863.webp",
+      "caption": null,
+      "date_taken": null,
+      "album": 70,
+      "people": [],
+      "tags": []
+    }
+  },
+  {
+    "model": "gallery.photo",
+    "pk": 170,
+    "fields": {
+      "image": "album_72/photos/98243c4ec93d4567923adeed75d19efa.webp",
+      "caption": null,
+      "date_taken": null,
+      "album": 72,
+      "people": [],
+      "tags": []
+    }
+  },
+  {
+    "model": "gallery.photo",
+    "pk": 171,
+    "fields": {
+      "image": "album_72/photos/17a5aa166a654dd1badd7d36fc46e18e.webp",
+      "caption": null,
+      "date_taken": null,
+      "album": 72,
+      "people": [],
+      "tags": []
+    }
+  },
+  {
+    "model": "gallery.photo",
+    "pk": 172,
+    "fields": {
+      "image": "album_72/photos/26f5795ac2a84d3b94be48a39182245a.webp",
+      "caption": null,
+      "date_taken": null,
+      "album": 72,
+      "people": [],
+      "tags": []
+    }
+  },
+  {
+    "model": "gallery.photo",
+    "pk": 173,
+    "fields": {
+      "image": "album_72/photos/dd03258550ca42d7b368a05fc2238972.webp",
+      "caption": null,
+      "date_taken": null,
+      "album": 72,
+      "people": [],
+      "tags": []
+    }
+  },
+  {
+    "model": "gallery.photo",
+    "pk": 174,
+    "fields": {
+      "image": "album_72/photos/3b98a8c7e247431a8a72af4183977435.webp",
+      "caption": null,
+      "date_taken": null,
+      "album": 72,
+      "people": [],
+      "tags": []
+    }
+  },
+  {
+    "model": "gallery.photo",
+    "pk": 175,
+    "fields": {
+      "image": "album_72/photos/9b3f38379cbc4f3995235978d526a580.webp",
+      "caption": null,
+      "date_taken": null,
+      "album": 72,
+      "people": [],
+      "tags": []
+    }
+  },
+  {
+    "model": "gallery.photo",
+    "pk": 176,
+    "fields": {
+      "image": "album_72/photos/f0ca596dcf5945bf83c234a95fdf2f2e.webp",
+      "caption": "None",
+      "date_taken": null,
+      "album": 72,
+      "people": [
+        3
+      ],
+      "tags": []
+    }
+  },
+  {
+    "model": "gallery.photo",
+    "pk": 177,
+    "fields": {
+      "image": "album_72/photos/07d80a3151014e7587f07cc834df54f8.webp",
+      "caption": null,
+      "date_taken": null,
+      "album": 72,
+      "people": [],
+      "tags": []
+    }
+  },
+  {
+    "model": "gallery.photo",
+    "pk": 178,
+    "fields": {
+      "image": "album_72/photos/fe81057e53a8473b866fb7d86c237f7d.webp",
+      "caption": null,
+      "date_taken": null,
+      "album": 72,
+      "people": [],
+      "tags": []
+    }
+  },
+  {
+    "model": "gallery.photo",
+    "pk": 179,
+    "fields": {
+      "image": "album_72/photos/0a4bb06e43ec44f8811ee23400554aff.webp",
+      "caption": null,
+      "date_taken": null,
+      "album": 72,
+      "people": [],
+      "tags": []
+    }
+  },
+  {
+    "model": "gallery.photo",
+    "pk": 180,
+    "fields": {
+      "image": "album_72/photos/8e41ed4e559048f8b8172fbfd39fb60c.webp",
+      "caption": null,
+      "date_taken": null,
+      "album": 72,
+      "people": [],
+      "tags": []
+    }
+  },
+  {
+    "model": "gallery.photo",
+    "pk": 181,
+    "fields": {
+      "image": "album_72/photos/87adbd062fce43329c2ce79e70842848.webp",
+      "caption": null,
+      "date_taken": null,
+      "album": 72,
+      "people": [],
+      "tags": []
+    }
+  },
+  {
+    "model": "gallery.photo",
+    "pk": 182,
+    "fields": {
+      "image": "album_72/photos/7e0825cdaaa34e8b8ed383506a8156db.webp",
+      "caption": null,
+      "date_taken": null,
+      "album": 72,
+      "people": [],
+      "tags": []
+    }
+  },
+  {
+    "model": "gallery.video",
+    "pk": 1,
+    "fields": {
+      "file": "album_72/videos/64943ded637a4ce9b8503ac8ac4ecf1c.MP4",
+      "url": null,
+      "caption": null,
+      "date_taken": null,
+      "album": 72,
       "people": [],
       "tags": []
     }

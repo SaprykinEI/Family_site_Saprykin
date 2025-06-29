@@ -78,6 +78,13 @@
                     </ul>
                   </div>
                 {% endif %}
+                {% if album.views %}
+                  <div class="album-views" style="margin-top: 20px; font-size: 14px; color: #666; display: flex; align-items: center;">
+                    <i class="fas fa-eye" style="margin-right: 6px;"></i>
+                    <span>Просмотров альбома: {{ album.views }}</span>
+                  </div>
+                {% endif %}
+
               </dl>
             </div>
           </div>

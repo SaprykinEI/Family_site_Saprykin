@@ -211,9 +211,15 @@ class AlbumDetailView(LoginRequiredMixin, DetailView):
     template_name = 'gallery/album_detail.html'
     context_object_name = 'album'
 
+    def get_object(self, queryset=None):
+        object = super().get_object(queryset)
+        if self.request.user != object.owner:
+            object.increment_view_count()
+        return object
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        album = self.get_object()
+        album = self.object
 
         context['videos'] = album.videos.all()
         context['previous_album'] = Album.objects.filter(pk__lt=album.pk).order_by('-pk').first()

@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 
+
 from family_tree.models import Person
 from family_tree.utils import slug_generator
 from users.models import NULLABLE, User
@@ -63,9 +64,15 @@ class Album(models.Model):
     def __str__(self):
         return self.title
 
+    def increment_view_count(self):
+        self.views += 1
+        self.save(update_fields=['views'])
+
     class Meta:
         verbose_name = "Альбом"
         verbose_name_plural = "Альбомы"
+
+
 
 
 class AlbumLike(models.Model):
