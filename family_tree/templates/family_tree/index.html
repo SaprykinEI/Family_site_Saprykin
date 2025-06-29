@@ -132,7 +132,7 @@
                 <div class="isotope-item iso-height-1">
                     <div class="gallery-list-item">
                         <div class="gl-item-image-wrap">
-                            <a href="{% url 'gallery:album_detail' album.pk %}" class="gl-item-image-inner">
+                            <a href="{% url 'gallery:album_detail' album.slug %}" class="gl-item-image-inner">
                                 <div class="gl-item-image bg-image"
                                      style="background-image: url('{{ album.cover_image.url }}'); background-position: 50% 50%">
                                 </div>

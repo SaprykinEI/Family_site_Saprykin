@@ -2,6 +2,9 @@ from django.core.cache import cache
 from django.conf import settings
 from family_tree.models import Person
 
+import logging
+
+logger = logging.getLogger(__name__)
 
 CACHE_TIMEOUT = 60 * 60
 
@@ -14,10 +17,14 @@ def get_person_cache():
         key = 'person_list'
         person_list = cache.get(key)
         if person_list is None:
+            logger.info('Кеш пуст, загружаем из базы и кешируем')
             person_list = Person.objects.all()
             cache.set(key, person_list, CACHE_TIMEOUT)
+        else:
+            logger.info('Данные взяты из кеша')
     else:
-        person_list = Person.objects.all()  # исправлено: было Person.all()
+        logger.info('Кеширование отключено, данные взяты из базы')
+        person_list = Person.objects.all()
 
     return person_list
 
