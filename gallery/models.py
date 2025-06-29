@@ -73,8 +73,6 @@ class Album(models.Model):
         verbose_name_plural = "Альбомы"
 
 
-
-
 class AlbumLike(models.Model):
     album =models.ForeignKey(Album, on_delete=models.CASCADE, related_name='likes', verbose_name="Лайк")
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Привязка к User")
