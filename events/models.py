@@ -30,9 +30,9 @@ class Event(models.Model):
     event_type = models.CharField(max_length=20, choices=EVENT_TYPE_CHOICES, default='other', verbose_name="Тип события")
     description = models.TextField(**NULLABLE, verbose_name="Описание")
 
-    people = models.ManyToManyField('family_tree.Person', **NULLABLE,
+    people = models.ManyToManyField('family_tree.Person', blank=True,
                                     verbose_name="Связанные лица", related_name='events')
-    categories = models.ManyToManyField('gallery.Category', **NULLABLE, verbose_name="Категории")
+    categories = models.ManyToManyField('gallery.Category', blank=True, verbose_name="Категории")
 
     is_reminder_enabled = models.BooleanField(default=False, verbose_name="Напоминание включено")
     is_in_timeline = models.BooleanField(default=True, verbose_name="Показывать в хронологии")

@@ -4,16 +4,30 @@
 {% block title %}Календарь событий{% endblock %}
 
 {% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/tree/buttons_tree.css' %}">
 <style>
   #calendar {
     max-width: 900px;
     margin: 40px auto;
   }
+.btn-create-album {
+  display: inline-block;
+  margin-top: 30px;
+  margin-bottom: 20px;
+
+}
 </style>
 {% endblock %}
 
 {% block content %}
-  <div id="calendar"></div>
+  <div style="max-width: 900px; margin: 10px auto;">
+    {% if request.user.role == 'admin' or request.user.role == 'moderator' %}
+      <a href="{% url 'events:event_create' %}" class="btn-create-album">
+        Добавить событие
+      </a>
+    {% endif %}
+    <div id="calendar"></div>
+  </div>
 {% endblock %}
 
 {% block extra_js %}

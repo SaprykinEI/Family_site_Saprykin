@@ -1,0 +1,102 @@
+.event-create-wrapper {
+  max-width: 600px;
+  margin: 60px auto 40px;
+  padding: 25px 20px;
+  background-color: #f9f9f9;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.event-create-title {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #05945e;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.event-create-form p {
+  margin-bottom: 16px;
+}
+
+.event-create-form label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #333;
+}
+
+.event-create-form input[type="text"],
+.event-create-form input[type="date"],
+.event-create-form select,
+.event-create-form textarea {
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 1.5px solid #ccc;
+  border-radius: 6px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  outline: none;
+  font-family: inherit;
+  box-sizing: border-box;
+  resize: vertical;
+}
+
+.event-create-form input[type="text"]:focus,
+.event-create-form input[type="date"]:focus,
+.event-create-form select:focus,
+.event-create-form textarea:focus {
+  border-color: #05945e;
+  box-shadow: 0 0 5px rgba(5, 148, 94, 0.5);
+}
+
+.btn-submit {
+  background-color: #05945e;
+  color: #fff;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  padding: 8px 18px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  display: inline-block;
+  text-align: center;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.btn-submit:hover {
+  background-color: #11c27e;
+  color: #d4f4dd;
+}
+
+.event-create-footer {
+  margin-top: 18px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.event-create-footer a {
+  color: #05945e;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.event-create-footer a:hover {
+  text-decoration: underline;
+  color: #d02121;
+}
+
+/* Мобильная адаптация */
+@media (max-width: 575.98px) {
+  .event-create-wrapper {
+    margin: 40px 15px;
+    padding: 20px 15px;
+  }
+
+  .event-create-title {
+    font-size: 1.4rem;
+  }
+}
