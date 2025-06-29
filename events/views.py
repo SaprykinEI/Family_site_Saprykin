@@ -3,7 +3,7 @@ from datetime import date
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.urls import reverse_lazy
-from django.views.generic import ListView, View, CreateView, DetailView
+from django.views.generic import ListView, View, CreateView, DetailView, UpdateView, DeleteView
 from django.http import JsonResponse
 from django.utils.dateparse import parse_date
 
@@ -53,6 +53,7 @@ class EventJsonView(View):
                         "start": event_date_this_year.isoformat(),
                         "allDay": True,
                         "color": EVENT_TYPE_COLORS.get(event.event_type, '#808080'),
+                        "slug": event.slug,  # Добавляем slug
                     })
             else:
                 event_date = event.date
@@ -64,6 +65,7 @@ class EventJsonView(View):
                         "start": event_date.isoformat(),
                         "allDay": True,
                         "color": EVENT_TYPE_COLORS.get(event.event_type, '#808080'),
+                        "slug": event.slug,  # Добавляем slug
                     })
 
         return JsonResponse(events_list, safe=False)
@@ -91,3 +93,10 @@ class EventDetailView(LoginRequiredMixin, DetailView):
     slug_field = 'slug'
     slug_url_kwarg = 'slug'
     context_object_name = 'event'
+
+class EventUpdateView(LoginRequiredMixin, UpdateView):
+    pass
+
+
+class EventDeleteView(LoginRequiredMixin, DeleteView):
+    pass
