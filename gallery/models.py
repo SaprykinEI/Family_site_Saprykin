@@ -3,7 +3,7 @@ from django.conf import settings
 
 from family_tree.models import Person
 from family_tree.utils import slug_generator
-from users.models import NULLABLE
+from users.models import NULLABLE, User
 
 from gallery.utils import photo_upload_path, video_upload_path
 
@@ -42,6 +42,8 @@ class Album(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, **NULLABLE, verbose_name="Дата создания")
     is_active = models.BooleanField(default=True, verbose_name="Активность альбома")
     slug = models.SlugField(max_length=255, unique=True, verbose_name="Слаг")
+    views = models.IntegerField(default=0, verbose_name="Просмотры")
+
 
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL,  **NULLABLE,
                                 related_name='albums', verbose_name='Владелец альбома')
@@ -54,12 +56,30 @@ class Album(models.Model):
             self.slug = slug_generator(self.title)
         super().save(*args, **kwargs)
 
+    @property
+    def like_count(self):
+        return self.likes.count()
+
     def __str__(self):
         return self.title
 
     class Meta:
         verbose_name = "Альбом"
         verbose_name_plural = "Альбомы"
+
+
+class AlbumLike(models.Model):
+    album =models.ForeignKey(Album, on_delete=models.CASCADE, related_name='likes', verbose_name="Лайк")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Привязка к User")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Лайк"
+        verbose_name_plural = "Лайки"
+        unique_together = ('album', 'user')
+
+    def __str__(self):
+        return f"{self.user} likes {self.album}"
 
 
 class Photo(models.Model):
