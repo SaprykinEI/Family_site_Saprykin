@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 from django.utils import timezone
 from family_tree.models import Person
@@ -32,6 +33,8 @@ class Event(models.Model):
     description = models.TextField(**NULLABLE, verbose_name="Описание")
     slug = models.SlugField(max_length=255, unique=True, blank=True)
 
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL,
+                              related_name='events', verbose_name='Создатель события', **NULLABLE)
     people = models.ManyToManyField('family_tree.Person', blank=True,
                                     verbose_name="Связанные лица", related_name='events')
     categories = models.ManyToManyField('gallery.Category', blank=True, verbose_name="Категории")

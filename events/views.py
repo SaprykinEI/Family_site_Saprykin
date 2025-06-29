@@ -77,6 +77,10 @@ class EventCreateView(LoginRequiredMixin, CreateView):
     template_name = 'events/create_event_form.html'
     success_url = reverse_lazy('events:events_list')
 
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super().form_valid(form)
+
     def dispatch(self, request, *args, **kwargs):
         if request.user.role not in [UserRoles.ADMIN, UserRoles.MODERATOR]:
             raise PermissionDenied("У вас нет прав для добавления событий")
@@ -87,6 +91,7 @@ class EventCreateView(LoginRequiredMixin, CreateView):
         context['title'] = "Добавление события в календарь"
         return context
 
+
 class EventDetailView(LoginRequiredMixin, DetailView):
     model = Event
     template_name = 'events/event_detail.html'
@@ -94,8 +99,30 @@ class EventDetailView(LoginRequiredMixin, DetailView):
     slug_url_kwarg = 'slug'
     context_object_name = 'event'
 
+
 class EventUpdateView(LoginRequiredMixin, UpdateView):
-    pass
+    model = Event
+    form_class = EventForm
+    template_name = 'events/update_event_form.html'
+    slug_field = 'slug'
+    slug_url_kwarg = 'slug'
+
+    def get_success_url(self):
+        return reverse_lazy('event_detail', kwargs={'slug': self.object.slug})
+
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        user = request.user.role
+
+        if user == UserRoles.ADMIN:
+            return super().dispatch(request, *args, **kwargs)
+        elif user == UserRoles.MODERATOR:
+            if self.object.owner == self.request.user:
+                return super().dispatch(request, *args, **kwargs)
+            else:
+                raise PermissionDenied ("Вы можете редактировать только свои события")
+        else:
+            raise PermissionDenied("У вас нет прав на редактирование события")
 
 
 class EventDeleteView(LoginRequiredMixin, DeleteView):
