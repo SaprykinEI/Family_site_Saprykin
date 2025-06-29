@@ -1,21 +1,21 @@
 import json
-from turtledemo.sorting_animate import qsort
-from venv import create
+
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.http import JsonResponse, HttpResponseBadRequest
-from django.shortcuts import redirect, render
-from django.urls import reverse
+from django.shortcuts import redirect, render, get_object_or_404
+
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import ListView, CreateView, View, DetailView, UpdateView, DeleteView
-from django.db.models import Q, F, Value, CharField
+from django.views.generic import View, ListView, CreateView, View, DetailView, UpdateView, DeleteView
+from django.db.models import Q
 from django.db.models.functions import ExtractYear
-from django.shortcuts import get_object_or_404
+
 from rest_framework.reverse import reverse_lazy
 
-from gallery.models import Album, Category, Tag, Photo, Video
+from gallery.models import Album, Category, Tag, Photo, Video, AlbumLike
 from gallery.forms import AlbumCreateForm, PhotoUploadForm
 from gallery.utils import convert_photo_to_webp
 
@@ -181,8 +181,6 @@ class AlbumDeactivatedListView(LoginRequiredMixin, ListView):
         return context
 
 
-
-
 class AlbumCreateView(LoginRequiredMixin, CreateView):
     """Класс создания альбома"""
     model = Album
@@ -227,6 +225,8 @@ class AlbumDetailView(LoginRequiredMixin, DetailView):
         people_on_photos = Person.objects.filter(photos__album=album).distinct()
         context['people_on_photos'] = people_on_photos
         context['all_people'] = Person.objects.all().order_by('last_name', 'first_name')
+        context['user_liked'] = AlbumLike.objects.filter(album=album, user=self.request.user).exists()
+        context['likes_count'] = album.likes.count()
 
         return context
 
@@ -297,6 +297,43 @@ class PhotoUploadPageView(LoginRequiredMixin, View):
         queryset = self.get_queryset()
         album = get_object_or_404(queryset, slug=slug)
         return render(request, 'gallery/photo_upload.html', {'album': album})
+
+
+from django.views import View
+from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from .models import Album, AlbumLike
+
+
+
+@method_decorator(login_required, name='dispatch')
+class AlbumToggleLikeView(View):
+    """Класс для переключения лайка на альбоме"""
+    def post(self, request, *args, **kwargs):
+        album_slug = kwargs.get('slug')
+        user = request.user
+
+        try:
+            album = Album.objects.get(slug=album_slug)
+        except Album.DoesNotExist:
+            return JsonResponse({'error': 'Альбом не найден'}, status=404)
+
+        like, created = AlbumLike.objects.get_or_create(album=album, user=user)
+
+        if not created:
+            like.delete()
+            liked = False
+        else:
+            liked = True
+        like_count = album.likes.count()
+
+        return JsonResponse({
+            'liked': liked,
+            'like_count': like_count
+        })
+
+
 
 
 @method_decorator(csrf_exempt, name='dispatch')

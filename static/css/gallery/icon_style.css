@@ -124,68 +124,24 @@
   font-family: inherit;
 }
 
-.icon-heart {
-  position: relative;
-  width: 24px;
-  height: 24px;
-  cursor: pointer;
-  display: inline-block;
-}
-
-.icon-heart-empty,
-.icon-heart-filled {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 24px;
-  height: 24px;
-  transition: opacity 0.3s ease, transform 0.3s ease;
-  user-select: none;
-}
-
 .icon-heart-empty {
-  color: #888;
-  opacity: 1;
-  font-size: 24px;
-  /* Пусть пустое сердце будет серым */
-}
-
-.icon-heart-filled {
-  color: #e74c3c; /* красивый красный */
-  opacity: 0;
-  font-size: 24px;
-  transform: scale(0.8);
-  pointer-events: none; /* чтобы клики проходили через заполненное, если нужно */
-}
-
-/* Когда заполенное сердце видно */
-.icon-heart-filled.visible {
-  opacity: 1;
-  transform: scale(1.1);
-  pointer-events: auto;
-  animation: pop 0.3s ease forwards;
+  display: none;
+  color: gray;
+  cursor: pointer;
 }
 
 .icon-heart-empty.visible {
-  opacity: 1;
+  display: inline-block;
 }
 
-.icon-heart-empty:not(.visible) {
-  opacity: 0;
+.icon-heart-filled {
+  display: none;
+  color: red !important;
+  cursor: pointer;
 }
 
-/* Простая анимация "поп" при появлении заполненного сердца */
-@keyframes pop {
-  0% {
-    transform: scale(0.8);
-    opacity: 0;
-  }
-  50% {
-    transform: scale(1.3);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(1.1);
-    opacity: 1;
-  }
+.icon-heart-filled.visible {
+  display: inline-block;
 }
+
+

@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-<link rel="stylesheet" href="{% static 'css/gallery/ico_style.css' %}">
+<link rel="stylesheet" href="{% static 'css/gallery/icon_style.css' %}">
 <link rel="stylesheet" href="{% static 'css/gallery/side_bar.css' %}">
 
 <section id="page-header" class="ph-xlg">
@@ -93,14 +93,16 @@
 
           <ul class="gallery-meta">
             <li>
-              <div class="favorite-btn">
+              <div class="favorite-btn" data-album-slug="{{ album.slug }}" data-liked="{{ user_liked|yesno:'true,false' }}">
                 <div class="fav-inner">
                   <div class="icon-heart">
-                    <span class="icon-heart-empty"></span><span class="icon-heart-filled"></span>
+                    <span class="icon-heart-empty {% if not user_liked %}visible{% endif %}"></span>
+                    <span class="icon-heart-filled {% if user_liked %}visible{% endif %}"></span>
                   </div>
                 </div>
-                <div class="fav-count">0</div>
+                <div class="fav-count">{{ likes_count }}</div>
               </div>
+
             </li>
           </ul>
 
@@ -218,6 +220,7 @@
 {% endblock content %}
 
 {% block extra_js %}
+<script src="{% static 'js/gallery/like.js' %}"></script>
 <script src="{% static 'js/gallery/edit_photo.js' %}"></script>
 <script src="{% static 'js/gallery/modal_js.js' %}"></script>
 {% endblock %}
