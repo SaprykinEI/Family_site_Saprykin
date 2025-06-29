@@ -1,0 +1,12 @@
+.fc-daygrid-event .fc-event-title {
+  white-space: normal !important; /* разрешаем перенос текста на новую строку */
+  overflow: visible !important;    /* показываем весь текст */
+  text-overflow: clip !important;  /* отключаем многоточие */
+  display: block;
+  word-wrap: break-word;            /* перенос слов, если нужно */
+}
+
+.fc-daygrid-event {
+  height: auto !important;          /* высота блока подстраивается под содержимое */
+  min-height: 1.5em;                /* минимальная высота для красивого вида */
+}

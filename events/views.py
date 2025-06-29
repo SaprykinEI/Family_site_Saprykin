@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.urls import reverse_lazy
@@ -8,6 +10,7 @@ from django.utils.dateparse import parse_date
 from events.models import Event
 from events.forms import EventForm
 from users.models import UserRoles
+from events.constants import EVENT_TYPE_COLORS
 
 
 class EventListView(LoginRequiredMixin, ListView):
@@ -16,22 +19,56 @@ class EventListView(LoginRequiredMixin, ListView):
     context_object_name = 'events'
 
 
+
 class EventJsonView(View):
     def get(self, request, *args, **kwargs):
         events = Event.objects.all()
 
-        # Формируем список событий для FullCalendar
+        start_str = request.GET.get('start')
+        end_str = request.GET.get('end')
+
+        if start_str:
+            start_date = date.fromisoformat(start_str[:10])
+        else:
+            start_date = None
+
+        if end_str:
+            end_date = date.fromisoformat(end_str[:10])
+        else:
+            end_date = None
+
         events_list = []
+
         for event in events:
-            events_list.append({
-                "id": event.id,
-                "title": event.title,
-                "start": event.date.isoformat(),  # дата начала
-                # если нужна end_date, можно добавить "end": event.end_date.isoformat()
-                "allDay": True,
-                # Можно добавить дополнительные поля при необходимости
-            })
+            if event.repeat == 'yearly':
+                year = start_date.year if start_date else date.today().year
+                try:
+                    event_date_this_year = date(year, event.date.month, event.date.day)
+                except ValueError:
+                    continue
+                if (start_date is None or event_date_this_year >= start_date) and \
+                   (end_date is None or event_date_this_year <= end_date):
+                    events_list.append({
+                        "id": event.id,
+                        "title": event.title,
+                        "start": event_date_this_year.isoformat(),
+                        "allDay": True,
+                        "color": EVENT_TYPE_COLORS.get(event.event_type, '#808080'),
+                    })
+            else:
+                event_date = event.date
+                if (start_date is None or event_date >= start_date) and \
+                   (end_date is None or event_date <= end_date):
+                    events_list.append({
+                        "id": event.id,
+                        "title": event.title,
+                        "start": event_date.isoformat(),
+                        "allDay": True,
+                        "color": EVENT_TYPE_COLORS.get(event.event_type, '#808080'),
+                    })
+
         return JsonResponse(events_list, safe=False)
+
 
 class EventCreateView(LoginRequiredMixin, CreateView):
     model = Event
