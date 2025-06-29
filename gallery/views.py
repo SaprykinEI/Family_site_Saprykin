@@ -21,7 +21,7 @@ from gallery.utils import convert_photo_to_webp
 
 from family_tree.models import Person
 
-from users.models import UserRoles
+from users.models import UserRoles, User
 
 
 class UserAlbumListView(LoginRequiredMixin, ListView):
@@ -227,6 +227,8 @@ class AlbumDetailView(LoginRequiredMixin, DetailView):
         context['all_people'] = Person.objects.all().order_by('last_name', 'first_name')
         context['user_liked'] = AlbumLike.objects.filter(album=album, user=self.request.user).exists()
         context['likes_count'] = album.likes.count()
+        liked_users = User.objects.filter(albumlike__album=album).distinct()
+        context['liked_users'] = liked_users
 
         return context
 

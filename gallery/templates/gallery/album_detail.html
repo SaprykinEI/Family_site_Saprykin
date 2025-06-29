@@ -92,18 +92,29 @@
 
 
           <ul class="gallery-meta">
-            <li>
-              <div class="favorite-btn" data-album-slug="{{ album.slug }}" data-liked="{{ user_liked|yesno:'true,false' }}">
-                <div class="fav-inner">
-                  <div class="icon-heart">
+            <li style="display: flex; align-items: center;">
+              <div class="like-avatars" style="display: flex; margin-right: 8px;">
+                {% for user in liked_users %}
+                  <img
+                    src="{% if user.avatar %}{{ user.avatar.url }}{% else %}{% static 'img/no-photo.jpg' %}{% endif %}"
+                    alt="{{ user.username }}"
+                    class="like-avatar"
+                    style=" border-radius: 50%; object-fit: cover; border: 2px solid #fff; margin-left: -8px;"
+                  >
+                {% endfor %}
+              </div>
+
+              <div class="favorite-btn" data-album-slug="{{ album.slug }}" data-liked="{{ user_liked|yesno:'true,false' }}" style="display: flex; align-items: center; cursor: pointer;">
+                <div class="fav-inner" style="margin-right: 5px;">
+                  <div class="icon-heart" ">
                     <span class="icon-heart-empty {% if not user_liked %}visible{% endif %}"></span>
                     <span class="icon-heart-filled {% if user_liked %}visible{% endif %}"></span>
                   </div>
                 </div>
-                <div class="fav-count">{{ likes_count }}</div>
+                <div class="fav-count" style="font-weight: 600; font-size: 14px; color: #333;">{{ likes_count }}</div>
               </div>
-
             </li>
+
           </ul>
 
           <div class="gallery-single-nav margin-top-50">

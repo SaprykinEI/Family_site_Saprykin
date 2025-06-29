@@ -144,4 +144,21 @@
   display: inline-block;
 }
 
+.like-avatars {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+  flex-wrap: wrap;
+  max-width: 200px;
+}
+
+.like-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 4px;
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 1px #ccc;
+}
 

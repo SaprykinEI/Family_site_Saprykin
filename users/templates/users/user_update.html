@@ -14,7 +14,7 @@
   <div class="register-form-container">
     <h2 class="register-title">Редактировать профиль</h2>
 
-    <form method="post" class="register-form">
+    <form method="post" enctype="multipart/form-data" class="register-form">
       {% csrf_token %}
       {{ form.as_p }}
 
