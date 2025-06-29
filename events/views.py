@@ -3,7 +3,7 @@ from datetime import date
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.urls import reverse_lazy
-from django.views.generic import ListView, View, CreateView
+from django.views.generic import ListView, View, CreateView, DetailView
 from django.http import JsonResponse
 from django.utils.dateparse import parse_date
 
@@ -17,7 +17,6 @@ class EventListView(LoginRequiredMixin, ListView):
     model = Event
     template_name = 'events/calendar.html'
     context_object_name = 'events'
-
 
 
 class EventJsonView(View):
@@ -85,3 +84,10 @@ class EventCreateView(LoginRequiredMixin, CreateView):
         context = super().get_context_data(**kwargs)
         context['title'] = "Добавление события в календарь"
         return context
+
+class EventDetailView(LoginRequiredMixin, DetailView):
+    model = Event
+    template_name = 'events/event_detail.html'
+    slug_field = 'slug'
+    slug_url_kwarg = 'slug'
+    context_object_name = 'event'

@@ -11,3 +11,4 @@ class EventAdmin(admin.ModelAdmin):
     filter_horizontal = ('people', 'categories')
     date_hierarchy = 'date'
     ordering = ("-date",)
+    prepopulated_fields = {'slug': ('title', 'date')}

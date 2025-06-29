@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from family_tree.models import Person
+from family_tree.utils import slug_generator
 
 from users.models import NULLABLE
 
@@ -29,6 +30,7 @@ class Event(models.Model):
     repeat = models.CharField(max_length=25, choices=REPEAT_CHOICES, default='none', verbose_name="Повтор")
     event_type = models.CharField(max_length=20, choices=EVENT_TYPE_CHOICES, default='other', verbose_name="Тип события")
     description = models.TextField(**NULLABLE, verbose_name="Описание")
+    slug = models.SlugField(max_length=255, unique=True, blank=True)
 
     people = models.ManyToManyField('family_tree.Person', blank=True,
                                     verbose_name="Связанные лица", related_name='events')
@@ -46,4 +48,9 @@ class Event(models.Model):
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slug_generator(self.title)
+        super().save(*args, **kwargs)
 
