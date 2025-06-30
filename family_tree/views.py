@@ -171,6 +171,12 @@ class TreeView(LoginRequiredMixin, DetailView):
             pk = 12
         return get_object_or_404(Person, pk=pk)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = "Семейное дерево"
+        context['people'] = Person.objects.all()
+        return context
+
 
 class TreeDataView(APIView):
     """API для получения данных генеалогического дерева потомков человека."""
