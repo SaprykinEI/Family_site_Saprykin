@@ -26,6 +26,11 @@ def on_person_save(sender, instance, **kwargs):
     if instance.spouse_id:
         clear_person_cache(instance.spouse_id)
 
+    # Очищаем кеш списка всех людей
+    cache.delete('person_list')
+
 @receiver(post_delete, sender=Person)
 def on_person_delete(sender, instance, **kwargs):
     clear_person_cache(instance.id)
+    # Очищаем кеш списка всех людей
+    cache.delete('person_list')

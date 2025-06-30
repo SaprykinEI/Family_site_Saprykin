@@ -11,20 +11,20 @@ CACHE_TIMEOUT = 60 * 60
 
 def get_person_cache():
     """
-    Получить список всех Person с кешированием.
+    Получить список всех Person с кешированием, отсортированный по фамилии и имени.
     """
     if getattr(settings, 'CACHE_ENABLED', False):
         key = 'person_list'
         person_list = cache.get(key)
         if person_list is None:
             logger.info('Кеш пуст, загружаем из базы и кешируем')
-            person_list = Person.objects.all()
+            person_list = Person.objects.all().order_by('last_name', 'first_name')
             cache.set(key, person_list, CACHE_TIMEOUT)
         else:
             logger.info('Данные взяты из кеша')
     else:
         logger.info('Кеширование отключено, данные взяты из базы')
-        person_list = Person.objects.all()
+        person_list = Person.objects.all().order_by('last_name', 'first_name')
 
     return person_list
 
