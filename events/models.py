@@ -4,6 +4,7 @@ from django.utils import timezone
 from family_tree.models import Person
 from family_tree.utils import slug_generator
 
+from gallery.models import Album
 from users.models import NULLABLE
 
 
@@ -33,6 +34,8 @@ class Event(models.Model):
     description = models.TextField(**NULLABLE, verbose_name="Описание")
     slug = models.SlugField(max_length=255, unique=True, blank=True)
 
+    album = models.ForeignKey(Album, on_delete=models.SET_NULL, **NULLABLE,
+                              verbose_name="Альбом события", related_name="events")
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL,
                               related_name='events', verbose_name='Создатель события', **NULLABLE)
     people = models.ManyToManyField('family_tree.Person', blank=True,
