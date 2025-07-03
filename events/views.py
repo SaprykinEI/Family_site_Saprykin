@@ -108,7 +108,7 @@ class EventUpdateView(LoginRequiredMixin, UpdateView):
     slug_url_kwarg = 'slug'
 
     def get_success_url(self):
-        return reverse_lazy('event_detail', kwargs={'slug': self.object.slug})
+        return reverse_lazy('events:event_detail', kwargs={'slug': self.object.slug})
 
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -126,4 +126,24 @@ class EventUpdateView(LoginRequiredMixin, UpdateView):
 
 
 class EventDeleteView(LoginRequiredMixin, DeleteView):
-    pass
+    model = Event
+    slug_field = 'slug'
+    slug_url_kwarg = 'slug'
+    template_name = 'events/event_confirm_delete.html'
+    success_url = reverse_lazy('events:events_list')
+
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        user = request.user.role
+
+        if user == UserRoles.ADMIN:
+            return super().dispatch(request, *args, **kwargs)
+        elif user == UserRoles.MODERATOR:
+            if self.object.owner == self.request.user:
+                return super().dispatch(request, *args, **kwargs)
+            else:
+                raise PermissionDenied("Вы можете удалять только свои события")
+        else:
+            raise PermissionDenied("У вас нет прав на удаление события")
+
+

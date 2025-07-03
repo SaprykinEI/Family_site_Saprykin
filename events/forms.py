@@ -8,7 +8,7 @@ class EventForm(forms.ModelForm):
         fields = '__all__'
         exclude = ['slug', 'owner']
         widgets = {
-            'date': forms.DateInput(attrs={'type': 'date'}),
+            'date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'description': forms.Textarea(attrs={'rows': 3}),
             'people': forms.SelectMultiple(attrs={'size': 5}),
             'categories': forms.SelectMultiple(attrs={'size': 5}),
@@ -25,3 +25,7 @@ class EventForm(forms.ModelForm):
             'is_reminder_enabled': 'Напоминание',
             'is_in_timeline': 'Показывать в хронологии',
         }
+
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            self.fields['date'].input_formats = ['%Y-%m-%d']

@@ -1,10 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load static %}
 
-</body>
-</html>
+{% block title %}Редактирование события{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/events/event_create_form.css' %}">
+
+<div class="event-create-wrapper">
+  <h2 class="event-create-title">{{ title }}</h2>
+
+  <form method="post" enctype="multipart/form-data" class="event-create-form">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn-submit">Сохранить</button>
+  </form>
+
+  <p class="event-create-footer">
+    <a href="{% url 'events:events_list' %}">← Вернуться к списку событий</a>
+  </p>
+</div>
+
+{% endblock %}
