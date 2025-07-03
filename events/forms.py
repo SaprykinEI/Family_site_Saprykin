@@ -12,6 +12,7 @@ class EventForm(forms.ModelForm):
             'description': forms.Textarea(attrs={'rows': 3}),
             'people': forms.SelectMultiple(attrs={'size': 5}),
             'categories': forms.SelectMultiple(attrs={'size': 5}),
+            'album': forms.Select(),
         }
 
         labels = {

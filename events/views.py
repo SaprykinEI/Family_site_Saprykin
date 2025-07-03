@@ -7,6 +7,7 @@ from django.views.generic import ListView, View, CreateView, DetailView, UpdateV
 from django.http import JsonResponse
 from django.utils.dateparse import parse_date
 
+from gallery.models import Photo, Album
 from events.models import Event
 from events.forms import EventForm
 from users.models import UserRoles
@@ -98,6 +99,17 @@ class EventDetailView(LoginRequiredMixin, DetailView):
     slug_field = 'slug'
     slug_url_kwarg = 'slug'
     context_object_name = 'event'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        event = self.get_object()
+        if event.album:
+            photos = Photo.objects.filter(album=event.album).order_by('?')
+        else:
+            photos = Photo.objects.none()
+
+        context['random_photos'] = photos
+        return context
 
 
 class EventUpdateView(LoginRequiredMixin, UpdateView):
