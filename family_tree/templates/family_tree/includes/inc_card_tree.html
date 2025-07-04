@@ -1,5 +1,6 @@
+{% load file_exists %}
 <div class="tree-card">
-  {% if person.photo %}
+  {% if person.photo|file_exists %}
     <img src="{{ person.photo.url }}" alt="{{ person.full_name }}" class="tree-card__photo" />
   {% else %}
     <div class="tree-card__photo tree-card__photo--placeholder">?</div>
