@@ -12,11 +12,13 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.template.loader import render_to_string
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
+from datetime import date
 
 from family_tree.models import Person
 from family_tree.forms import PersonForm
 from family_tree.services import get_person_cache, get_descendants_tree_cached, get_ancestors_tree_cached
 from gallery.models import Album
+from events.models import Event
 from users.models import UserRoles
 
 
@@ -27,11 +29,50 @@ class IndexView(ListView):
     context_object_name = 'person_list'
 
     def get_context_data(self, **kwargs):
-        '''Переопределяем метод, чтобы добавить дополнительный контекст в шаблон.'''
         context = super().get_context_data(**kwargs)
+        today = date.today()
+        this_year = today.year
+
         context['title'] = "<h1>Сайт семьи - Сапрыкины</h1>"
         context['latest_albums'] = Album.objects.order_by('-created_at')[:4]
+
+        events = Event.objects.all()
+        upcoming_events = []
+
+        for event in events:
+            # Предположим, event.date — дата первого события (год, месяц, день)
+            month = event.date.month
+            day = event.date.day
+
+            # Событие в этом году
+            event_date_this_year = date(this_year, month, day)
+
+            # Если событие уже прошло в этом году, смотрим на следующий год
+            if event_date_this_year < today:
+                event_date_this_year = date(this_year + 1, month, day)
+
+            # Добавляем событие в список, если оно попадает в ближайшие 30 дней, например
+            if 0 <= (event_date_this_year - today).days <= 90:
+                # Посчитаем возраст, если нужно
+                age_years = None
+                if event.event_type in ['birthday', 'wedding']:
+                    age_years = event_date_this_year.year - event.date.year
+
+                upcoming_events.append({
+                    'title': event.title,
+                    'date': event_date_this_year,
+                    'photo_one': event.photo_one.url if event.photo_one else '',
+                    'age_years': age_years,
+                    'type': event.event_type,
+                    'description': event.description,
+                })
+
+        # Сортируем по дате и берем первые 4
+        upcoming_events.sort(key=lambda x: x['date'])
+        context['events'] = upcoming_events[:4]
         return context
+
+
 
 
 class PersonsListView(LoginRequiredMixin, ListView):
