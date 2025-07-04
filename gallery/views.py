@@ -17,11 +17,12 @@ from rest_framework.reverse import reverse_lazy
 
 from gallery.models import Album, Category, Tag, Photo, Video, AlbumLike
 from gallery.forms import AlbumCreateForm, PhotoUploadForm
-from gallery.utils import convert_photo_to_webp
+
 
 from family_tree.models import Person
 
 from users.models import UserRoles, User
+from .utils import convert_photo_to_webp
 
 
 class UserAlbumListView(LoginRequiredMixin, ListView):

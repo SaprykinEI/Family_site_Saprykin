@@ -104,7 +104,7 @@ class EventDetailView(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         event = self.get_object()
         if event.album:
-            photos = Photo.objects.filter(album=event.album).order_by('?')
+            photos = Photo.objects.filter(album=event.album).distinct()
         else:
             photos = Photo.objects.none()
 

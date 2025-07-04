@@ -5,6 +5,7 @@ from family_tree.models import Person
 from family_tree.utils import slug_generator
 
 from gallery.models import Album
+
 from users.models import NULLABLE
 
 
@@ -32,6 +33,8 @@ class Event(models.Model):
     repeat = models.CharField(max_length=25, choices=REPEAT_CHOICES, default='none', verbose_name="Повтор")
     event_type = models.CharField(max_length=20, choices=EVENT_TYPE_CHOICES, default='other', verbose_name="Тип события")
     description = models.TextField(**NULLABLE, verbose_name="Описание")
+    photo_one = models.ImageField(upload_to='event_photo/' , verbose_name="Фото для события 1", **NULLABLE)
+    photo_two = models.ImageField(upload_to='event_photo/' , verbose_name="Фото для события 2", **NULLABLE)
     slug = models.SlugField(max_length=255, unique=True, blank=True)
 
     album = models.ForeignKey(Album, on_delete=models.SET_NULL, **NULLABLE,
