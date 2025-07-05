@@ -1,0 +1,33 @@
+.price-row-equal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;  /* или сколько у тебя нужно между карточками */
+}
+
+.price-row-equal > div {
+  flex: 1 1 calc(25% - 30px);  /* 4 на строку */
+  display: flex;
+}
+
+.price-box {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  height: 100%; /* ключевая часть! */
+}
+
+.price-heading.bg-image {
+  height: 300px;              /* одинаковая высота для всех */
+  background-size: cover;     /* чтобы картинка не искажалась */
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 8px;         /* если хочешь закругления */
+  overflow: hidden;
+}
+
+.price-box-price .price {
+  font-size: 15px; !important;
+  color: #2c2c2c; /* опционально — чтобы выглядело чуть мягче */
+}

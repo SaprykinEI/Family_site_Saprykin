@@ -52,7 +52,7 @@ class IndexView(ListView):
                 event_date_this_year = date(this_year + 1, month, day)
 
             # Добавляем событие в список, если оно попадает в ближайшие 30 дней, например
-            if 0 <= (event_date_this_year - today).days <= 90:
+            if 0 <= (event_date_this_year - today).days <= 360:
                 # Посчитаем возраст, если нужно
                 age_years = None
                 if event.event_type in ['birthday', 'wedding']:
@@ -61,6 +61,7 @@ class IndexView(ListView):
                 upcoming_events.append({
                     'title': event.title,
                     'date': event_date_this_year,
+                    'original_date': event.date,
                     'photo_one': event.photo_one.url if event.photo_one else '',
                     'age_years': age_years,
                     'type': event.event_type,

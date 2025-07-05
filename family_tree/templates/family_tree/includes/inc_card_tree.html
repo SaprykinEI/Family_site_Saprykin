@@ -1,4 +1,4 @@
-{% load file_exists %}
+{% load file_exist %}
 <div class="tree-card">
   {% if person.photo|file_exists %}
     <img src="{{ person.photo.url }}" alt="{{ person.full_name }}" class="tree-card__photo" />

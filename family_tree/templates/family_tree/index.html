@@ -3,6 +3,10 @@
 
 {% block title %}Главная страница{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/index_card.css' %}">
+{% endblock %}
+
 {% block content %}
 <!-- ==========================
 ///// Begin intro section /////
@@ -177,37 +181,34 @@
 
     <div class="prices-section-inner tt-wrap">
         <div class="price-boxes-container margin-bottom-80">
-            <div class="row">
+            <div class="row price-row-equal">
               {% for event in events %}
                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
                   <div class="price-box">
                     <div class="pr-box price-heading bg-image"
-                         style="background-image: url('{{ event.photo_one|default:"/static/img/default-event.jpg" }}');">
+                         style="background-image: url('{{ event.photo_one|default:"/static/img/no-photo.jpg" }}');">
                       <div class="price-heading-inner">
                         <i class="fas fa-calendar-alt"></i>
                         <h3 class="price-title">{{ event.title }}</h3>
-                        {% if event.description %}
-                          <li>{{ event.description|truncatewords:10 }}</li>
-                        {% endif %}
+
                       </div>
                     </div>
                     <div class="pr-box price-box-price">
-                      <div class="price">
-                        {{ event.date|date:"d M Y" }}
+                      <div class="price" style="font-size: 25px">
+                        {{ event.original_date }}
                       </div>
                     </div>
                     <div class="pr-box price-features">
                       <ul class="list-unstyled">
                         {% if event.age_years %}
-                          <li>Возраст: {{ event.age_years }} лет</li>
+                          <li><strong>Исполнится:</strong> {{ event.age_years }} лет</li>
                         {% endif %}
                         {% if event.description %}
-                          <li>{{ event.description|truncatewords:10 }}</li>
+                          <li><strong>Описание: </strong>{{ event.description|truncatewords:10 }}</li>
                         {% endif %}
                       </ul>
                     </div>
                     <div class="pr-box">
-                      #
                     </div>
                   </div>
                 </div>
@@ -222,29 +223,29 @@
 <!-- ===================================
 ///// Begin call to action section /////
 ==================================== -->
-<section class="call-to-action-section bg-gray-3 margin-top-60">
-    <div class="full-cover for-light-style bg-image" style="background-image: url({% static 'img/pattern/bg-pattern-2-light.png' %}); background-position: 50% 50%;"></div>
-    <div class="full-cover for-dark-style bg-image" style="background-image: url({% static 'img/pattern/bg-pattern-2-dark.png' %}); background-position: 50% 50%;"></div>
+<!--<section class="call-to-action-section bg-gray-3 margin-top-60">-->
+<!--    <div class="full-cover for-light-style bg-image" style="background-image: url({% static 'img/pattern/bg-pattern-2-light.png' %}); background-position: 50% 50%;"></div>-->
+<!--    <div class="full-cover for-dark-style bg-image" style="background-image: url({% static 'img/pattern/bg-pattern-2-dark.png' %}); background-position: 50% 50%;"></div>-->
 
-    <div class="call-to-action-inner tt-wrap">
-        <div class="row">
-            <div class="col-md-12 text-center">
-                <div class="tt-heading tt-heading-lg text-center">
-                    <div class="tt-heading-inner tt-wrap">
-                        <h1 class="tt-heading-title">Что дальше?</h1>
-                        <div class="tt-heading-subtitle">Хотите работать со мной?</div>
-                        <hr class="hr-short">
-                    </div>
-                </div>
-                <div class="margin-top-30 max-width-1000 margin-auto">
-                    <p>Свяжитесь со мной для обсуждения деталей вашей фотосессии. Я с радостью отвечу на все ваши вопросы и помогу организовать съемку.</p>
-                    <div class="margin-top-30">
-                        <a href="/about" class="btn btn-dark margin-top-5 margin-right-5">Обо мне</a>
-                        <a href="#contact" class="btn btn-primary margin-top-5">Связаться</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+<!--    <div class="call-to-action-inner tt-wrap">-->
+<!--        <div class="row">-->
+<!--            <div class="col-md-12 text-center">-->
+<!--                <div class="tt-heading tt-heading-lg text-center">-->
+<!--                    <div class="tt-heading-inner tt-wrap">-->
+<!--                        <h1 class="tt-heading-title">Что дальше?</h1>-->
+<!--                        <div class="tt-heading-subtitle">Хотите работать со мной?</div>-->
+<!--                        <hr class="hr-short">-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="margin-top-30 max-width-1000 margin-auto">-->
+<!--                    <p>Свяжитесь со мной для обсуждения деталей вашей фотосессии. Я с радостью отвечу на все ваши вопросы и помогу организовать съемку.</p>-->
+<!--                    <div class="margin-top-30">-->
+<!--                        <a href="/about" class="btn btn-dark margin-top-5 margin-right-5">Обо мне</a>-->
+<!--                        <a href="#contact" class="btn btn-primary margin-top-5">Связаться</a>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</section>-->
 {% endblock %}
