@@ -16,6 +16,7 @@ class Person(models.Model):
     maiden_name = models.CharField(max_length=50, **NULLABLE, verbose_name="Девичья фамилия")
     patronymic = models.CharField(max_length=50, **NULLABLE, verbose_name="Отчество")
     birth_date = models.DateField(verbose_name="Дата рождения")
+    birth_place = models.CharField(max_length=100, **NULLABLE)
     death_date = models.DateField(**NULLABLE, verbose_name="Дата Смерти")
     photo = models.ImageField(upload_to="person_photos/", **NULLABLE, verbose_name="Фотография")
     photo_other = models.ImageField(upload_to="person_other_photos/", **NULLABLE, verbose_name="Фотография_2")
@@ -54,11 +55,9 @@ class Person(models.Model):
             self.slug = slug_generator(full_name)
         super().save(*args, **kwargs)
 
-        # Оптимизация основного фото
         if self.photo:
             self.resize_image(self.photo.path)
 
-        # Оптимизация дополнительного фото
         if self.photo_other:
             self.resize_image(self.photo_other.path)
 
