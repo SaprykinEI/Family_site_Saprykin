@@ -71,6 +71,7 @@
                   {% if person.death_date %}
                     <p><strong>Дата смерти:</strong> {{ person.death_date|date:"d.m.Y" }}</p>
                   {% endif %}
+                  <p><strong>Место рождения:</strong> {{ person.birth_place }}</p>
                   {% if person.father %}
                     <p><strong>Отец:</strong> <a href="{% url 'family_tree:person_detail' person.father.slug %}">{{ person.father.full_name }}</a></p>
                   {% endif %}

@@ -16,7 +16,7 @@ class Person(models.Model):
     maiden_name = models.CharField(max_length=50, **NULLABLE, verbose_name="Девичья фамилия")
     patronymic = models.CharField(max_length=50, **NULLABLE, verbose_name="Отчество")
     birth_date = models.DateField(verbose_name="Дата рождения")
-    birth_place = models.CharField(max_length=100, **NULLABLE)
+    birth_place = models.CharField(max_length=100, **NULLABLE, verbose_name="Место рождения")
     death_date = models.DateField(**NULLABLE, verbose_name="Дата Смерти")
     photo = models.ImageField(upload_to="person_photos/", **NULLABLE, verbose_name="Фотография")
     photo_other = models.ImageField(upload_to="person_other_photos/", **NULLABLE, verbose_name="Фотография_2")
