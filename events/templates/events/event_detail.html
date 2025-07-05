@@ -63,9 +63,7 @@
                 <div class="margin-top-30">
                   <p><strong>Дата:</strong> {{ event.date|date:"d.m.Y" }}</p>
                   <p><strong>Тип события:</strong> {{ event.get_event_type_display }}</p>
-                  {% if event.description %}
-                    <p><strong>Описание:</strong> {{ event.description|linebreaks }}</p>
-                  {% endif %}
+
 
                   {% if event.people.exists %}
                     <p><strong>Участники:</strong>

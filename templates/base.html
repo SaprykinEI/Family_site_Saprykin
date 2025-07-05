@@ -84,8 +84,6 @@
                                 <li><a href="{% url 'events:events_list' %}">События</a></li>
                             </ul>
                         </li>
-                        <li><a href="{% url 'family_tree:index' %}">Контакты</a></li>
-                        <li><a href="{% url 'family_tree:index' %}">О нас</a></li>
 
                         {% if user.is_authenticated %}
                             <li class="dropdown" id="user-menu">
@@ -168,10 +166,10 @@
                         <!-- Social buttons -->
                         <div class="social-buttons">
                             <ul>
-                                <li><a href="#" class="btn btn-social-min btn-default btn-rounded-full"><i class="fab fa-facebook-f"></i></a></li>
-                                <li><a href="#" class="btn btn-social-min btn-default btn-rounded-full"><i class="fab fa-instagram"></i></a></li>
-                                <li><a href="#" class="btn btn-social-min btn-default btn-rounded-full"><i class="fab fa-vk"></i></a></li>
-                                <li><a href="#" class="btn btn-social-min btn-default btn-rounded-full"><i class="fas fa-envelope"></i></a></li>
+                                <li><a href="https://vk.com/evgeniy.saprykin" class="btn btn-social-min btn-default btn-rounded-full"><i class="fab fa-vk"></i></a></li>
+<!--                                <li><a href="#" class="btn btn-social-min btn-default btn-rounded-full"><i class="fab fa-facebook-f"></i></a></li>-->
+<!--                                <li><a href="#" class="btn btn-social-min btn-default btn-rounded-full"><i class="fab fa-instagram"></i></a></li>-->
+<!--                                <li><a href="#" class="btn btn-social-min btn-default btn-rounded-full"><i class="fas fa-envelope"></i></a></li>-->
                             </ul>
                         </div>
                     </div>
@@ -185,10 +183,10 @@
                             <!-- Footer menu -->
                             <ul class="footer-menu">
                                 <li><a href="{% url 'family_tree:index' %}">Главная</a></li>
-                                <li><a href="{% url 'family_tree:persons' %}">Семейное дерево</a></li>
-                                <li><a href="{% url 'family_tree:index' %}">Галерея</a></li>
-                                <li><a href="{% url 'family_tree:index' %}">Блог</a></li>
-                                <li><a href="{% url 'family_tree:index' %}">Контакты</a></li>
+                                <li><a href="{% url 'family_tree:persons' %}">Члены семьи</a></li>
+                                <li><a href="{% url 'family_tree:tree' %}">Семейное дерево</a></li>
+                                <li><a href="{% url 'gallery:album_list' %}">Галерея</a></li>
+                                <li><a href="{% url 'events:events_list' %}">События</a></li>
                             </ul>
                         </div>
 

@@ -16,6 +16,11 @@
   <div class="page-header-inner tt-wrap">
     <div class="page-header-caption ph-caption-lg parallax-4 fade-out-scroll-3 position-relative">
       <h1 class="page-header-title">{{ person.full_name }}</h1>
+      <h2>
+        {% if person.maiden_name %}
+            Девичья фамилия: {{ person.maiden_name }}
+          {% endif %}
+        </h2>
       <hr class="hr-short">
       <div class="page-header-description">
         {{ person.profession }}

@@ -9,7 +9,14 @@
       {% endif %}
     </div>
     <div class="polaroid-caption">
-      <div class="person-name"><strong>{{ person.full_name }}</strong></div>
+      <div class="person-name">
+        <strong>
+          {{ person.full_name }}
+          {% if person.maiden_name %}
+            ({{ person.maiden_name }})
+          {% endif %}
+        </strong>
+      </div>
       <div class="person-dates">
         {% if person.birth_date %}{{ person.birth_date|date:"Y" }}{% endif %}
         {% if person.death_date %} — {{ person.death_date|date:"Y" }}{% endif %}

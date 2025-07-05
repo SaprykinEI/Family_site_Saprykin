@@ -1,3 +1,4 @@
+from PIL import Image
 from django.db import models
 from django.conf import settings
 
@@ -52,6 +53,23 @@ class Person(models.Model):
             full_name = f"{self.last_name} {self.first_name}"
             self.slug = slug_generator(full_name)
         super().save(*args, **kwargs)
+
+        # Оптимизация основного фото
+        if self.photo:
+            self.resize_image(self.photo.path)
+
+        # Оптимизация дополнительного фото
+        if self.photo_other:
+            self.resize_image(self.photo_other.path)
+
+    def resize_image(self, path):
+        try:
+            img = Image.open(path)
+            max_size = (800, 800)
+            img.thumbnail(max_size, Image.LANCZOS)
+            img.save(path, format='WEBP', quality=85)
+        except Exception as e:
+            print(f"Error resizing image: {e}")
 
     def children(self):
         return Person.objects.filter(models.Q(father=self) | models.Q(mother=self))
