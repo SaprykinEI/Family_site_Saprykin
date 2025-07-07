@@ -3,6 +3,14 @@ from transliterate import translit
 from django.utils.text import slugify
 
 def slug_generator(title):
+    """
+       Генерирует slug из переданного текста (например, имени).
+       - Транслитерирует русский текст в латиницу.
+       - Заменяет пробелы и дефисы на один дефис.
+       - Убирает лишние символы.
+       - Приводит к нижнему регистру.
+       - Пропускает через Django slugify.
+    """
     if not title:
         return ''
     transliterated_title = translit(title, 'ru', reversed=True)

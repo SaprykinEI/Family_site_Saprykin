@@ -11,7 +11,10 @@ CACHE_TIMEOUT = 60 * 60
 
 def get_person_cache():
     """
-    Получить список всех Person с кешированием, отсортированный по фамилии и имени.
+    Возвращает список всех объектов Person, отсортированных по фамилии и имени.
+    Использует кеширование, если оно включено в настройках.
+    - Если данные есть в кеше — возвращает их оттуда.
+    - Если нет — загружает из базы, кладёт в кеш и возвращает.
     """
     if getattr(settings, 'CACHE_ENABLED', False):
         key = 'person_list'
@@ -32,6 +35,11 @@ def get_person_cache():
 def get_descendants_tree_cached(person, build_tree_func):
     """
     Получить дерево потомков для person с кешированием.
+    Если дерево уже сохранено в кеше — взять его оттуда.
+    Если нет — построить с помощью переданной функции и сохранить в кеше.
+    Параметры:
+        person (Person): Человек, для которого строим дерево.
+        build_tree_func (callable): Функция, которая возвращает дерево потомков для данного человека.
     """
     cache_key = f'tree_data_{person.id}'
     data = cache.get(cache_key)
@@ -45,8 +53,13 @@ def get_descendants_tree_cached(person, build_tree_func):
 def get_ancestors_tree_cached(person, build_tree_func):
     """
     Получить дерево предков для person с кешированием.
+    Если данные уже есть в кеше — взять их оттуда.
+    Если нет — построить дерево с помощью переданной функции и сохранить в кеш.
+    Параметры:
+        person (Person): Человек, для которого строим дерево предков.
+        build_tree_func (callable): Функция, которая возвращает дерево предков для данного человека.
     """
-    cache_key = f'spouse_tree_data_{person.id}'
+    cache_key = f'ancestors_tree_data_{person.id}'
     data = cache.get(cache_key)
 
     if data is None:

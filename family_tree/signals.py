@@ -9,13 +9,20 @@ def clear_person_cache(person_id):
     """Удаляет кеш для конкретного человека."""
     keys = [
         f'tree_data_{person_id}',
-        f'ancestors_data_{person_id}',
+        f'ancestors_tree_data_{person_id}',
     ]
     for key in keys:
         cache.delete(key)
 
 @receiver(post_save, sender=Person)
 def on_person_save(sender, instance, **kwargs):
+    """
+        Обработчик сигнала post_save для модели Person.
+        При сохранении человека:
+        - Очищает кеш его дерева (потомков/предков).
+        - Очищает кеши родителей и супруга.
+        - Удаляет кеш списка всех людей.
+    """
     print(f"Person saved: {instance.id}")
     clear_person_cache(instance.id)
 
@@ -31,6 +38,11 @@ def on_person_save(sender, instance, **kwargs):
 
 @receiver(post_delete, sender=Person)
 def on_person_delete(sender, instance, **kwargs):
+    """
+        Обработчик сигнала post_delete для модели Person.
+        При удалении человека:
+        - Очищает его кешированные данные (дерево предков/потомков).
+        - Удаляет кеш общего списка людей.
+    """
     clear_person_cache(instance.id)
-    # Очищаем кеш списка всех людей
     cache.delete('person_list')

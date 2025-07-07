@@ -23,12 +23,14 @@ from users.models import UserRoles
 
 
 class IndexView(ListView):
-    '''Представление для отображения главной страницы'''
+    """ Представление для отображения главной страницы """
     model = Person
     template_name = 'family_tree/index.html'
     context_object_name = 'person_list'
 
     def get_context_data(self, **kwargs):
+        """ Выводит список людей (person_list), последние 4 альбома и до 4 ближайших событий.
+    Для событий считает ближайшие даты и возраст/годовщину. """
         context = super().get_context_data(**kwargs)
         today = date.today()
         this_year = today.year
@@ -40,7 +42,6 @@ class IndexView(ListView):
         upcoming_events = []
 
         for event in events:
-            # Предположим, event.date — дата первого события (год, месяц, день)
             month = event.date.month
             day = event.date.day
 
@@ -51,9 +52,9 @@ class IndexView(ListView):
             if event_date_this_year < today:
                 event_date_this_year = date(this_year + 1, month, day)
 
-            # Добавляем событие в список, если оно попадает в ближайшие 30 дней, например
+            # Добавляем событие в список, если оно попадает в ближайшие 360 дней, например
             if 0 <= (event_date_this_year - today).days <= 360:
-                # Посчитаем возраст, если нужно
+                # Считаем возраст
                 age_years = None
                 if event.event_type in ['birthday', 'wedding']:
                     age_years = event_date_this_year.year - event.date.year
@@ -75,14 +76,17 @@ class IndexView(ListView):
 
 
 class PersonsListView(LoginRequiredMixin, ListView):
-    '''Представление-класс для отображения всех членов семьи.'''
+    """ Представление-класс для отображения всех членов семьи.
+        - Требует аутентификации (LoginRequiredMixin).
+        - Пользователь должен быть авторизован."""
     model = Person
     template_name = 'family_tree/persons.html'
     context_object_name = 'persons'
     paginate_by = 12
 
     def get_queryset(self):
-        """Получаем список Person с фильтром по поиску."""
+        """Получаем список Person с фильтром по поиску.
+        - Поддержка поиска по имени и фамилии через GET-параметр 'search'."""
         queryset = get_person_cache()
         search_query = self.request.GET.get('search', '').strip()
         if search_query:
@@ -101,7 +105,9 @@ class PersonsListView(LoginRequiredMixin, ListView):
 
 
 class PersonCreateView(LoginRequiredMixin, CreateView):
-    '''Представление-класс для создания нового члена семьи.'''
+    """ Представление-класс для создания нового члена семьи.
+      - Требует аутентификации (LoginRequiredMixin).
+      - Пользователь должен быть авторизован для доступа."""
     model = Person
     form_class = PersonForm
     template_name = 'family_tree/person_create_update.html'
@@ -109,24 +115,27 @@ class PersonCreateView(LoginRequiredMixin, CreateView):
     login_url = 'users:user_login'
 
     def dispatch(self, request, *args, **kwargs):
+        """ Проверяет права пользователя и запрещает доступ при отсутствии нужной роли. """
         if request.user.role not in [UserRoles.ADMIN, UserRoles.MODERATOR]:
             raise PermissionDenied("У вас нет прав для добавления членов семьи.")
         return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
-        '''Переопределяем поведение при успешной валидации формы.'''
+        """ Автоматически проставляет создателя (request.user) перед сохранением нового человека. """
         form.instance.creator = self.request.user
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
-        """Добавляем заголовок страницы в контекст шаблона."""
+        """ Добавляем заголовок страницы в контекст шаблона. """
         context = super().get_context_data(**kwargs)
         context['title'] = "Добавить члена семьи"
         return context
 
 
 class PersonDetailView(LoginRequiredMixin, DetailView):
-    '''Представление-класс для отображения подробной информации о человеке'''
+    """ Представление-класс для отображения подробной информации о человеке
+      - Требует входа пользователя в систему (LoginRequiredMixin).
+      - Пользователь должен быть авторизован для просмотра страницы."""
     model = Person
     slug_field = 'slug'
     slug_url_kwarg = 'slug'
@@ -134,7 +143,10 @@ class PersonDetailView(LoginRequiredMixin, DetailView):
     context_object_name = 'person'
 
     def get_context_data(self, **kwargs):
-        '''Добавляем заголовка в шаблон.'''
+        """ В шаблон передаются:
+        - person: сам объект Person.
+        - random_photos: до 10 случайных фотографий, связанных с этим человеком.
+        - title: заголовок страницы (сам объект Person). """
         context = super().get_context_data(**kwargs)
         person = self.object
 
@@ -146,7 +158,7 @@ class PersonDetailView(LoginRequiredMixin, DetailView):
 
 
 class PersonUpdateView(LoginRequiredMixin, UpdateView):
-    '''Представление-класс для редактирования данных о человеке.'''
+    """ Представление-класс для редактирования данных о человеке. """
     model = Person
     slug_field = 'slug'
     slug_url_kwarg = 'slug'
@@ -156,6 +168,7 @@ class PersonUpdateView(LoginRequiredMixin, UpdateView):
     login_url = 'users:user_login'
 
     def get_queryset(self):
+        """ Переопределяем метод, чтобы определить, какие объекты можно редактировать. """
         queryset = super().get_queryset()
         user = self.request.user
 
@@ -187,6 +200,7 @@ class PersonDeleteView(LoginRequiredMixin, DeleteView):
     login_url = 'users:user_login'
 
     def get_queryset(self):
+        """ Переопределяем метод, чтобы определить, какие объекты можно редактировать. """
         queryset = super().get_queryset()
         user = self.request.user
 

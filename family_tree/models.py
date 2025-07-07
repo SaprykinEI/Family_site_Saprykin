@@ -7,6 +7,7 @@ from users.models import NULLABLE
 
 
 class Person(models.Model):
+    """Модель члена семьи"""
     GENDER_CHOICES = [
         ('male', 'Мужской'),
         ('female', 'Женский'),
@@ -38,18 +39,24 @@ class Person(models.Model):
     spouse = models.ForeignKey('self', on_delete=models.SET_NULL,
                                related_name='spouses', **NULLABLE, verbose_name="Супруг(а)")
 
-
     def __str__(self):
         return self.full_name
 
     @property
     def full_name(self):
+        """Возвращает полное имя человека. Формирует строку формата ФИО """
         parts = [self.last_name, self.first_name]
         if self.patronymic:
             parts.append(self.patronymic)
         return " ".join(parts)
 
     def save(self, *args, **kwargs):
+        """
+        Сохраняет объект Person в базе данных.
+        - Если поле slug пустое, автоматически генерирует его из фамилии и имени.
+        - После сохранения уменьшает размер загруженных фотографий (photo и photo_other),
+            чтобы они были не больше 800x800 и правильно ориентированы.
+        """
         if not self.slug:
             full_name = f"{self.last_name} {self.first_name}"
             self.slug = slug_generator(full_name)
@@ -62,9 +69,16 @@ class Person(models.Model):
             self.resize_image(self.photo_other.path)
 
     def resize_image(self, path):
+        """
+        Изменяет размер и ориентацию изображения по указаному пути
+        - Проверяет EXIF-ориентацию и поворачивает фото
+        - Уменьшает размер фото до 800х800 пикселей, сохраняя пропорции
+        - Сохраняет фото обратно на диск с качеством 85%
+
+        Используется для оптимизации фотографий при сохранении модели.
+        """
         try:
             img = Image.open(path)
-
             # Попытка получить ориентацию из EXIF
             try:
                 for orientation in ExifTags.TAGS.keys():
@@ -87,20 +101,24 @@ class Person(models.Model):
             max_size = (800, 800)
             img.thumbnail(max_size, Image.LANCZOS)
 
-            # Сохраняем в том же формате, что и исходный файл (или можно в JPEG/WebP)
             img.save(path, quality=85)
         except Exception as e:
             print(f"Error resizing image: {e}")
 
     def children(self):
+        """
+         Возвращает QuerySet всех детей этого человека.
+         Ищет людей в базе, у которых отец или мать - это этот человек.
+         """
         return Person.objects.filter(models.Q(father=self) | models.Q(mother=self))
 
     def get_absolute_url(self):
+        """ Возвращает ссылку на страницу с подробной информацией об этом человеке. """
         from django.urls import reverse
-        return reverse('person_detail', kwargs={'pk': self.pk})
+        return reverse('person_detail', kwargs={'slug': self.slug})
 
     class Meta:
+        """ Мета-настройки модели Person: """
         verbose_name = "Человек"
         verbose_name_plural = "Люди"
         ordering = ['last_name', 'first_name']
-
