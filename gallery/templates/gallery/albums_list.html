@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="{% static 'css/gallery/header.css' %}">
 <link rel="stylesheet" href="{% static 'css/gallery/filter_albums.css' %}">
 <link rel="stylesheet" href="{% static 'css/gallery/album_menu.css' %}">
+<link rel="stylesheet" href="{% static 'css/pagination.css' %}"> <!-- Подключаем стили пагинации -->
 
 <!-- Begin page header inner -->
 <div class="page-header-inner tt-wrap">
@@ -140,18 +141,60 @@
                         {% empty %}
                             <p>Альбомы не найдены по заданным фильтрам.</p>
                         {% endfor %}
-
-                        <!-- Пагинация -->
-                        <div class="isotope-pagination">
-                            <div class="iso-load-more">
-                                {% if page_obj.has_next %}
-                                    <a class="btn btn-dark-bordered btn-lg" href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ page_obj.next_page_number }}">Показать еще <i class="fas fa-refresh"></i></a>
-                                {% endif %}
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
+
+            <!-- Пагинация -->
+            {% if is_paginated %}
+            <div class="pagination-container">
+                <ul class="pagination">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?{% if request.GET %}{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}{% endif %}page=1" title="Первая страница">&laquo;</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?{% if request.GET %}{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}{% endif %}page={{ page_obj.previous_page_number }}" title="Предыдущая страница">&lsaquo;</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link">&laquo;</span>
+                        </li>
+                        <li class="page-item disabled">
+                            <span class="page-link">&lsaquo;</span>
+                        </li>
+                    {% endif %}
+
+                    {% for num in page_obj.paginator.page_range %}
+                        {% if page_obj.number == num %}
+                            <li class="page-item active">
+                                <span class="page-link">{{ num }}</span>
+                            </li>
+                        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                            <li class="page-item">
+                                <a class="page-link" href="?{% if request.GET %}{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}{% endif %}page={{ num }}">{{ num }}</a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?{% if request.GET %}{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}{% endif %}page={{ page_obj.next_page_number }}" title="Следующая страница">&rsaquo;</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?{% if request.GET %}{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}{% endif %}page={{ page_obj.paginator.num_pages }}" title="Последняя страница">&raquo;</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link">&rsaquo;</span>
+                        </li>
+                        <li class="page-item disabled">
+                            <span class="page-link">&raquo;</span>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+            {% endif %}
 
         </div>
     </div>

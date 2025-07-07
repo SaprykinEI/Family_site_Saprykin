@@ -74,13 +74,12 @@ class IndexView(ListView):
         return context
 
 
-
-
 class PersonsListView(LoginRequiredMixin, ListView):
     '''Представление-класс для отображения всех членов семьи.'''
     model = Person
     template_name = 'family_tree/persons.html'
     context_object_name = 'persons'
+    paginate_by = 12
 
     def get_queryset(self):
         """Получаем список Person с фильтром по поиску."""

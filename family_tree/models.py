@@ -1,4 +1,4 @@
-from PIL import Image
+from PIL import Image, ExifTags
 from django.db import models
 from django.conf import settings
 
@@ -64,9 +64,31 @@ class Person(models.Model):
     def resize_image(self, path):
         try:
             img = Image.open(path)
+
+            # Попытка получить ориентацию из EXIF
+            try:
+                for orientation in ExifTags.TAGS.keys():
+                    if ExifTags.TAGS[orientation] == 'Orientation':
+                        break
+                exif = img._getexif()
+                if exif is not None:
+                    orientation_value = exif.get(orientation, None)
+
+                    if orientation_value == 3:
+                        img = img.rotate(180, expand=True)
+                    elif orientation_value == 6:
+                        img = img.rotate(270, expand=True)
+                    elif orientation_value == 8:
+                        img = img.rotate(90, expand=True)
+            except (AttributeError, KeyError, IndexError):
+                # Если EXIF нет или ориентация не определена
+                pass
+
             max_size = (800, 800)
             img.thumbnail(max_size, Image.LANCZOS)
-            img.save(path, format='WEBP', quality=85)
+
+            # Сохраняем в том же формате, что и исходный файл (или можно в JPEG/WebP)
+            img.save(path, quality=85)
         except Exception as e:
             print(f"Error resizing image: {e}")
 
