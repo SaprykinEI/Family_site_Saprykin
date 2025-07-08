@@ -10,6 +10,13 @@ from gallery.models import Album, Category, Photo, Tag
 
 
 class AlbumCreateForm(forms.ModelForm):
+    """
+        Форма для создания/редактирования объекта Album (альбома).
+        Дополнительно:
+        - new_category: поле для ввода новой категории, если нужной нет в списке;
+        - new_tags: поле для ввода новых тегов через запятую.
+        Сохраняет данные, создавая новые категории и теги при необходимости.
+        """
     new_category = forms.CharField(
         max_length=100,
         required=False,
@@ -32,6 +39,13 @@ class AlbumCreateForm(forms.ModelForm):
         }
 
     def save(self, commit=True):
+        """
+         Переопределённый метод сохранения формы.
+        1. Если у альбома нет слага — создаёт его.
+        2. Если указана новая категория — создаёт/получает её и устанавливает для альбома.
+        3. Сохраняет альбом и связи с тегами.
+        4. Создаёт новые теги из строки new_tags, если они введены, и добавляет к альбому.
+        """
         album = super().save(commit=False)
 
         if not album.slug:
@@ -57,6 +71,7 @@ class AlbumCreateForm(forms.ModelForm):
 
 
 class PhotoUploadForm(forms.ModelForm):
+    """ Форма для загрузки фотографий """
     class Meta:
         model = Photo
         fields = ['image', 'caption', 'people', 'tags']

@@ -1,6 +1,5 @@
 import json
 
-
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
@@ -26,11 +25,14 @@ from .utils import convert_photo_to_webp
 
 
 class UserAlbumListView(LoginRequiredMixin, ListView):
+    """ Представление для отображения списка альбомов конкретного пользователя. """
     model = Album
     template_name = 'gallery/albums_user.html'
     context_object_name = 'albums'
 
     def get_queryset(self):
+        """ Возвращает список альбомов, которые принадлежат текущему пользователю
+        и которые активны (то есть показываются). """
         user = self.request.user
         return Album.objects.filter(
             owner=user,
@@ -40,6 +42,7 @@ class UserAlbumListView(LoginRequiredMixin, ListView):
         ).order_by('-created_at').distinct()
 
     def get_context_data(self, **kwargs):
+        """ Формирует контекст (данные), которые будут переданы в шаблон """
         context = super().get_context_data(**kwargs)
         user = self.request.user
         context['view_mode'] = 'active'
@@ -50,6 +53,7 @@ class UserAlbumListView(LoginRequiredMixin, ListView):
 
 
 class UserAlbumDeactivatedListView(LoginRequiredMixin, ListView):
+    """ Представление для отображения списка неактивных альбомов конкретного пользователя. """
     model = Album
     template_name = 'gallery/albums_user.html'
     context_object_name = 'albums'
@@ -70,6 +74,7 @@ class UserAlbumDeactivatedListView(LoginRequiredMixin, ListView):
             return qs.order_by('-created_at')
 
     def get_context_data(self, **kwargs):
+        """ Добавляет в контекст данные о роли пользователя """
         context = super().get_context_data(**kwargs)
         user = self.request.user
 
@@ -81,12 +86,15 @@ class UserAlbumDeactivatedListView(LoginRequiredMixin, ListView):
 
 
 class AlbumListView(LoginRequiredMixin, ListView):
+    """ Представление для отображения общего списка альбомов с фильтрами. """
     model = Album
     template_name = 'gallery/albums_list.html'
     context_object_name = 'albums'
     paginate_by = 12
 
     def get_queryset(self):
+        """ Возвращает отфильтрованный QuerySet альбомов.
+        Фильтрует по параметрам в GET-запросе: """
         user = self.request.user
 
         # Все активные альбомы
@@ -123,6 +131,12 @@ class AlbumListView(LoginRequiredMixin, ListView):
         return qs.distinct().order_by('-created_at')
 
     def get_context_data(self, **kwargs):
+        """
+            Добавляет данные для шаблона:
+            - Списки всех категорий, годов, тегов, людей
+            - Выбранные пользователем фильтры
+            - Флаги ролей пользователя (admin, moderator)
+        """
         context = super().get_context_data(**kwargs)
         user = self.request.user
 
@@ -149,12 +163,14 @@ class AlbumListView(LoginRequiredMixin, ListView):
 
 
 class AlbumDeactivatedListView(LoginRequiredMixin, ListView):
+    """ Представление для отображения списка деактивированных (неактивных) альбомов. """
     model = Album
     template_name = 'gallery/albums_list.html'
     context_object_name = 'albums'
     paginate_by = 12
 
     def get_queryset(self):
+        """ Возвращает QuerySet неактивных альбомов с учетом роли пользователя. """
         user = self.request.user
 
         qs = Album.objects.filter(is_active=False).select_related('category').prefetch_related(
@@ -172,6 +188,7 @@ class AlbumDeactivatedListView(LoginRequiredMixin, ListView):
             return Album.objects.none()
 
     def get_context_data(self, **kwargs):
+        """ Добавляет данные о режиме просмотра и роли пользователя в контекст шаблона. """
         context = super().get_context_data(**kwargs)
         user = self.request.user
 
@@ -189,21 +206,24 @@ class AlbumCreateView(LoginRequiredMixin, CreateView):
     template_name = 'gallery/album_create.html'
 
     def get_queryset(self):
+        """ Переопределяем метод, проверяем доступ пользователей"""
         user = self.request.user
         if user.role not in [UserRoles.ADMIN, UserRoles.MODERATOR]:
             raise PermissionDenied("У вас нет прав для создания альбома.")
         return super().get_queryset()
 
     def form_valid(self, form):
+        """ Метод для автоматического присвоения создателя альбому """
         form.instance.owner = self.request.user
         return super().form_valid(form)
 
     def get_success_url(self):
+        """ Переопределяем ссылку на которую будет переход после успешного создания альбома """
         return reverse_lazy('gallery:photo_upload', kwargs={'slug': self.object.slug})
 
 
 class AlbumDetailView(LoginRequiredMixin, DetailView):
-    """Класс детального просмотра альбома"""
+    """ Представление для детального просмотра одного альбома. Пользователь должен быть авторизован. """
     model = Album
     slug_field = 'slug'
     slug_url_kwarg = 'slug'
@@ -211,12 +231,14 @@ class AlbumDetailView(LoginRequiredMixin, DetailView):
     context_object_name = 'album'
 
     def get_object(self, queryset=None):
+        """ Метод увеличение счётчика просмотров, если альбом просматривает не владелец """
         object = super().get_object(queryset)
         if self.request.user != object.owner:
             object.increment_view_count()
         return object
 
     def get_context_data(self, **kwargs):
+        """ добавление данных в контекст шаблона """
         context = super().get_context_data(**kwargs)
         album = self.object
 
@@ -235,6 +257,7 @@ class AlbumDetailView(LoginRequiredMixin, DetailView):
 
 
 class AlbumUpdateView(LoginRequiredMixin, UpdateView):
+    """ Представление для редактирования альбома. Требуется аутентификация пользователя. """
     model = Album
     slug_field = 'slug'
     slug_url_kwarg = 'slug'
@@ -265,6 +288,7 @@ class AlbumUpdateView(LoginRequiredMixin, UpdateView):
 
 
 class AlbumDeleteView(LoginRequiredMixin, DeleteView):
+    """ Представление для удаления альбома. Требуется аутентификация пользователя. """
     model = Album
     slug_field = 'slug'
     slug_url_kwarg = 'slug'
@@ -272,6 +296,7 @@ class AlbumDeleteView(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('gallery:album_list')
 
     def get_queryset(self):
+        """Ограничиваем доступ к удалению альбомов"""
         queryset = super().get_queryset()
         user = self.request.user
 
@@ -286,6 +311,7 @@ class PhotoUploadPageView(LoginRequiredMixin, View):
     """Отображает страницу загрузки медиа в альбом"""
     slug_field = 'slug'
     slug_url_kwarg = 'slug'
+
     def get_queryset(self):
         """Формируем queryset альбомов, к которым есть доступ для загрузки"""
         user = self.request.user
@@ -302,21 +328,20 @@ class PhotoUploadPageView(LoginRequiredMixin, View):
         return render(request, 'gallery/photo_upload.html', {'album': album})
 
 
-from django.views import View
-from django.http import JsonResponse
-from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
-from .models import Album, AlbumLike
-
-
 
 @method_decorator(login_required, name='dispatch')
 class AlbumToggleLikeView(View):
-    """Класс для переключения лайка на альбоме"""
+    """ Представление для AJAX-переключения лайка на альбоме.
+    Требует авторизации (login_required применяется к dispatch). """
+
     def post(self, request, *args, **kwargs):
+        """ Получает слаг альбома из URL.
+            - Проверяет наличие альбома по слагу.
+            - Если лайк уже существует — удаляет его (снимает лайк).
+            - Если лайка нет — создает его (ставит лайк).
+            - Возвращает JSON-ответ с результатом:"""
         album_slug = kwargs.get('slug')
         user = request.user
-
         try:
             album = Album.objects.get(slug=album_slug)
         except Album.DoesNotExist:
@@ -337,13 +362,14 @@ class AlbumToggleLikeView(View):
         })
 
 
-
-
 @method_decorator(csrf_exempt, name='dispatch')
 class FileUploadView(LoginRequiredMixin, View):
+    """ Класс загрузки контента в альбом """
     slug_field = 'slug'
     slug_url_kwarg = 'slug'
+
     def get_queryset(self):
+        """ Метод проверяет роль и возвращает список альбомов, доступных этому юзеру. """
         user = self.request.user
 
         if user.role == UserRoles.ADMIN:
@@ -353,6 +379,7 @@ class FileUploadView(LoginRequiredMixin, View):
         return Album.objects.none()
 
     def post(self, request, slug):
+        """ Обрабатывает загрузку файла (фото или видео) в альбом. """
         album = get_object_or_404(Album, slug=slug)
         uploaded_file = request.FILES.get('file')
 
@@ -393,8 +420,10 @@ class FileUploadView(LoginRequiredMixin, View):
 
 @method_decorator(csrf_exempt, name='dispatch')
 class PhotoUpdateCaptionView(LoginRequiredMixin, View):
+    """ Класс обновляет подпись (caption) и список людей на фотографии. """
 
     def get_queryset(self):
+        """ Проверяет, есть ли у пользователя доступ к альбому """
         user = self.request.user
 
         if user.role == UserRoles.ADMIN:
@@ -404,6 +433,9 @@ class PhotoUpdateCaptionView(LoginRequiredMixin, View):
         return Album.objects.none()
 
     def post(self, request, pk):
+        """ Ищет фото по первичному ключу (pk) только в доступных альбомах.
+            - Обновляет поле caption у фото.
+            - Возвращает JSON с подтверждением и новой подписью. """
         user = self.request.user
         album = self.get_queryset()
 
@@ -434,7 +466,9 @@ class PhotoUpdateCaptionView(LoginRequiredMixin, View):
 
 
 class PhotoDeleteView(LoginRequiredMixin, View):
+    """ Класс удаляет фотографию по её первичному ключу (pk), если пользователь имеет доступ к альбому. """
     def get_queryset(self):
+        """ Метод получает список доступных альбомов для текущего пользователя в зависимости от его роли """
         user = self.request.user
 
         if user.role == UserRoles.ADMIN:
@@ -444,6 +478,7 @@ class PhotoDeleteView(LoginRequiredMixin, View):
         return Album.objects.none()
 
     def post(self, request, pk, *args, **kwargs):
+        """ Метод проверяет, принадлежит ли фото одному из этих альбомов. """
         album = self.get_queryset()
 
         photo = get_object_or_404(Photo, pk=pk, album__in=album)
