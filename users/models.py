@@ -6,12 +6,14 @@ NULLABLE = {'blank': True, 'null': True}
 
 
 class UserRoles(models.TextChoices):
+    """ Класс для создания ролей пользователей """
     ADMIN = 'admin',_('admin')
     MODERATOR = 'moderator',_('moderator')
     USER = 'user',_('user')
 
 
 class User(AbstractUser):
+    """ Кастомная модель пользователя, заменяющая username на email. """
     username = None
     email = models.EmailField(unique=True, verbose_name="Email")
     role = models.CharField(max_length=9, choices=UserRoles.choices, default=UserRoles.USER)

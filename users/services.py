@@ -38,6 +38,7 @@ def send_confirmation_email(user):
 
 
 def send_new_password(email, new_password):
+    """ Отправка письма пользователю с новым паролем """
     send_mail(
         subject="Вы успешно изменили пароль",
         message=f"Ваш новый пароль: {new_password}",

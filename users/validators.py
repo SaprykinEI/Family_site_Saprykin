@@ -6,6 +6,11 @@ from django.templatetags.i18n import language
 
 
 def validate_password(value):
+    """ Проверяет валидность пароля.
+        Правила:
+        - Длина должна быть от 8 до 16 символов включительно.
+        - Пароль должен содержать только латинские буквы и цифры.
+        В случае ошибки выбрасывает ValidationError с сообщением на текущем языке. """
     language = settings.LANGUAGE_CODE
     error_messages = [
         {

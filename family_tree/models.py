@@ -95,7 +95,6 @@ class Person(models.Model):
                     elif orientation_value == 8:
                         img = img.rotate(90, expand=True)
             except (AttributeError, KeyError, IndexError):
-                # Если EXIF нет или ориентация не определена
                 pass
 
             max_size = (800, 800)
