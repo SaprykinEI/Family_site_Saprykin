@@ -15,12 +15,16 @@ from events.constants import EVENT_TYPE_COLORS
 
 
 class EventListView(LoginRequiredMixin, ListView):
+    """ Представление для отображения списка событий в календаре.
+    - Пользователь должен быть авторизован (LoginRequiredMixin).
+    - Выводит все объекты модели Event. """
     model = Event
     template_name = 'events/calendar.html'
     context_object_name = 'events'
 
 
 class EventJsonView(View):
+    """ API-представление для получения списка событий в формате JSON. """
     def get(self, request, *args, **kwargs):
         events = Event.objects.all()
 
@@ -54,7 +58,7 @@ class EventJsonView(View):
                         "start": event_date_this_year.isoformat(),
                         "allDay": True,
                         "color": EVENT_TYPE_COLORS.get(event.event_type, '#808080'),
-                        "slug": event.slug,  # Добавляем slug
+                        "slug": event.slug,
                     })
             else:
                 event_date = event.date
@@ -66,34 +70,43 @@ class EventJsonView(View):
                         "start": event_date.isoformat(),
                         "allDay": True,
                         "color": EVENT_TYPE_COLORS.get(event.event_type, '#808080'),
-                        "slug": event.slug,  # Добавляем slug
+                        "slug": event.slug,
                     })
 
         return JsonResponse(events_list, safe=False)
 
 
 class EventCreateView(LoginRequiredMixin, CreateView):
+    """ Представление для создания нового события в календаре. """
     model = Event
     form_class = EventForm
     template_name = 'events/create_event_form.html'
     success_url = reverse_lazy('events:events_list')
 
     def form_valid(self, form):
+        """ Владелец события автоматически устанавливается как текущий пользователь. """
         form.instance.owner = self.request.user
         return super().form_valid(form)
 
     def dispatch(self, request, *args, **kwargs):
+        """ Проверка уровней доступа
+        - Доступ разрешён только администраторам и модераторам."""
         if request.user.role not in [UserRoles.ADMIN, UserRoles.MODERATOR]:
             raise PermissionDenied("У вас нет прав для добавления событий")
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
+        """ В контекст шаблона добавляется заголовок страницы. """
         context = super().get_context_data(**kwargs)
         context['title'] = "Добавление события в календарь"
         return context
 
 
 class EventDetailView(LoginRequiredMixin, DetailView):
+    """ Класс-представление для показа детальной страницы одного события
+    - Доступ разрешён только авторизованным пользователям.
+    - Использует поле slug из URL для поиска события.
+    - В шаблон передаётся объект события под именем 'event'"""
     model = Event
     template_name = 'events/event_detail.html'
     slug_field = 'slug'
@@ -101,6 +114,8 @@ class EventDetailView(LoginRequiredMixin, DetailView):
     context_object_name = 'event'
 
     def get_context_data(self, **kwargs):
+        """ Если у события есть связанный альбом, в контекст добавляются
+      все фотографии из этого альбома под ключом 'random_photos' """
         context = super().get_context_data(**kwargs)
         event = self.get_object()
         if event.album:
@@ -113,6 +128,7 @@ class EventDetailView(LoginRequiredMixin, DetailView):
 
 
 class EventUpdateView(LoginRequiredMixin, UpdateView):
+    """ Представление для редактирования события. """
     model = Event
     form_class = EventForm
     template_name = 'events/update_event_form.html'
@@ -120,9 +136,14 @@ class EventUpdateView(LoginRequiredMixin, UpdateView):
     slug_url_kwarg = 'slug'
 
     def get_success_url(self):
+        """ После успешного редактирования перенаправляет на страницу детали события. """
         return reverse_lazy('events:event_detail', kwargs={'slug': self.object.slug})
 
     def dispatch(self, request, *args, **kwargs):
+        """ Только для авторизованных пользователей.
+             - Администраторы могут редактировать любые события.
+             - Модераторы могут редактировать только события, которые создали сами.
+             - Остальные пользователи не имеют доступа и получают PermissionDenied."""
         self.object = self.get_object()
         user = request.user.role
 
@@ -138,6 +159,7 @@ class EventUpdateView(LoginRequiredMixin, UpdateView):
 
 
 class EventDeleteView(LoginRequiredMixin, DeleteView):
+    """ Представление для удаления события. """
     model = Event
     slug_field = 'slug'
     slug_url_kwarg = 'slug'
@@ -145,6 +167,10 @@ class EventDeleteView(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('events:events_list')
 
     def dispatch(self, request, *args, **kwargs):
+        """ Только для авторизованных пользователей.
+        - Администраторы могут удалять любые события.
+        - Модераторы могут удалять только свои собственные события.
+        - Остальные пользователи не имеют прав на удаление и получают PermissionDenied. """
         self.object = self.get_object()
         user = request.user.role
 

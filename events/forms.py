@@ -3,6 +3,10 @@ from events.models import Event
 
 
 class EventForm(forms.ModelForm):
+    """ Форма для создания и редактирования события (Event).
+    - Основана на модели Event.
+    - Исключает поля 'slug' и 'owner' — они заполняются автоматически.
+    - Настраивает виджеты для удобного ввода данных """
     class Meta:
         model = Event
         fields = '__all__'
@@ -27,6 +31,6 @@ class EventForm(forms.ModelForm):
             'is_in_timeline': 'Показывать в хронологии',
         }
 
-        def __init__(self, *args, **kwargs):
-            super().__init__(*args, **kwargs)
-            self.fields['date'].input_formats = ['%Y-%m-%d']
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['date'].input_formats = ['%Y-%m-%d']

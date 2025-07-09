@@ -5,6 +5,7 @@ from events.models import Event
 
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
+    """ Настройки отображения модели Event в административной панели Django. """
     list_display = ('title', 'date', 'event_type')
     list_filter = ('date', 'event_type', 'categories')
     search_fields = ('title', 'event_type')
