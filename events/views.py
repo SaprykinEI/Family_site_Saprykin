@@ -5,9 +5,8 @@ from django.core.exceptions import PermissionDenied
 from django.urls import reverse_lazy
 from django.views.generic import ListView, View, CreateView, DetailView, UpdateView, DeleteView
 from django.http import JsonResponse
-from django.utils.dateparse import parse_date
 
-from gallery.models import Photo, Album
+from gallery.models import Photo
 from events.models import Event
 from events.forms import EventForm
 from users.models import UserRoles
@@ -153,7 +152,7 @@ class EventUpdateView(LoginRequiredMixin, UpdateView):
             if self.object.owner == self.request.user:
                 return super().dispatch(request, *args, **kwargs)
             else:
-                raise PermissionDenied ("Вы можете редактировать только свои события")
+                raise PermissionDenied("Вы можете редактировать только свои события")
         else:
             raise PermissionDenied("У вас нет прав на редактирование события")
 
@@ -183,5 +182,3 @@ class EventDeleteView(LoginRequiredMixin, DeleteView):
                 raise PermissionDenied("Вы можете удалять только свои события")
         else:
             raise PermissionDenied("У вас нет прав на удаление события")
-
-

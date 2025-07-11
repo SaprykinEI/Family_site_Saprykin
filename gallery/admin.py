@@ -10,7 +10,6 @@ class TagAdmin(admin.ModelAdmin):
     search_fields = ('name',)
 
 
-
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     """ Административное представление для модели Category. """

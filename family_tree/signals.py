@@ -5,6 +5,7 @@ from family_tree.models import Person
 
 CACHE_TIMEOUT = 60 * 60
 
+
 def clear_person_cache(person_id):
     """Удаляет кеш для конкретного человека."""
     keys = [
@@ -13,6 +14,7 @@ def clear_person_cache(person_id):
     ]
     for key in keys:
         cache.delete(key)
+
 
 @receiver(post_save, sender=Person)
 def on_person_save(sender, instance, **kwargs):
@@ -35,6 +37,7 @@ def on_person_save(sender, instance, **kwargs):
 
     # Очищаем кеш списка всех людей
     cache.delete('person_list')
+
 
 @receiver(post_delete, sender=Person)
 def on_person_delete(sender, instance, **kwargs):

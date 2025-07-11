@@ -1,6 +1,7 @@
 from django.db import migrations, models
 from django.utils.text import slugify
 
+
 def fill_slugs(apps, schema_editor):
     Person = apps.get_model('family_tree', 'Person')
     existing_slugs = set()
@@ -15,6 +16,7 @@ def fill_slugs(apps, schema_editor):
         person.slug = slug
         person.save()
         existing_slugs.add(slug)
+
 
 class Migration(migrations.Migration):
 

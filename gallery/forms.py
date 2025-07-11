@@ -1,8 +1,4 @@
 from django import forms
-from django.template.defaultfilters import title
-
-from django.utils.text import slugify
-import uuid
 
 from family_tree.utils import slug_generator
 
@@ -32,7 +28,7 @@ class AlbumCreateForm(forms.ModelForm):
 
     class Meta:
         model = Album
-        fields = ['title','location', 'cover_image', 'description',  'date', 'category', 'tags', 'is_active']
+        fields = ['title', 'location', 'cover_image', 'description', 'date', 'category', 'tags', 'is_active']
         widgets = {
             'date': forms.DateInput(attrs={'type': 'date'}),
             'is_active': forms.CheckboxInput(attrs={'class': 'toggle-switch-checkbox'}),

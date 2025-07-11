@@ -3,13 +3,10 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import get_object_or_404
 from django.db.models import Q
-from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
 from django.template.loader import render_to_string
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 from datetime import date
@@ -91,8 +88,7 @@ class PersonsListView(LoginRequiredMixin, ListView):
         search_query = self.request.GET.get('search', '').strip()
         if search_query:
             queryset = queryset.filter(
-                Q(first_name__icontains=search_query) |
-                Q(last_name__icontains=search_query)
+                Q(first_name__icontains=search_query) | Q(last_name__icontains=search_query)
             )
         return queryset
 
@@ -218,7 +214,6 @@ class TreeView(LoginRequiredMixin, DetailView):
     template_name = 'family_tree/tree.html'
     context_object_name = 'root_person'
 
-
     def get_object(self, queryset=None):
         """Переопределяем метод, чтобы задать person_id по умолчанию"""
         pk = self.kwargs.get('person_id')
@@ -293,4 +288,3 @@ class SpouseTreeDataView(APIView):
             'person_id': person.id,
             'spouse_id': person.spouse.id if person.spouse else None,
         }
-

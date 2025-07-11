@@ -2,6 +2,7 @@ import re
 from transliterate import translit
 from django.utils.text import slugify
 
+
 def slug_generator(title):
     """
        Генерирует slug из переданного текста (например, имени).

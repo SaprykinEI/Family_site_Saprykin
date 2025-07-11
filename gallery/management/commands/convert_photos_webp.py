@@ -2,6 +2,7 @@ from django.core.management.base import BaseCommand
 from gallery.models import Photo
 from gallery.utils import convert_photo_to_webp
 
+
 class Command(BaseCommand):
     """ Команда на конвертацию фото """
     help = 'Конвертирует все фото в WebP'

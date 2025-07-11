@@ -50,6 +50,7 @@ def get_descendants_tree_cached(person, build_tree_func):
 
     return data
 
+
 def get_ancestors_tree_cached(person, build_tree_func):
     """
     Получить дерево предков для person с кешированием.
@@ -67,6 +68,3 @@ def get_ancestors_tree_cached(person, build_tree_func):
         cache.set(cache_key, data, CACHE_TIMEOUT)
 
     return data
-
-
-

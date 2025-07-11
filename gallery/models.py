@@ -1,8 +1,6 @@
 from django.db import models
 from django.conf import settings
 
-
-from family_tree.models import Person
 from family_tree.utils import slug_generator
 from users.models import NULLABLE, User
 
@@ -52,7 +50,6 @@ class Album(models.Model):
     is_active = models.BooleanField(default=True, verbose_name="Активность альбома")
     slug = models.SlugField(max_length=255, unique=True, verbose_name="Слаг")
     views = models.IntegerField(default=0, verbose_name="Просмотры")
-
 
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL,  **NULLABLE,
                                 related_name='albums', verbose_name='Владелец альбома')

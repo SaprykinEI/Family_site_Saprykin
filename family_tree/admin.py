@@ -1,6 +1,7 @@
 from django.contrib import admin
 from family_tree.models import Person
 
+
 @admin.register(Person)
 class UserAdmin(admin.ModelAdmin):
     """ Настройка отображения модели Person в административной панели Django. """

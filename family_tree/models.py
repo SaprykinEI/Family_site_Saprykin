@@ -29,7 +29,6 @@ class Person(models.Model):
     hobbies = models.CharField(max_length=500, **NULLABLE, verbose_name="Хобби")
     slug = models.SlugField(max_length=255, unique=True, blank=True)
 
-
     creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL,
                                 related_name='created_people', **NULLABLE, verbose_name="Создатель карточки")
     mother = models.ForeignKey('self', on_delete=models.SET_NULL,

@@ -8,4 +8,3 @@ class FamilyTreeConfig(AppConfig):
 
     def ready(self):
         """ Метод, который вызывается при полной загрузке приложения. """
-        import family_tree.signals
