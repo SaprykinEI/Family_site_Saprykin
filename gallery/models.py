@@ -1,3 +1,5 @@
+from tkinter.constants import CASCADE
+
 from django.db import models
 from django.conf import settings
 
@@ -141,3 +143,19 @@ class Video(models.Model):
     class Meta:
         verbose_name = "Видео"
         verbose_name_plural = "Видео"
+
+
+class AlbumComment(models.Model):
+    """ Модель создания комментария в альбоме """
+    album = models.ForeignKey(Album, on_delete=models.CASCADE, related_name='comments',
+                              verbose_name="Привязка альбома к комментарию")
+    author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Привязка пользователя к комментарию")
+    text = models.TextField(verbose_name="Текст комментария")
+    parent = models.ForeignKey('self', **NULLABLE, on_delete=models.CASCADE,
+                               related_name='replies', verbose_name="Ответ на комментарий")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
+
+    class Meta:
+        verbose_name = "Комментарий"
+        verbose_name_plural = "Комментарии"
+        ordering = ['created_at']

@@ -1,9 +1,11 @@
 {% extends "base.html" %}
 {% load static %}
 
+
 {% block content %}
 <link rel="stylesheet" href="{% static 'css/gallery/icon_style.css' %}">
 <link rel="stylesheet" href="{% static 'css/gallery/side_bar.css' %}">
+<link rel="stylesheet" href="{% static 'css/gallery/comments.css' %}">
 
 <section id="page-header" class="ph-xlg">
   <div class="page-header-image parallax-bg-3 bg-image" style="background-image: url({{ album.cover_image.url }});">
@@ -84,6 +86,90 @@
                     <span>Просмотров альбома: {{ album.views }}</span>
                   </div>
                 {% endif %}
+                <div id="comments" data-album-slug="{{ album.slug }}">
+                  {% for comment in album_comments %}
+                    {% if not comment.parent %}
+                      <div class="comment" data-id="{{ comment.id }}">
+                        <div class="comment-header">
+                          {% if comment.author.avatar %}
+                            <img class="avatar" src="{{ comment.author.avatar.url }}" alt="аватар">
+                          {% else %}
+                            <img class="avatar" src="/static/img/no-photo.jpg" alt="аватар">
+                          {% endif %}
+
+                          <div class="author-info">
+                            <span class="author-name">{{ comment.author.last_name }} {{ comment.author.first_name }}</span>
+                            <span class="created-at">{{ comment.created_at|date:"d E Y г. H:i" }}</span>
+                          </div>
+                          <div class="comment-actions">
+                            <button class="menu-btn" aria-haspopup="true" aria-expanded="false" aria-label="Меню комментария">...</button>
+                            <ul class="menu-list" hidden>
+                              <li><button class="edit-btn">Редактировать</button></li>
+                              <li>
+                                <form method="post" action="{% url 'gallery:delete_comment' album_slug=album.slug pk=comment.pk %}" style="display:inline;">
+                                  {% csrf_token %}
+                                  <button class="delete-comment-btn" data-url="{% url 'gallery:delete_comment' album_slug=album.slug pk=comment.pk %}">
+                                    Удалить
+                                  </button>
+                                </form>
+                              </li>
+                            </ul>
+                          </div>
+
+                        </div>
+
+                        <p class="comment-text">{{ comment.text }}</p>
+
+                        <button class="reply-btn" data-comment-id="{{ comment.id }}">Ответить</button>
+
+                        <div class="replies">
+                          {% for reply in comment.replies.all %}
+                            <div class="reply" data-id="{{ reply.id }}">
+                              <div class="reply-header">
+                                {% if reply.author.avatar %}
+                                  <img class="avatar" src="{{ reply.author.avatar.url }}" alt="аватар">
+                                {% else %}
+                                  <img class="avatar" src="/static/img/no-photo.jpg" alt="аватар">
+                                {% endif %}
+
+                                <div class="author-info">
+                                  <span class="author-name">{{ reply.author.last_name }} {{ reply.author.first_name }}</span>
+                                  <span class="created-at">{{ reply.created_at|date:"d E Y г. H:i" }}</span>
+                                </div>
+
+                                <div class="comment-actions">
+                                  <button class="menu-btn" aria-haspopup="true" aria-expanded="false" aria-label="Меню комментария">...</button>
+                                  <ul class="menu-list" hidden>
+                                    <li><button class="edit-btn">Редактировать</button></li>
+                                    <li>
+                                      <form method="post" action="{% url 'gallery:delete_comment' album_slug=album.slug pk=reply.pk %}" style="display:inline;">
+                                        {% csrf_token %}
+                                        <button class="delete-comment-btn" data-url="{% url 'gallery:delete_comment' album_slug=album.slug pk=reply.pk %}">
+                                          Удалить
+                                        </button>
+                                      </form>
+                                    </li>
+                                  </ul>
+                                </div>
+                              </div>
+
+                              <p class="reply-text">{{ reply.text }}</p>
+                            </div>
+                          {% endfor %}
+                        </div>
+                      </div>
+                    {% endif %}
+                  {% endfor %}
+                </div>
+
+                <form id="comment-form" method="post" action="{% url 'gallery:add_album_comment' album.slug %}">
+                  {% csrf_token %}
+                  <textarea name="text" placeholder="Ваш комментарий"></textarea>
+                  <input type="hidden" name="parent_id" value="">
+                  <button type="submit">Отправить</button>
+                </form>
+
+
 
               </dl>
             </div>
@@ -234,4 +320,6 @@
 <script src="{% static 'js/gallery/like.js' %}"></script>
 <script src="{% static 'js/gallery/edit_photo.js' %}"></script>
 <script src="{% static 'js/gallery/modal_js.js' %}"></script>
+<script src="{% static 'js/gallery/comments.js' %}"></script>
+
 {% endblock %}

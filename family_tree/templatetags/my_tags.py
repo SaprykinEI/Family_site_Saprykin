@@ -20,4 +20,4 @@ def user_media(val):
     - Если аватарки нет, показывает заглушку """
     if val:
         return fr'/media/{val}'
-    return ('/static/img/default-avatar.jpg.')
+    return ('/static/img/default-avatar.jpg')

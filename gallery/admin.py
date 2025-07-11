@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from gallery.models import Tag, Category, Album, Photo, Video
+from gallery.models import Tag, Category, Album, Photo, Video, AlbumComment
 
 
 @admin.register(Tag)
@@ -47,3 +47,8 @@ class VideoAdmin(admin.ModelAdmin):
     list_filter = ('album', 'date_taken', 'tags')
     search_fields = ('caption',)
     filter_horizontal = ('people', 'tags')
+
+
+@admin.register(AlbumComment)
+class AlbumCommentAdmin(admin.ModelAdmin):
+    list_display = ('album', 'author', 'text')

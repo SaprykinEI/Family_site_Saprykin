@@ -3,7 +3,7 @@ import json
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
-from django.http import JsonResponse, HttpResponseBadRequest
+from django.http import JsonResponse, HttpResponseBadRequest, HttpResponseForbidden
 from django.shortcuts import redirect, render, get_object_or_404
 
 from django.utils.decorators import method_decorator
@@ -14,7 +14,7 @@ from django.db.models.functions import ExtractYear
 
 from rest_framework.reverse import reverse_lazy
 
-from gallery.models import Album, Category, Tag, Photo, Video, AlbumLike
+from gallery.models import Album, Category, Tag, Photo, Video, AlbumLike, AlbumComment
 from gallery.forms import AlbumCreateForm, PhotoUploadForm
 
 
@@ -252,6 +252,8 @@ class AlbumDetailView(LoginRequiredMixin, DetailView):
         context['likes_count'] = album.likes.count()
         liked_users = User.objects.filter(albumlike__album=album).distinct()
         context['liked_users'] = liked_users
+        comments = AlbumComment.objects.filter(album=album).order_by('created_at')
+        context['album_comments'] = comments
 
         return context
 
@@ -484,4 +486,78 @@ class PhotoDeleteView(LoginRequiredMixin, View):
         photo = get_object_or_404(Photo, pk=pk, album__in=album)
         photo.delete()
         return JsonResponse({'success': True})
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class AddAlbumCommentView(LoginRequiredMixin, View):
+    """Обработка POST-запроса для добавления комментария к альбому по slug."""
+
+    def post(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return JsonResponse({'error': "Требуется авторизация"}, status=401)
+
+        album_slug = kwargs.get('slug')
+        if not album_slug:
+            return JsonResponse({'error': "Не указан slug альбома в URL"}, status=400)
+
+        album = get_object_or_404(Album, slug=album_slug)
+
+        try:
+            if request.content_type == 'application/json':
+                data = json.loads(request.body)
+            else:
+                data = request.POST
+        except json.JSONDecodeError:
+            return JsonResponse({'error': "Некорректный JSON"}, status=400)
+
+        text = data.get('text', '').strip()
+        parent_id = data.get('parent_id')
+
+        if not text:
+            return JsonResponse({'error': "Текст комментария не может быть пустым"}, status=400)
+
+        parent = None
+        if parent_id:
+            try:
+                parent = AlbumComment.objects.get(id=int(parent_id), album=album)
+            except (ValueError, AlbumComment.DoesNotExist):
+                return JsonResponse({'error': "Неверный ID родительского комментария"}, status=400)
+
+        try:
+            comment = AlbumComment.objects.create(
+                album=album,
+                author=request.user,
+                text=text,
+                parent=parent,
+            )
+
+            # Формируем ответ
+            response_data = {
+                'id': comment.id,
+                'text': comment.text,
+                'created_at': comment.created_at.isoformat(),
+                'parent_id': parent.id if parent else None,
+                'author_first_name': request.user.first_name,
+                'author_last_name': request.user.last_name,
+                'author_avatar_url': request.user.avatar.url if request.user.avatar else None,
+            }
+
+            return JsonResponse(response_data)
+
+        except Exception as e:
+            return JsonResponse({'error': f"Ошибка при создании комментария: {str(e)}"}, status=400)
+
+
+class CommentDeleteView(LoginRequiredMixin, DeleteView):
+    model = AlbumComment
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+
+        if self.object.author != request.user and not request.user.is_staff:
+            return HttpResponseForbidden('Нет прав на удаление')
+
+        self.object.delete()
+        return JsonResponse({'success': True})
+
 

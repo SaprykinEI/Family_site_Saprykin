@@ -1,0 +1,255 @@
+/* Контейнер комментариев */
+#comments {
+  margin-top: 2rem;
+}
+
+/* Одиночный комментарий */
+.comment, .reply {
+  background: #e6f0ff;              /* светло-голубой фон */
+  border: none;                    /* убираем рамку */
+  border-radius: 1.5rem;           /* сильное скругление */
+  padding: 14px 20px;
+  margin-bottom: 1rem;
+  position: relative;
+  box-shadow: 0 2px 6px rgba(33, 150, 243, 0.15); /* лёгкая синяя тень */
+  max-width: 600px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #1a1a1a;
+}
+
+/* Ответы — чуть сдвинуты и светлее */
+.reply {
+  margin-left: 2.5rem;
+  background: #91e191;             /* светло-зелёный фон */
+  box-shadow: 0 2px 6px rgba(76, 175, 80, 0.15); /* зелёная тень */
+}
+
+/* Верхняя часть: аватар + имя + дата */
+.comment-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+/* Аватарка */
+.comment-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  margin-right: 12px;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 2px solid #2196f3; /* цветная рамка вокруг аватара */
+  box-shadow: 0 0 6px rgba(33, 150, 243, 0.5);
+}
+
+/* Имя и дата */
+.comment-author {
+  font-weight: 700;
+  margin-right: 10px;
+  color: #0d47a1; /* насыщенный синий */
+  font-size: 1rem;
+}
+
+.comment-date {
+  color: #555;
+  font-size: 0.85em;
+  font-style: italic;
+}
+
+/* Текст комментария */
+.comment-text {
+  margin: 8px 0;
+  line-height: 1.6;
+  font-size: 15px;
+}
+
+/* Префикс, если это ответ кому-то */
+.reply-to {
+  color: #2196f3;
+  margin-right: 5px;
+  font-weight: 600;
+}
+
+/* Кнопка "Ответить" */
+.reply-btn {
+  background: none;
+  border: none;
+  color: #2196f3;
+  cursor: pointer;
+  font-size: 0.95em;
+  padding: 0;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+.reply-btn:hover {
+  color: #0d47a1;
+  text-decoration: underline;
+}
+
+/* Дополнительный стиль аватара (если используется) */
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #2196f3;
+  margin-right: 10px;
+  box-shadow: 0 0 8px rgba(33, 150, 243, 0.6);
+}
+
+#comment-form {
+  max-width: 600px;
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#comment-form textarea {
+  resize: vertical;
+  min-height: 100px;
+  padding: 10px 14px;
+  font-size: 16px;
+  border: 1.8px solid #ccc;
+  border-radius: 8px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  font-family: inherit;
+}
+
+#comment-form textarea:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 6px rgba(59, 130, 246, 0.5);
+  outline: none;
+}
+
+#comment-form button {
+  align-self: flex-start;
+  background-color: #3b82f6;
+  color: white;
+  padding: 10px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#comment-form button:hover {
+  background-color: #2563eb;
+  transform: scale(1.05);
+}
+
+#comment-form button:active {
+  transform: scale(0.95);
+}
+
+.comment-header, .reply-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-right: 60px; /* место справа для кнопок */
+}
+
+.comment-actions, .reply-actions {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  display: flex;
+  align-items: center;
+}
+
+.menu-btn {
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0 6px;
+  user-select: none;
+  color: #666;
+  transition: color 0.3s ease;
+}
+
+.menu-btn:hover,
+.menu-btn:focus {
+  color: #007BFF;
+  outline: none;
+}
+
+/* Список меню */
+.menu-list {
+  position: absolute;
+  top: 28px; /* чуть ниже кнопки */
+  right: 0;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  list-style: none;
+  margin: 0;
+  padding: 4px 0;
+  min-width: 110px;
+  z-index: 1000;
+}
+
+/* Скрываем по умолчанию */
+.menu-list[hidden] {
+  display: none;
+}
+
+.menu-list li {
+  padding: 0;
+}
+
+.menu-list button {
+  width: 100%;
+  padding: 8px 14px;
+  background: transparent;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+  transition: background-color 0.2s ease;
+}
+
+.menu-list button:hover,
+.menu-list button:focus {
+  background-color: #f0f8ff;
+  outline: none;
+}
+
+.delete-btn:hover,
+.delete-btn:focus {
+  color: #dc3545;
+  background-color: #ffe6e6;
+}
+
+.comment-header, .reply-header {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* расстояние между аватаром и текстом */
+  margin-bottom: 8px;
+}
+
+.author-info {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.author-name {
+  font-weight: 700;
+  font-size: 16px;
+  color: #0d47a1; /* синий */
+}
+
+.created-at {
+  font-size: 12px;
+  color: #555;
+  font-style: italic;
+  margin-top: 2px;
+}
