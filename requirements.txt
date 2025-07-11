@@ -4,3 +4,4 @@ Pillow
 djangorestframework
 transliterate
 django-redis
+flake8
