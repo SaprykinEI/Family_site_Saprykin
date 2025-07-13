@@ -35,7 +35,7 @@
       </button>
 
       {% if object %}
-      <a href="{% url 'users:user_profile' %}" class="btn-cancel">← Назад</a>
+      <a href="{% url 'family_tree:person_detail' slug=object.slug %}" class="btn-cancel">← Назад</a>
       {% endif %}
     </div>
   </form>
