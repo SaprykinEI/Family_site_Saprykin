@@ -1,4 +1,5 @@
 import json
+import urllib
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
@@ -254,6 +255,15 @@ class AlbumDetailView(LoginRequiredMixin, DetailView):
         context['liked_users'] = liked_users
         comments = AlbumComment.objects.filter(album=album).order_by('created_at')
         context['album_comments'] = comments
+
+        absolute_url = self.request.build_absolute_uri(album.get_absolute_url())
+        share_text = f"Смотри альбом «{album.title}» {absolute_url}"
+
+        encoded_text = urllib.parse.quote(share_text)
+
+        context['vk_share_link'] = f"https://vk.com/share.php?url={urllib.parse.quote(absolute_url)}"
+        context['telegram_share_link'] = f"https://t.me/share/url?url=&text={encoded_text}"
+        context['whatsapp_share_link'] = f"https://wa.me/?text={encoded_text}"
 
         return context
 

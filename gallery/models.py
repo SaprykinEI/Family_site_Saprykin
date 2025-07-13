@@ -2,6 +2,7 @@ from tkinter.constants import CASCADE
 
 from django.db import models
 from django.conf import settings
+from django.urls import reverse
 
 from family_tree.utils import slug_generator
 from users.models import NULLABLE, User
@@ -78,6 +79,9 @@ class Album(models.Model):
         """ Увеличивает счётчик просмотров альбома на 1 и сохраняет изменение. """
         self.views += 1
         self.save(update_fields=['views'])
+
+    def get_absolute_url(self):
+        return reverse('gallery:album_detail', kwargs={'slug': self.slug})
 
     class Meta:
         verbose_name = "Альбом"

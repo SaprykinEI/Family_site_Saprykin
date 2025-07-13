@@ -6,6 +6,7 @@
 <link rel="stylesheet" href="{% static 'css/gallery/icon_style.css' %}">
 <link rel="stylesheet" href="{% static 'css/gallery/side_bar.css' %}">
 <link rel="stylesheet" href="{% static 'css/gallery/comments.css' %}">
+<link rel="stylesheet" href="{% static 'css/gallery/social.css' %}">
 
 <section id="page-header" class="ph-xlg">
   <div class="page-header-image parallax-bg-3 bg-image" style="background-image: url({{ album.cover_image.url }});">
@@ -14,6 +15,7 @@
   <div class="page-header-inner tt-wrap">
     <div class="page-header-caption parallax-5 fade-out-scroll-4" style="position: relative;">
       <h1 class="page-header-title">{{ album.title }}</h1>
+
       {% if album.category %}
         <div class="page-header-category no-link">
           {{ album.description }}
@@ -68,6 +70,7 @@
                   <dd class="gs-sidebar-description">{{ album.description }}</dd>
                 {% endif %}
 
+
                 {% if people_on_photos %}
                   <div class="gallery-sidebar-people margin-top-30">
                     <h5 class="sidebar-title">Люди на фото</h5>
@@ -86,6 +89,23 @@
                     <span>Просмотров альбома: {{ album.views }}</span>
                   </div>
                 {% endif %}
+
+                <!-- Share Buttons -->
+                <dt>Поделиться альбомом</dt>
+                  <div class="share-buttons">
+                    <a href="https://vk.com/share.php?url={{ request.build_absolute_uri }}" target="_blank" class="share-btn vk">
+                      <i class="fab fa-vk"></i> ВКонтакте
+                    </a>
+                    <a href="https://t.me/share/url?url={{ request.build_absolute_uri }}" target="_blank" class="share-btn telegram">
+                      <i class="fab fa-telegram-plane"></i> Telegram
+                    </a>
+                    <a href="{{ whatsapp_share_link }}" target="_blank" class="share-btn whatsapp">
+                      <i class="fab fa-whatsapp"></i> WhatsApp
+                    </a>
+                  </div>
+                </dl>
+
+                <!-- Comments -->
                 <div id="comments" data-album-slug="{{ album.slug }}">
                   {% for comment in album_comments %}
                     {% if not comment.parent %}
@@ -171,7 +191,7 @@
 
 
 
-              </dl>
+
             </div>
           </div>
 

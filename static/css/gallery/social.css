@@ -1,0 +1,64 @@
+.gallery-share {
+  text-align: center;
+}
+
+.share-buttons {
+  display: flex;
+
+  gap: 12px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.share-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  transition: background-color 0.2s ease;
+}
+
+.share-btn.whatsapp {
+  background-color: #25D366; /* фирменный зелёный WhatsApp */
+  color: #fff;              /* белый текст */
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.share-btn.whatsapp:hover {
+  background-color: #1ebe57; /* чуть темнее при наведении */
+}
+
+.share-btn.whatsapp i {
+  margin-right: 6px; /* отступ для иконки */
+}
+
+.share-btn.vk {
+  background-color: #4a76a8;
+}
+
+.share-btn.vk:hover {
+  background-color: #3b638d;
+}
+
+.share-btn.telegram {
+  background-color: #0088cc;
+}
+
+.share-btn.telegram:hover {
+  background-color: #0077b0;
+}
+
+.share-btn i {
+  margin-right: 6px;
+}
