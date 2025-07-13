@@ -156,6 +156,7 @@ class AlbumComment(models.Model):
     parent = models.ForeignKey('self', **NULLABLE, on_delete=models.CASCADE,
                                related_name='replies', verbose_name="Ответ на комментарий")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name = "Комментарий"

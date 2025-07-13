@@ -207,3 +207,7 @@ class ResetPasswordView(View):
             return redirect(self.success_url)
 
         return render(request, self.template_name, {'form': form})
+
+class PrivacyPolicyView(TemplateView):
+    """ Политика конфиденциальности """
+    template_name = 'privacy.html'
