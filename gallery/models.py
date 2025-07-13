@@ -1,5 +1,3 @@
-from tkinter.constants import CASCADE
-
 from django.db import models
 from django.conf import settings
 from django.urls import reverse
@@ -54,8 +52,8 @@ class Album(models.Model):
     slug = models.SlugField(max_length=255, unique=True, verbose_name="Слаг")
     views = models.IntegerField(default=0, verbose_name="Просмотры")
 
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL,  **NULLABLE,
-                                related_name='albums', verbose_name='Владелец альбома')
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, **NULLABLE,
+                              related_name='albums', verbose_name='Владелец альбома')
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, **NULLABLE,
                                  related_name='albums', verbose_name="Категория")
     tags = models.ManyToManyField(Tag, blank=True, related_name='albums', verbose_name="Теги")
@@ -90,7 +88,7 @@ class Album(models.Model):
 
 class AlbumLike(models.Model):
     """ Модель Лайк для альбома. """
-    album =models.ForeignKey(Album, on_delete=models.CASCADE, related_name='likes', verbose_name="Лайк")
+    album = models.ForeignKey(Album, on_delete=models.CASCADE, related_name='likes', verbose_name="Лайк")
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Привязка к User")
     created_at = models.DateTimeField(auto_now_add=True)
 

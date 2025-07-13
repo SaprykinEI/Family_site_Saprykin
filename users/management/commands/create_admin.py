@@ -50,5 +50,3 @@ class Command(BaseCommand):
         user.set_password('saprykinfamilysite')
         user.save()
         print("Юзер создан")
-
-

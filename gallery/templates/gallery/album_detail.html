@@ -124,7 +124,7 @@
                           <div class="comment-actions">
                             <button class="menu-btn" aria-haspopup="true" aria-expanded="false" aria-label="Меню комментария">...</button>
                             <ul class="menu-list" hidden>
-                              <li><button class="edit-btn">Редактировать</button></li>
+
                               <li>
                                 <form method="post" action="{% url 'gallery:delete_comment' album_slug=album.slug pk=comment.pk %}" style="display:inline;">
                                   {% csrf_token %}
@@ -160,7 +160,6 @@
                                 <div class="comment-actions">
                                   <button class="menu-btn" aria-haspopup="true" aria-expanded="false" aria-label="Меню комментария">...</button>
                                   <ul class="menu-list" hidden>
-                                    <li><button class="edit-btn">Редактировать</button></li>
                                     <li>
                                       <form method="post" action="{% url 'gallery:delete_comment' album_slug=album.slug pk=reply.pk %}" style="display:inline;">
                                         {% csrf_token %}
@@ -188,10 +187,6 @@
                   <input type="hidden" name="parent_id" value="">
                   <button type="submit">Отправить</button>
                 </form>
-
-
-
-
             </div>
           </div>
 

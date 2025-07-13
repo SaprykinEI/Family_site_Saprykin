@@ -7,7 +7,6 @@ from users.validators import validate_password
 from django.contrib.auth.forms import PasswordChangeForm, UserCreationForm, AuthenticationForm
 
 
-
 class UserLoginForm(AuthenticationForm):
     """ Форма входа пользователя. """
     pass

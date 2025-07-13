@@ -4,20 +4,19 @@ import urllib
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
-from django.http import JsonResponse, HttpResponseBadRequest, HttpResponseForbidden
-from django.shortcuts import redirect, render, get_object_or_404
+from django.http import JsonResponse, HttpResponseForbidden
+from django.shortcuts import render, get_object_or_404
 
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import View, ListView, CreateView, View, DetailView, UpdateView, DeleteView
+from django.views.generic import ListView, CreateView, View, DetailView, UpdateView, DeleteView
 from django.db.models import Q
 from django.db.models.functions import ExtractYear
 
 from rest_framework.reverse import reverse_lazy
 
 from gallery.models import Album, Category, Tag, Photo, Video, AlbumLike, AlbumComment
-from gallery.forms import AlbumCreateForm, PhotoUploadForm
-
+from gallery.forms import AlbumCreateForm
 
 from family_tree.models import Person
 
@@ -96,7 +95,6 @@ class AlbumListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         """ Возвращает отфильтрованный QuerySet альбомов.
         Фильтрует по параметрам в GET-запросе: """
-        user = self.request.user
 
         # Все активные альбомы
         qs = Album.objects.filter(is_active=True).select_related('category').prefetch_related(
@@ -288,7 +286,6 @@ class AlbumUpdateView(LoginRequiredMixin, UpdateView):
             return queryset.filter(owner=user)
         return queryset.none()
 
-
     def get_initial(self):
         """Обеспечиваем правильный формат даты для input type='date'"""
         initial = super().get_initial()
@@ -296,7 +293,6 @@ class AlbumUpdateView(LoginRequiredMixin, UpdateView):
         if album.date:
             initial['date'] = album.date.strftime('%Y-%m-%d')
         return initial
-
 
 
 class AlbumDeleteView(LoginRequiredMixin, DeleteView):
@@ -338,7 +334,6 @@ class PhotoUploadPageView(LoginRequiredMixin, View):
         queryset = self.get_queryset()
         album = get_object_or_404(queryset, slug=slug)
         return render(request, 'gallery/photo_upload.html', {'album': album})
-
 
 
 @method_decorator(login_required, name='dispatch')
@@ -448,7 +443,6 @@ class PhotoUpdateCaptionView(LoginRequiredMixin, View):
         """ Ищет фото по первичному ключу (pk) только в доступных альбомах.
             - Обновляет поле caption у фото.
             - Возвращает JSON с подтверждением и новой подписью. """
-        user = self.request.user
         album = self.get_queryset()
 
         try:
@@ -500,9 +494,10 @@ class PhotoDeleteView(LoginRequiredMixin, View):
 
 @method_decorator(csrf_exempt, name='dispatch')
 class AddAlbumCommentView(LoginRequiredMixin, View):
-    """Обработка POST-запроса для добавления комментария к альбому по slug."""
+    """ Представление (View) для обработки добавления комментариев к альбому. """
 
     def post(self, request, *args, **kwargs):
+        """ Обрабатывает POST-запрос на добавление комментария. """
         if not request.user.is_authenticated:
             return JsonResponse({'error': "Требуется авторизация"}, status=401)
 
@@ -559,6 +554,7 @@ class AddAlbumCommentView(LoginRequiredMixin, View):
 
 
 class CommentDeleteView(LoginRequiredMixin, DeleteView):
+    """ Класс удаления комментария """
     model = AlbumComment
 
     def post(self, request, *args, **kwargs):
@@ -569,5 +565,3 @@ class CommentDeleteView(LoginRequiredMixin, DeleteView):
 
         self.object.delete()
         return JsonResponse({'success': True})
-
-

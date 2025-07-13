@@ -1,5 +1,3 @@
-from multiprocessing.connection import Connection
-
 from django.core.management import BaseCommand
 
 import pyodbc

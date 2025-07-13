@@ -2,7 +2,6 @@ import re
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
-from django.templatetags.i18n import language
 
 
 def validate_password(value):
@@ -24,10 +23,10 @@ def validate_password(value):
     ]
     try:
         if not 8 <= len(value) <= 16:
-            raise ValidationError(error_messages[0]['language'])
+            raise ValidationError(error_messages[0][language])
 
         pattern = re.compile(r'^[a-zA-Z0-9]+$')
         if not pattern.fullmatch(value):
-            raise ValidationError(error_messages[1]['language'])
+            raise ValidationError(error_messages[1][language])
     except KeyError:
         print("Не знаю такого языка")

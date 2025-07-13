@@ -1,8 +1,9 @@
 from django.urls import path
 
-from gallery.views import (AlbumListView, AlbumCreateView, AlbumDetailView, FileUploadView, PhotoUploadPageView, \
-    AlbumUpdateView, AlbumDeleteView, UserAlbumListView, UserAlbumDeactivatedListView, PhotoUpdateCaptionView, PhotoDeleteView,
-                           AlbumDeactivatedListView, AlbumToggleLikeView, AddAlbumCommentView, CommentDeleteView)
+from gallery.views import (AlbumListView, AlbumCreateView, AlbumDetailView, FileUploadView, PhotoUploadPageView,
+                           AlbumUpdateView, AlbumDeleteView, UserAlbumListView, UserAlbumDeactivatedListView,
+                           PhotoUpdateCaptionView, PhotoDeleteView, AlbumDeactivatedListView, AlbumToggleLikeView,
+                           AddAlbumCommentView, CommentDeleteView)
 
 app_name = 'gallery'
 
