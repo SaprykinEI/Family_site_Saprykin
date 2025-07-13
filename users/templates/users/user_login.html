@@ -25,6 +25,12 @@
       Забыли пароль? <a href="{% url 'users:reset_password' %}">Сбросить пароль</a><br><br>
       Нет аккаунта? <a href="{% url 'users:user_register' %}">Зарегистрироваться</a>
     </p>
+    <p class="register-footer">
+    Заполняя эту форму, вы соглашаетесь с
+    <a href="{% url 'privacy' %}" target="_blank" rel="noopener noreferrer">
+      политикой конфиденциальности
+    </a>.
+  </p>
   </div>
 </div>
 {% endblock %}

@@ -24,6 +24,12 @@
     <p class="register-footer">
       Уже есть аккаунт? <a href="{% url 'users:user_login' %}">Войти</a>
     </p>
+    <p class="register-footer">
+    Заполняя эту форму, вы соглашаетесь с
+    <a href="{% url 'privacy' %}" target="_blank" rel="noopener noreferrer">
+      политикой конфиденциальности
+    </a>.
+  </p>
   </div>
 </div>
 {% endblock %}
